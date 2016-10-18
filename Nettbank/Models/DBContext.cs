@@ -57,7 +57,7 @@ namespace Nettbank.Models
         public int saldo { get; set; }
     }
 
-
+    /*
     public class KontoContext: DbContext
     {
         public KontoContext()
@@ -73,19 +73,20 @@ namespace Nettbank.Models
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-    }
+    }*/
 
 
     public class KundeContext : DbContext
     {
         public KundeContext()
-            : base("name=dbKunder")
+            : base("name=Bank1")
         {
             Database.CreateIfNotExists();
         }
 
         public DbSet<dbKunder> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
+        //public DbSet<Kontoer> Kontoer { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
