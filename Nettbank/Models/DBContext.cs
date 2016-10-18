@@ -49,8 +49,8 @@ namespace Nettbank.Models
             Database.CreateIfNotExists();
         }
 
-        public DbSet<Kontoer> Kontoer { get; set; }
-        public DbSet<Kunder> Kunder { get; set; }
+        public DbSet<Konto> Kontoer { get; set; }
+        public DbSet<Kunde> Kunder { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
