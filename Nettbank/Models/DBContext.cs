@@ -79,7 +79,7 @@ namespace Nettbank.Models
     public class KundeContext : DbContext
     {
         public KundeContext()
-            : base("name=Kunde")
+            : base("name=Kunder")
         {
             Database.CreateIfNotExists();
         }

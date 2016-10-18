@@ -27,6 +27,49 @@ namespace Nettbank.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Index(Kunder innKunde)
+        {
+            if (Kunde_i_DB(innKunde))
+            {
+                Session["LoggetInn"] = true;
+                ViewBag.Innlogget = true;
+                return View();
+            }
+            else
+            {
+                Session["LoggetInn"] = false;
+                ViewBag.Innlogget = false;
+                return View();
+            }
+        }
+
+        private static bool Kunde_i_DB(Kunder innKunde)
+        {
+            using (var db = new KundeContext())
+            {
+                byte[] passordDb = lagHash(innKunde.Passord);
+                dbKunder funnetKunde = db.Kunder.FirstOrDefault(b => b.Passord == passordDb && b.Personnummer == innKunde.Personnummer);
+                if(funnetKunde == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        private static byte[] lagHash(string innPassord)
+        {
+            byte[] innData, utData;
+            var algoritme = System.Security.Cryptography.SHA256.Create();
+            innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
+            utData = algoritme.ComputeHash(innData);
+            return utData;
+        }
+
         /*public string hentAlleNavn()
         {
             var db = new KundeDB();
