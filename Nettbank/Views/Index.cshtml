@@ -1,0 +1,56 @@
+﻿@model Nettbank.Models.Kunde
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nettbank</title>
+</head>
+<body>
+    <script src="~/scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Logg inn</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.personnummer)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.personnummer)
+                @Html.ValidationMessageFor(model => model.personnummer)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.passord)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.passord)
+                @Html.ValidationMessageFor(model => model.passord)
+            </div>
+
+            <p>
+                <input type="submit" value="Logg inn" />
+            </p>
+            @if (ViewBag.Innlogget)
+            {
+                <p style="color:forestgreen">Logget inn</p>
+            }
+            else
+            {
+                <p style="color:red">Ikke logget inn</p>
+            }
+        </fieldset>
+    }
+    <div>
+        @Html.ActionLink("Back to start", "Index")
+    </div>
+</body>
+</html>
+
