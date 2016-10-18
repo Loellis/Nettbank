@@ -35,7 +35,7 @@ namespace Nettbank.Models
         }
 
         public DbSet<Kunde> Kunder { get; set; }
-        public DbSet<PostSted> PostSteder { get; set; }
+        public DbSet<PostSted> Poststeder { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
