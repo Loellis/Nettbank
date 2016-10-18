@@ -26,6 +26,33 @@ namespace Nettbank.Models
         public string Poststed { get; set; }
     }
 
+    public class Kontoer
+    {
+        [Key]
+        public int kontoId { get; set; }
+        public virtual Kunder Personnummer { get; set; }
+        public int saldo { get; set; }
+    }
+
+
+    public class KontoContext: DbContext
+    {
+        public KontoContext()
+            : base("name=Kontoer")
+        {
+            Database.CreateIfNotExists();
+        }
+
+        public DbSet<Kontoer> Kontoer { get; set; }
+        public DbSet<Kunder> Kunder { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+    }
+
+
     public class KundeContext : DbContext
     {
         public KundeContext()
