@@ -16,6 +16,7 @@ namespace Nettbank.Models
         public string Fornavn { get; set; }
         public string Etternavn { get; set; }
         public string Adresse { get; set; }
+        public string Passord { get; set; }
         public virtual PostSted Poststed { get; set; }
     }
 

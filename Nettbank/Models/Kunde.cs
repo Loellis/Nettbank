@@ -12,6 +12,7 @@ namespace Nettbank.Models
         public string fornavn { get; set; }
         public string etternavn { get; set; }
         public string adresse { get; set; }
+        public string passord { get; set; }
         public string postnr { get; set; }
         public string poststed { get; set; }
     }
