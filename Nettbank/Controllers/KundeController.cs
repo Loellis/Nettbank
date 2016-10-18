@@ -15,6 +15,15 @@ namespace Nettbank.Controllers
         
         public ActionResult Index()
         {
+            if(Session["LoggetInn"] == null)
+            {
+                Session["LoggetInn"] = false;
+                ViewBag.Innlogget = false;
+            }
+            else
+            {
+                ViewBag.Innlogget = (bool)Session["LoggetInn"];
+            }
             return View();
         }
 
