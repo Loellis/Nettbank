@@ -25,6 +25,18 @@ namespace Nettbank.Models
         public virtual PostSted Poststed { get; set; }
     }
 
+    public class dbKunder
+    {
+        [Key]
+        public int id { get; set; }
+        public int Personnummer { get; set; }
+        public string Fornavn { get; set; }
+        public string Etternavn { get; set; }
+        public string Adresse { get; set; }
+        public byte[] Passord { get; set; }
+        public virtual PostSted Poststed { get; set; }
+    }
+
     public class PostSted
     {
         [Key]
@@ -62,12 +74,12 @@ namespace Nettbank.Models
     public class KundeContext : DbContext
     {
         public KundeContext()
-            : base("name=Kunder")
+            : base("name=Kunde")
         {
             Database.CreateIfNotExists();
         }
 
-        public DbSet<Kunder> Kunder { get; set; }
+        public DbSet<dbKunder> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
