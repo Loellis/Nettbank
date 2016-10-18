@@ -12,10 +12,15 @@ namespace Nettbank.Models
     {
         [Key]
         public int id { get; set; } //Kundenummer
+        [Required(ErrorMessage="Personnummer må oppgis")]
         public int Personnummer { get; set; }
+        [Required(ErrorMessage = "Fornavn må oppgis")]
         public string Fornavn { get; set; }
+        [Required(ErrorMessage = "Etternavn må oppgis")]
         public string Etternavn { get; set; }
+        [Required(ErrorMessage = "Adresse må oppgis")]
         public string Adresse { get; set; }
+        [Required(ErrorMessage = "Passord må oppgis")]
         public string Passord { get; set; }
         public virtual PostSted Poststed { get; set; }
     }
