@@ -27,7 +27,7 @@ namespace Nettbank.Controllers
             return View();
         }
 
-        public string hentAlleNavn()
+        /*public string hentAlleNavn()
         {
             var db = new KundeDB();
             List<kunde> alleKunder = db.hentAlleKunder();
@@ -59,6 +59,6 @@ namespace Nettbank.Controllers
             db.lagreEnKunde(innKunde);
             var jsonSerializer = new JavaScriptSerializer();
             return jsonSerializer.Serialize("OK");
-        }
+        }*/
     }
 }
