@@ -52,7 +52,7 @@ namespace Nettbank.Controllers
                             db.SaveChanges();
                         }
                     }
-                    return RedirectToAction("ListKonti");
+                    return RedirectToAction("/Konto/ListKonti");
                 }
             }
             catch (Exception feil)
@@ -103,7 +103,7 @@ namespace Nettbank.Controllers
 
                     db.Transaksjoner.Add(nyTrans);
                     db.SaveChanges();
-                    return RedirectToAction("TransaksjonsOversikt");
+                    return RedirectToAction("ListKonti");
                 }
             }
             catch(Exception feil)
