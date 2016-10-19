@@ -9,6 +9,6 @@ namespace Nettbank.Models
     {
         public int kontoId { get; set; }
         public int saldo { get; set; }
-        public List<Transaksjoner> transaksjoner { get; set; }
+        public List<Transaksjon> transaksjoner { get; set; }
     }
 }
