@@ -41,8 +41,7 @@ namespace Nettbank.Controllers
                     if (funnetKunde == null)
                     {
                         // Feilhåndter
-                        return View();
-
+                       
                     }
                     else
                     {
