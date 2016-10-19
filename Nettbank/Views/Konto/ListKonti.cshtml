@@ -1,0 +1,31 @@
+﻿@model List<Nettbank.Models.konto>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List konti</title>
+</head>
+<body>
+    <div>
+        <h3>Her er kontoene i databasen:</h3>
+        <table>
+            @foreach (var konto in Model)
+            {
+                <tr>
+                    <td>@konto.id
+                    <td />
+                    <td>@konto.saldo
+                    <td />
+                    <td>@konto.transaksjoner
+                    <td />
+                    
+                </tr>
+            }
+        </table>
+        @ViewBag.Melding
+        <a href="/Kunde/OpprettKonto">Opprett Konto</a>
+    </div>
+</body>
+</html>

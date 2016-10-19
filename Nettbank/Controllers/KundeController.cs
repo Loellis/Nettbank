@@ -164,6 +164,7 @@ namespace Nettbank.Controllers
                         if (kontoObjekt != null)
                         {
                             funnetKunde.Kontoer.Add(kontoObjekt);
+                            db.SaveChanges();
                         }
                     }
                     return RedirectToAction("ListKonti");
@@ -175,7 +176,14 @@ namespace Nettbank.Controllers
             }
         }
 
-        
+        public ActionResult ListKonti()
+        {
+            var db = new KundeContext();
+            List<konto> kontoListe = db.Konti.ToList();
+            return View(kontoListe);
+        }
+
+
 
 
     }

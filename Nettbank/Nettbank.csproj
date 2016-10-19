@@ -180,6 +180,8 @@
     <Content Include="Views\Kunde\Index.cshtml" />
     <Content Include="Views\Kunde\OpprettKunde.cshtml" />
     <Content Include="Views\Kunde\ListKunder.cshtml" />
+    <Content Include="Views\Konto\ListKonti.cshtml" />
+    <Content Include="Views\Konto\OpprettKonto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
