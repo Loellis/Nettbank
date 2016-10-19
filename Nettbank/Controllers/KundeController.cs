@@ -175,9 +175,22 @@ namespace Nettbank.Controllers
             if (Kunde_i_DB(innKunde))
             {
                 // Lagre innlogget status i session "LoggetInn"
-                // og brukerens kundeID i session "kundeId"
+                
                 Session["LoggetInn"] = true;
-                Session["kundeId"] = innKunde.id;
+                
+
+                // Få lagret brukerens kundeID i session "kundeId"
+                using(var db = new KundeContext())
+                {
+                    dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Personnummer == innKunde.Personnummer);
+                    if (funnetKunde != null)
+                    {
+                        ViewData["kundeId"] = funnetKunde.id;
+                        ViewBag.kId = funnetKunde.id;
+                        Session["kundeId"] = funnetKunde.id;
+                    }
+                }
+
                 ViewBag.Innlogget = true;
                 return View();
             }

@@ -41,6 +41,10 @@
             @if (ViewBag.Innlogget)
             {
                 <p style="color:forestgreen">Logget inn</p>
+                <p> Bruker viewdata: @ViewData["kundeId"] </p>
+                <p> Bruker viewbag: @ViewBag.kId </p>
+                <p> Bruker session: @Session["kundeId"] </p>
+
             }
             else
             {
@@ -48,6 +52,10 @@
             }
         </fieldset>
     }
+    
+   
+    
+
     <div>
         @Html.ActionLink("Back to start", "Index")
     </div>
