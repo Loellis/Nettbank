@@ -169,38 +169,6 @@ namespace Nettbank.Controllers
 
         */
 
-        /*public string hentAlleNavn()
-        {
-            var db = new KundeDB();
-            List<kunde> alleKunder = db.hentAlleKunder();
-            var alleNavn = new List<jsKunde>();
-            foreach (kunde k in alleKunder)
-            {
-                var ettNavn = new jsKunde();
-                ettNavn.id = k.id;
-                ettNavn.navn = k.fornavn + " " + k.etternavn;
-                alleNavn.Add(ettNavn);
-            }
-            var jsonSerializer = new JavaScriptSerializer();
-            string json = jsonSerializer.Serialize(alleNavn);
-            return json;
-        }
-
-        public string hentKundeInfo(int id)
-        {
-            var db = new KundeDB();
-            Kunde enKunde = db.hentEnKunde(id);
-            var jsonSerializer = new JavaScriptSerializer();
-            string json = jsonSerializer.Serialize(enKunde);
-            return json;
-        }
-
-        public string register(kunde innKunde)
-        {
-            var db = new KundeDB();
-            db.lagreEnKunde(innKunde);
-            var jsonSerializer = new JavaScriptSerializer();
-            return jsonSerializer.Serialize("OK");
-        }*/
+        
     }
 }
