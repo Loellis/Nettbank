@@ -38,7 +38,7 @@ namespace Nettbank.Models
         public string Postnr { get; set; }
         public virtual PostSted Poststed { get; set; }
         public byte[] Passord { get; set; }
-        public virtual List<konto> Konto { get; set; }
+        public virtual List<Konto> Kontoer { get; set; }
     }
 
     public class PostSted
@@ -48,15 +48,15 @@ namespace Nettbank.Models
         public string Poststed { get; set; }
     }
 
-    public class konto
+    public class Konto
     {
         [Key]
         public int kontoId { get; set; }
         public int saldo { get; set; }
-        public virtual List<Transaksjoner> transaksjoner { get; set; }
+        public virtual List<Transaksjon> transaksjoner { get; set; }
     }
 
-    public class Transaksjoner
+    public class Transaksjon
     {
         [Key]
         public int transId { get; set; }
@@ -76,6 +76,9 @@ namespace Nettbank.Models
 
         public DbSet<dbKunde> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
+        //public DbSet<Konto> Konti { get; set; }
+        //public DbSet<Transaksjon> Transaksjoner { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
