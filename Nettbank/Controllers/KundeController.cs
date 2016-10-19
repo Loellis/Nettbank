@@ -8,7 +8,69 @@ using System.Web.Script.Serialization;
 
 namespace Nettbank.Controllers
 {
-    // Nappet fra MVC-ajax-a for testing
+    
+    public class KontoController :Controller
+    {
+        public ActionResult OpprettKonto()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OpprettKonto(FormCollection innListe)
+        {
+            try
+            {
+                using (var db = new KundeContext())
+                {
+                    var nyKonto = new konto();
+                    // Konverter streng til double
+                    nyKonto.saldo = Convert.ToDouble(innListe["Saldo"]);
+
+
+
+                    int innKunde = Convert.ToInt32(innListe["Kontoeier"]);
+
+                    var funnetKunde = db.Kunder.FirstOrDefault(p => p.id == innKunde);
+
+                    //Lagre konto
+                    db.Konti.Add(nyKonto);
+                    db.SaveChanges();
+
+                    //Konto i DB, legg til i kunde sin liste
+                    if (funnetKunde == null)
+                    {
+                        // Feilhåndter
+                        return View();
+
+                    }
+                    else
+                    {
+                        var kontoObjekt = db.Konti.LastOrDefault();
+                        if (kontoObjekt != null)
+                        {
+                            funnetKunde.Kontoer.Add(kontoObjekt);
+                            db.SaveChanges();
+                        }
+                    }
+                    return RedirectToAction("ListKonti");
+                }
+            }
+            catch (Exception feil)
+            {
+                return View();
+            }
+        }
+
+        public ActionResult ListKonti()
+        {
+            var db = new KundeContext();
+            List<konto> kontoListe = db.Konti.ToList();
+            return View(kontoListe);
+        }
+
+    }
+
 
     public class KundeController : Controller
     {
@@ -125,63 +187,7 @@ namespace Nettbank.Controllers
         }
 
         
-        public ActionResult OpprettKonto()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult OpprettKonto(FormCollection innListe)
-        {
-            try
-            {
-                using (var db = new KundeContext())
-                {
-                    var nyKonto = new konto();
-                    // Konverter streng til double
-                    nyKonto.saldo = Convert.ToDouble( innListe["Saldo"] );
-                    
-                                        
-
-                    int innKunde = Convert.ToInt32(innListe["Kontoeier"]);
-
-                    var funnetKunde = db.Kunder.FirstOrDefault(p => p.id == innKunde);
-
-                    //Lagre konto
-                    db.Konti.Add(nyKonto);
-                    db.SaveChanges();
-
-                    //Konto i DB, legg til i kunde sin liste
-                    if (funnetKunde == null)
-                    {
-                        // Feilhåndter
-                        return View();
-                        
-                    }
-                    else
-                    {
-                        var kontoObjekt = db.Konti.LastOrDefault();
-                        if (kontoObjekt != null)
-                        {
-                            funnetKunde.Kontoer.Add(kontoObjekt);
-                            db.SaveChanges();
-                        }
-                    }
-                    return RedirectToAction("ListKonti");
-                }
-            }
-            catch (Exception feil)
-            {
-                return View();
-            }
-        }
-
-        public ActionResult ListKonti()
-        {
-            var db = new KundeContext();
-            List<konto> kontoListe = db.Konti.ToList();
-            return View(kontoListe);
-        }
+        
 
 
 

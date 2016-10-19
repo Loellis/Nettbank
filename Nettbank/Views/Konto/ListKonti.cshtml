@@ -14,7 +14,7 @@
             @foreach (var konto in Model)
             {
                 <tr>
-                    <td>@konto.id
+                    <td>@konto.kontoId
                     <td />
                     <td>@konto.saldo
                     <td />
@@ -25,7 +25,7 @@
             }
         </table>
         @ViewBag.Melding
-        <a href="/Kunde/OpprettKonto">Opprett Konto</a>
+        <a href="/Konto/OpprettKonto">Opprett Konto</a>
     </div>
 </body>
 </html>
