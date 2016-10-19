@@ -14,7 +14,7 @@ namespace Nettbank.Controllers
         public ActionResult OpprettKonto()
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if (Session["LoggetInn"] == null || false)
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -25,7 +25,7 @@ namespace Nettbank.Controllers
         public ActionResult OpprettKonto(FormCollection innListe)
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if (Session["LoggetInn"] == null || false)
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -75,7 +75,7 @@ namespace Nettbank.Controllers
         public ActionResult ListKonti()
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if (Session["LoggetInn"] == null || false)
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -102,7 +102,7 @@ namespace Nettbank.Controllers
         public ActionResult RegistrerBetaling()
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if (Session["LoggetInn"] == null || false)
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -113,7 +113,7 @@ namespace Nettbank.Controllers
         public ActionResult RegistrerBetaling(FormCollection innTrans)
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if (Session["LoggetInn"] == null || false)
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
