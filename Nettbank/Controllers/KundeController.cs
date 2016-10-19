@@ -185,6 +185,7 @@ namespace Nettbank.Controllers
                     dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Personnummer == innKunde.Personnummer);
                     if (funnetKunde != null)
                     {
+                        // Trenger kun en, men her er tre måter å lagre globalt
                         ViewData["kundeId"] = funnetKunde.id;
                         ViewBag.kId = funnetKunde.id;
                         Session["kundeId"] = funnetKunde.id;
