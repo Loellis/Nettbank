@@ -77,6 +77,8 @@ namespace Nettbank.Controllers
             return View(kundeListe);
         }
 
+
+        // Metoder for oppretting av kunder/konti
         public ActionResult OpprettKunde()
         {
             return View();
@@ -121,6 +123,51 @@ namespace Nettbank.Controllers
                 return View();
             }
         }
+
+        /*
+        public ActionResult OpprettKonto()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OpprettKonto(FormCollection innListe)
+        {
+            try
+            {
+                using (var db = new KundeContext())
+                {
+                    var nyKonto = new konto();
+                    // Konverter streng til double
+                    nyKonto.saldo = Convert.ToDouble( innListe["Saldo"] );
+                    
+                                        
+
+                    int innKunde = Convert.ToInt32(innListe["Kontoeier"]);
+
+                    var funnetKunde = db.Kunder.FirstOrDefault(p => p.id == innKunde);
+
+                    if (funnetKunde == null)
+                    {
+                        return View();
+                        
+                    }
+                    else
+                    {
+                        //funnetKunde.Kontoer.Add(nyKonto);
+                    }
+                    db.Konti.Add(nyKonto);
+                    db.SaveChanges();
+                    return RedirectToAction("ListKonti");
+                }
+            }
+            catch (Exception feil)
+            {
+                return View();
+            }
+        }
+
+        */
 
         /*public string hentAlleNavn()
         {

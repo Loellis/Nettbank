@@ -52,7 +52,7 @@ namespace Nettbank.Models
     {
         [Key]
         public int kontoId { get; set; }
-        public int saldo { get; set; }
+        public double saldo { get; set; }
         public virtual List<Transaksjon> transaksjoner { get; set; }
     }
 

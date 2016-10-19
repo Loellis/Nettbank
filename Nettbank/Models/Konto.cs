@@ -8,7 +8,7 @@ namespace Nettbank.Models
     public class Konto
     {
         public int kontoId { get; set; }
-        public int saldo { get; set; }
+        public double saldo { get; set; }
         public List<Transaksjon> transaksjoner { get; set; }
     }
 }
