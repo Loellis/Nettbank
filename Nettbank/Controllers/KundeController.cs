@@ -174,6 +174,8 @@ namespace Nettbank.Controllers
         {
             if (Kunde_i_DB(innKunde))
             {
+                // Lagre innlogget status i session "LoggetInn"
+                // og brukerens kundeID i session "kundeId"
                 Session["LoggetInn"] = true;
                 Session["kundeId"] = innKunde.id;
                 ViewBag.Innlogget = true;
