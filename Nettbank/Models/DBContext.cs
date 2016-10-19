@@ -38,7 +38,7 @@ namespace Nettbank.Models
         public string Postnr { get; set; }
         public virtual PostSted Poststed { get; set; }
         public byte[] Passord { get; set; }
-        public virtual List<Konto> Kontoer { get; set; }
+        public virtual List<konto> Kontoer { get; set; }
     }
 
     public class PostSted
@@ -76,7 +76,7 @@ namespace Nettbank.Models
 
         public DbSet<dbKunde> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
-        public DbSet<Konto> Konti { get; set; }
+        public DbSet<konto> Konti { get; set; }
         public DbSet<Transaksjon> Transaksjoner { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

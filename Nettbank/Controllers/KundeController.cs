@@ -124,7 +124,7 @@ namespace Nettbank.Controllers
             }
         }
 
-        /*
+        
         public ActionResult OpprettKonto()
         {
             return View();
@@ -147,17 +147,25 @@ namespace Nettbank.Controllers
 
                     var funnetKunde = db.Kunder.FirstOrDefault(p => p.id == innKunde);
 
+                    //Lagre konto
+                    db.Konti.Add(nyKonto);
+                    db.SaveChanges();
+
+                    //Konto i DB, legg til i kunde sin liste
                     if (funnetKunde == null)
                     {
+                        // Feilhåndter
                         return View();
                         
                     }
                     else
                     {
-                        //funnetKunde.Kontoer.Add(nyKonto);
+                        var kontoObjekt = db.Konti.LastOrDefault();
+                        if (kontoObjekt != null)
+                        {
+                            funnetKunde.Kontoer.Add(kontoObjekt);
+                        }
                     }
-                    db.Konti.Add(nyKonto);
-                    db.SaveChanges();
                     return RedirectToAction("ListKonti");
                 }
             }
@@ -167,8 +175,8 @@ namespace Nettbank.Controllers
             }
         }
 
-        */
-
         
+
+
     }
 }
