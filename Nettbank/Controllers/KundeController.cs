@@ -28,7 +28,7 @@ namespace Nettbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Kunder innKunde)
+        public ActionResult Index(kunde innKunde)
         {
             if (Kunde_i_DB(innKunde))
             {
@@ -44,12 +44,12 @@ namespace Nettbank.Controllers
             }
         }
 
-        private static bool Kunde_i_DB(Kunder innKunde)
+        private static bool Kunde_i_DB(kunde innKunde)
         {
             using (var db = new KundeContext())
             {
                 byte[] passordDb = lagHash(innKunde.Passord);
-                dbKunder funnetKunde = db.Kunder.FirstOrDefault(b => b.Passord == passordDb && b.Personnummer == innKunde.Personnummer);
+                dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Passord == passordDb && b.Personnummer == innKunde.Personnummer);
                 if(funnetKunde == null)
                 {
                     return false;
@@ -68,6 +68,58 @@ namespace Nettbank.Controllers
             innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
             utData = algoritme.ComputeHash(innData);
             return utData;
+        }
+
+        public ActionResult ListKunder()
+        {
+            var db = new KundeContext();
+            List<dbKunde> kundeListe = db.Kunder.ToList();
+            return View(kundeListe);
+        }
+
+        public ActionResult OpprettKunde()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OpprettKunde(FormCollection innListe)
+        {
+            try
+            {
+                using (var db = new KundeContext())
+                {
+                    var nyKunde = new dbKunde();
+                    nyKunde.Personnummer = innListe["Personnummer"];
+                    nyKunde.Fornavn = innListe["Fornavn"];
+                    nyKunde.Etternavn = innListe["Etternavn"];
+                    nyKunde.Adresse = innListe["Adresse"];
+                    nyKunde.Passord = lagHash(innListe["Passord"]);
+
+                    string innPostnr = innListe["Postnummer"];
+
+                    var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
+
+                    if(funnetPostSted == null)
+                    {
+                        var nyttPoststed = new Models.PostSted();
+                        nyttPoststed.Postnr = innListe["Postnummer"];
+                        nyttPoststed.Poststed = innListe["Poststed"];
+                        db.Poststeder.Add(nyttPoststed);
+                    }
+                    else
+                    {
+                        nyKunde.Poststed = funnetPostSted;
+                    }
+                    db.Kunder.Add(nyKunde);
+                    db.SaveChanges();
+                    return RedirectToAction("ListKunder");
+                }
+            }
+            catch (Exception feil)
+            {
+                return View();
+            }
         }
 
         /*public string hentAlleNavn()

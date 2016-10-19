@@ -8,12 +8,12 @@ using System.Web;
 
 namespace Nettbank.Models
 {
-    public class Kunder
+    public class kunde
     {
         [Key]
-        public int id { get; set; } //Kundenummer
+        public int id { get; set; } 
         [Required(ErrorMessage="Personnummer må oppgis")]
-        public int Personnummer { get; set; }
+        public string Personnummer { get; set; }
         [Required(ErrorMessage = "Fornavn må oppgis")]
         public string Fornavn { get; set; }
         [Required(ErrorMessage = "Etternavn må oppgis")]
@@ -22,18 +22,16 @@ namespace Nettbank.Models
         public string Adresse { get; set; }
         [Required(ErrorMessage = "Postnr må oppgis")]
         public string Postnr { get; set; }
-        
         public virtual PostSted Poststed { get; set; }
-
         [Required(ErrorMessage = "Passord må oppgis")]
         public string Passord { get; set; }
     }
 
-    public class dbKunder
+    public class dbKunde
     {
         [Key]
         public int id { get; set; }
-        public int Personnummer { get; set; }
+        public string Personnummer { get; set; }
         public string Fornavn { get; set; }
         public string Etternavn { get; set; }
         public string Adresse { get; set; }
@@ -53,7 +51,7 @@ namespace Nettbank.Models
     {
         [Key]
         public int kontoId { get; set; }
-        public virtual Kunder Personnummer { get; set; }
+        public virtual kunde Personnummer { get; set; }
         public int saldo { get; set; }
     }
 
@@ -84,10 +82,8 @@ namespace Nettbank.Models
             Database.CreateIfNotExists();
         }
 
-        public DbSet<dbKunder> Kunder { get; set; }
+        public DbSet<dbKunde> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
-        //public DbSet<Kontoer> Kontoer { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

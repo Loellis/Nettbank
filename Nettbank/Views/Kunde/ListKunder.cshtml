@@ -1,0 +1,38 @@
+﻿@model List<Nettbank.Models.Kunde>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List Alle Kunder</title>
+</head>
+<body>
+    <div>
+        <h3>Her er brukerne i databasen:</h3>
+        <table>
+            @foreach (var bruker in Model)
+            {
+                <tr>
+                    <td>@bruker.id
+                    <td />
+                    <td>@bruker.personnummer
+                    <td />
+                    <td>@bruker.fornavn
+                    <td />
+                    <td>@bruker.etternavn
+                    <td />
+                    <td>@bruker.adresse
+                    <td />
+                    <td>@bruker.postnr
+                    <td />
+                    <td>@bruker.poststed
+                    </td>
+                </tr>
+            }
+        </table>
+        @ViewBag.Melding
+        <a href="/Kunde/OpprettKunde">Opprett Kunde</a>
+    </div>
+</body>
+</html>

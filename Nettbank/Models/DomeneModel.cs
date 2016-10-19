@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Nettbank.Models
 {
-    public class kunde
+    /*public class kunde
     {
         public int id { get; set; }
        
@@ -15,7 +15,7 @@ namespace Nettbank.Models
         public string adresse { get; set; }
         public string postnr { get; set; }
         public string poststed { get; set; }
-    }
+    }*/
 
     public class jsKunde
     {
