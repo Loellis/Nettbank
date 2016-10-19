@@ -51,8 +51,18 @@ namespace Nettbank.Models
     {
         [Key]
         public int kontoId { get; set; }
-        public virtual kunde Personnummer { get; set; }
         public int saldo { get; set; }
+        public virtual List<Transaksjoner> transaksjoner { get; set; }
+    }
+
+    public class Transaksjoner
+    {
+        [Key]
+        public int transId { get; set; }
+        public string utKonto { get; set; }
+        public string innKonto { get; set; }
+        public int beløp { get; set; }
+        public DateTime transaksjonsTidspunkt { get; set; }
     }
 
     public class KundeContext : DbContext
