@@ -55,25 +55,6 @@ namespace Nettbank.Models
         public int saldo { get; set; }
     }
 
-    /*
-    public class KontoContext: DbContext
-    {
-        public KontoContext()
-            : base("name=Kontoer")
-        {
-            Database.CreateIfNotExists();
-        }
-
-        public DbSet<Konto> Kontoer { get; set; }
-        public DbSet<Kunde> Kunder { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
-    }*/
-
-
     public class KundeContext : DbContext
     {
         public KundeContext()
