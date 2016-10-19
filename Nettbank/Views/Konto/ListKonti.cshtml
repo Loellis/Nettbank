@@ -26,6 +26,16 @@
         </table>
         @ViewBag.Melding
         <a href="/Konto/OpprettKonto">Opprett Konto</a>
+
+        </p>
+        @if (ViewBag.Innlogget)
+            {
+            <p style="color:forestgreen">Logget inn</p>
+        }
+        else
+        {
+            <p style="color:red">Ikke logget inn</p>
+        }
     </div>
 </body>
 </html>

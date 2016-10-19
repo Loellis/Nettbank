@@ -65,6 +65,16 @@ namespace Nettbank.Controllers
         {
             var db = new KundeContext();
             List<konto> kontoListe = db.Konti.ToList();
+            if (Session["LoggetInn"] == null)
+            {
+                Session["LoggetInn"] = false;
+                ViewBag.Innlogget = false;
+            }
+            else
+            {
+                ViewBag.Innlogget = (bool)Session["LoggetInn"];
+            }
+
             return View(kontoListe);
         }
 
