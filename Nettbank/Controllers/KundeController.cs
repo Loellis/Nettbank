@@ -13,6 +13,10 @@ namespace Nettbank.Controllers
     {
         public ActionResult OpprettKonto()
         {
+            if (Session["LoggetInn"] == null || false)
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
             return View();
         }
 
