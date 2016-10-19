@@ -76,8 +76,8 @@ namespace Nettbank.Models
 
         public DbSet<dbKunde> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
-        //public DbSet<Konto> Konti { get; set; }
-        //public DbSet<Transaksjon> Transaksjoner { get; set; }
+        public DbSet<Konto> Konti { get; set; }
+        public DbSet<Transaksjon> Transaksjoner { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
