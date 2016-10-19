@@ -88,6 +88,10 @@ namespace Nettbank.Controllers
     {
         public ActionResult RegistrerBetaling()
         {
+            if (Session["LoggetInn"] == null || false)
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
             return View();
         }
 
