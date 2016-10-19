@@ -13,6 +13,7 @@ namespace Nettbank.Controllers
     {
         public ActionResult OpprettKonto()
         {
+            // Send bruker til innlogging dersom ikke innlogget
             if (Session["LoggetInn"] == null || false)
             {
                 return RedirectToAction("/Index", "Kunde");
@@ -23,6 +24,12 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult OpprettKonto(FormCollection innListe)
         {
+            // Send bruker til innlogging dersom ikke innlogget
+            if (Session["LoggetInn"] == null || false)
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
             try
             {
                 using (var db = new KundeContext())
@@ -67,6 +74,12 @@ namespace Nettbank.Controllers
 
         public ActionResult ListKonti()
         {
+            // Send bruker til innlogging dersom ikke innlogget
+            if (Session["LoggetInn"] == null || false)
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
             var db = new KundeContext();
             List<konto> kontoListe = db.Konti.ToList();
             if (Session["LoggetInn"] == null)
@@ -88,6 +101,7 @@ namespace Nettbank.Controllers
     {
         public ActionResult RegistrerBetaling()
         {
+            // Send bruker til innlogging dersom ikke innlogget
             if (Session["LoggetInn"] == null || false)
             {
                 return RedirectToAction("/Index", "Kunde");
@@ -98,6 +112,12 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult RegistrerBetaling(FormCollection innTrans)
         {
+            // Send bruker til innlogging dersom ikke innlogget
+            if (Session["LoggetInn"] == null || false)
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
             try
             {
                 using (var db = new KundeContext())
@@ -155,6 +175,7 @@ namespace Nettbank.Controllers
             if (Kunde_i_DB(innKunde))
             {
                 Session["LoggetInn"] = true;
+                Session["kundeId"] = innKunde.id;
                 ViewBag.Innlogget = true;
                 return View();
             }
