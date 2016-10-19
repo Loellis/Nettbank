@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 namespace Nettbank.Controllers
 {
     
-    public class KontoController :Controller
+    public class KontoController : Controller
     {
         public ActionResult OpprettKonto()
         {
@@ -68,6 +68,49 @@ namespace Nettbank.Controllers
             return View(kontoListe);
         }
 
+    }
+
+    public class TransaksjonController : Controller
+    {
+        public ActionResult RegistrerBetaling()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegistrerBetaling(FormCollection innTrans)
+        {
+            try
+            {
+                using (var db = new KundeContext())
+                {
+                    var nyTrans = new transaksjon();
+                    nyTrans.utKonto = innTrans["UtK"];
+                    nyTrans.innKonto = innTrans["InnK"];
+                    nyTrans.beløp = Convert.ToInt32(innTrans["Beløp"]);
+                    
+                    if(innTrans["KID_Meld"] is string )
+                    {
+                        nyTrans.melding = innTrans["KID_Meld"];
+                    }
+                    else
+                    {
+                        nyTrans.KID = Convert.ToUInt32(innTrans["KID_Meld"]);
+                    }
+
+                    //Setter transaksjonstidspunktet og formaterer det etter britisk standard
+                    nyTrans.transaksjonsTidspunkt = DateTime.Now.ToString("en-GB");
+
+                    db.Transaksjoner.Add(nyTrans);
+                    db.SaveChanges();
+                    return RedirectToAction("TransaksjonsOversikt");
+                }
+            }
+            catch(Exception feil)
+            {
+                return View();
+            }
+        }
     }
 
 

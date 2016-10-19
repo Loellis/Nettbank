@@ -1,0 +1,23 @@
+﻿@model Nettbank.Models.Transaksjon
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registrer Betaling</title>
+</head>
+<body>
+    <div>
+        <form action="/Transaksjon/RegistrerBetaling" method="post">
+            <table>
+                <tr><td>Fra Konto : </td><td><input type="text" name="UtK" /></td></tr>
+                <tr><td>Til Konto : </td><td><input type="text" name="InnK" /></td></tr>
+                <tr><td>Beløp : </td><td><input type="text" name="Beløp" /></td></tr>
+                <tr><td>KID/Melding : </td><td><input type="text" name="KID_Meld" /></td></tr>
+                <tr><td><input type="submit" value="Legg til betaling" /> </td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

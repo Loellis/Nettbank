@@ -53,17 +53,19 @@ namespace Nettbank.Models
         [Key]
         public int kontoId { get; set; }
         public double saldo { get; set; }
-        public virtual List<Transaksjon> transaksjoner { get; set; }
+        public virtual List<transaksjon> transaksjoner { get; set; }
     }
 
-    public class Transaksjon
+    public class transaksjon
     {
         [Key]
         public int transId { get; set; }
         public string utKonto { get; set; }
         public string innKonto { get; set; }
         public int beløp { get; set; }
-        public DateTime transaksjonsTidspunkt { get; set; }
+        public long KID { get; set; }
+        public string melding { get; set; }
+        public string transaksjonsTidspunkt { get; set; }
     }
 
     public class KundeContext : DbContext
@@ -77,7 +79,7 @@ namespace Nettbank.Models
         public DbSet<dbKunde> Kunder { get; set; }
         public DbSet<PostSted> Poststeder { get; set; }
         public DbSet<konto> Konti { get; set; }
-        public DbSet<Transaksjon> Transaksjoner { get; set; }
+        public DbSet<transaksjon> Transaksjoner { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
