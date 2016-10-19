@@ -47,7 +47,7 @@ namespace Nettbank.Models
         public string Poststed { get; set; }
     }
 
-    public class Kontoer
+    public class konto
     {
         [Key]
         public int kontoId { get; set; }
