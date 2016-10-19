@@ -38,6 +38,7 @@ namespace Nettbank.Models
         public string Postnr { get; set; }
         public virtual PostSted Poststed { get; set; }
         public byte[] Passord { get; set; }
+        public virtual List<konto> Konto { get; set; }
     }
 
     public class PostSted
