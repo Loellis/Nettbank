@@ -27,17 +27,18 @@
         @ViewBag.Melding
         <a href="/Konto/OpprettKonto">Opprett Konto</a>
 
-        </p>
-        @if (ViewBag.Innlogget)
-            {
-            <p style="color:forestgreen">Logget inn</p>
-        }
-        else
-        {
-            <p style="color:red">Ikke logget inn</p>
-        }
-
+        
+        
     </div>
+
+    @if (ViewBag.Innlogget)
+    {
+        <p style="color:forestgreen">Logget inn</p>
+        <p> Bruker viewdata: @ViewData["kundeId"] </p>
+        <p> Bruker viewbag: @ViewBag.kId </p>
+        <p> Bruker session: @Session["kundeId"] </p>
+
+    }
 
     <a href="/Kunde/Index">Til hovedside</a>
 </body>

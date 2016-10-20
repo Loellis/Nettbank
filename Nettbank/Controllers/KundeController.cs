@@ -81,7 +81,15 @@ namespace Nettbank.Controllers
             }
 
             var db = new KundeContext();
-            List<konto> kontoListe = db.Konti.ToList();
+            List<konto> alleKontoListe = db.Konti.ToList();
+
+            var kId = Convert.ToInt32(Session["kundeId"]);
+            // Har her en liste over alle kontoer -> få kun kontoer tilhørende kundeId!
+            dbKunde pKunde = db.Kunder.FirstOrDefault(b => b.id == kId);
+            List<konto> kontoListe = pKunde.Kontoer;
+
+            
+            // For å vise innlogget status påp ListKonti, testoutput
             if (Session["LoggetInn"] == null)
             {
                 Session["LoggetInn"] = false;
@@ -222,6 +230,8 @@ namespace Nettbank.Controllers
 
         private static byte[] lagHash(string innPassord)
         {
+            //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
+
             byte[] innData, utData;
             var algoritme = System.Security.Cryptography.SHA256.Create();
             innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
@@ -231,6 +241,8 @@ namespace Nettbank.Controllers
 
         public ActionResult ListKunder()
         {
+            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
+
             var db = new KundeContext();
             List<dbKunde> kundeListe = db.Kunder.ToList();
             return View(kundeListe);
@@ -240,12 +252,14 @@ namespace Nettbank.Controllers
         // Metoder for oppretting av kunder/konti
         public ActionResult OpprettKunde()
         {
+            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             return View();
         }
 
         [HttpPost]
         public ActionResult OpprettKunde(FormCollection innListe)
         {
+            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             try
             {
                 using (var db = new KundeContext())
