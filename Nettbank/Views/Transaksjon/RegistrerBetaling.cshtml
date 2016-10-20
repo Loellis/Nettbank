@@ -32,19 +32,19 @@
         <form action="/Transaksjon/RegBet" data-ajax="true" data-ajax-mode="replace" method="post">
             <table>
                 <tr><td>Fra Konto : </td>
-                <td>
-                    <select id="idListe" onchange="hentKontoerAjax1()">
+                <td id="KontoListe">
+                    <select id="idListe" onchange="hentKontoerAjax1()" name="UtK">
                         @foreach (var kontoId in Model)
                         {
                             <option>@kontoId</option>
                         }
                     </select>
                 </td>
-                <td id="KontoListe">Saldo</td>
                 </tr>
                 <tr><td>Til Konto : </td><td><input type="text" name="InnK" /></td></tr>
                 <tr><td>Beløp : </td><td><input type="text" name="Beløp" /></td></tr>
-                <tr><td>KID/Melding : </td><td><input type="text" name="KID_Meld" /></td></tr>
+                <tr><td>KID : </td><td><input type="text" name="KID" /></td></tr>
+                <tr><td>Melding : </td><td><input type="text" name="Meld" /></td></tr>
                 <tr><td><input type="submit" value="Legg til betaling" /> </td></tr>
             </table>
         </form>
