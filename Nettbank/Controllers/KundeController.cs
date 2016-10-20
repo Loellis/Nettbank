@@ -233,7 +233,32 @@ namespace Nettbank.Controllers
                     }
                 }
                 return View(nedtrekk);
+            }
+        }
 
+        public string RegBet(Models.transaksjon ajaxTrans)
+        {
+            using (var db = new KundeContext())
+            {
+                db.Transaksjoner.Add(ajaxTrans);
+                db.SaveChanges();
+                string ut = "<table>";
+                IEnumerable<transaksjon> transaksjoner = db.Transaksjoner;
+                foreach(var t in transaksjoner)
+                {
+                    ut += "<tr><td>" + t.transId + "</td><td>" + t.utKontoId + "</td><td>" + t.innKonto + "</td><td>" + t.beløp + "</td><td>" + t.KID + "</td><td>" + t.melding + "</td><td>";
+
+                    //Setter transaksjonstidspunktet og formaterer det etter britisk standard
+                    t.transaksjonsTidspunkt = DateTime.Now.ToString();
+
+                    ut += t.transaksjonsTidspunkt + "</td><td>";
+
+                    t.tilhørendeKonto = t.utKontoId;
+
+                    ut += t.tilhørendeKonto + "</td></tr>";
+                }
+                ut += "</table>";
+                return ut;
             }
         }
     }
