@@ -97,10 +97,50 @@ namespace Nettbank.Controllers
             return View(kontoListe);
         }
 
+        public string HentKonti(int kontoId)
+        {
+            using (var db = new KundeContext())
+            {
+                var konti = db.Konti.Where(s => s.kontoId == kontoId);
+                string ut = "";
+                foreach (var k in konti)
+                {
+                    ut += k.kontoId + "<br/>";
+                }
+                return ut;
+            }
+        }
+
+        public JsonResult HentKonti1(int kontoId)
+        {
+            using (var db = new KundeContext())
+            {
+                List<konto> konti = db.Konti.Where(s => s.kontoId == kontoId).ToList();
+                JsonResult ut = Json(konti, JsonRequestBehavior.AllowGet);
+                return ut;
+            }
+        }
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public class TransaksjonController : Controller
     {
+        /*
         public ActionResult RegistrerBetaling()
         {
             // Send bruker til innlogging dersom ikke innlogget
@@ -125,6 +165,7 @@ namespace Nettbank.Controllers
                 using (var db = new KundeContext())
                 {
                     var nyTrans = new transaksjon();
+
                     nyTrans.utKontoId = Convert.ToInt32(innTrans["UtK"]);
                     nyTrans.innKonto = Convert.ToInt32(innTrans["InnK"]);
                     nyTrans.beløp = Convert.ToInt32(innTrans["Beløp"]);
@@ -151,7 +192,64 @@ namespace Nettbank.Controllers
                 return View();
             }
         }
+        */
+        public ActionResult RegistrerBetaling()
+        {
+            //Sjekker om logget inn
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
+            using (var db = new KundeContext())
+            {
+                //Liste med alle kontoer
+                List<konto> alleKonti = db.Konti.ToList();
+                //Finner innlogget kundes ID og deretter tilhørende kontoer
+                //som legges inn i ny tom liste
+                var kId = Convert.ToInt32(Session["kundeId"]);
+                dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
+                List<konto> konti = new List<konto>();
+
+                foreach (var konto in alleKonti)
+                {
+                    if (konto.kontoEier == kId)
+                    {
+                        konti.Add(konto);
+                    }
+                }
+
+                //Legger kundens kontoer inn i en nedtrekksmeny
+                var nedtrekk = new List<string>();
+                nedtrekk.Add("---Velg her---");
+                foreach(var k in konti)
+                {
+                    if (!nedtrekk.Contains(k.kontoId.ToString()))
+                    {
+                        nedtrekk.Add(k.kontoId.ToString());
+                    }
+                }
+                return View(nedtrekk);
+
+            }
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public class KundeController : Controller
@@ -207,6 +305,7 @@ namespace Nettbank.Controllers
 
         private static bool Kunde_i_DB(kunde innKunde)
         {
+            //Innloggingstest for å finne om brukeren eksisterer 
             using (var db = new KundeContext())
             {
                 byte[] passordDb = lagHash(innKunde.Passord);
@@ -241,7 +340,6 @@ namespace Nettbank.Controllers
             List<dbKunde> kundeListe = db.Kunder.ToList();
             return View(kundeListe);
         }
-
 
         // Metoder for oppretting av kunder/konti
         public ActionResult OpprettKunde()
