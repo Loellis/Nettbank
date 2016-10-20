@@ -38,9 +38,9 @@ namespace Nettbank.Controllers
                     // Konverter streng til double
                     nyKonto.saldo = Convert.ToDouble(innListe["Saldo"]);
 
-
-
                     int innKunde = Convert.ToInt32(innListe["Kontoeier"]);
+
+                    nyKonto.kontoEier = innKunde;
 
                     var funnetKunde = db.Kunder.FirstOrDefault(p => p.id == innKunde);
 
@@ -48,22 +48,7 @@ namespace Nettbank.Controllers
                     db.Konti.Add(nyKonto);
                     db.SaveChanges();
 
-                    //Konto i DB, legg til i kunde sin liste
-                    if (funnetKunde == null)
-                    {
-                        // Feilhåndter
-                       
-                    }
-                    else
-                    {
-                        var kontoObjekt = db.Konti.LastOrDefault();
-                        if (kontoObjekt != null)
-                        {
-                            funnetKunde.Kontoer.Add(kontoObjekt);
-                            db.SaveChanges();
-                        }
-                    }
-                    return RedirectToAction("/Konto/ListKonti");
+                    return RedirectToAction("/ListKonti");
                 }
             }
             catch (Exception feil)
@@ -85,8 +70,17 @@ namespace Nettbank.Controllers
 
             var kId = Convert.ToInt32(Session["kundeId"]);
             // Har her en liste over alle kontoer -> få kun kontoer tilhørende kundeId!
-            dbKunde pKunde = db.Kunder.FirstOrDefault(b => b.id == kId);
-            List<konto> kontoListe = pKunde.Kontoer;
+            dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
+            //List<konto> kontoListe = pKunde.Kontoer;
+            List<konto> kontoListe = new List<konto>();
+            
+            foreach (var konto in alleKontoListe)
+            {
+                if (konto.kontoEier == kId)
+                {
+                    kontoListe.Add(konto);
+                }
+            }
 
             
             // For å vise innlogget status påp ListKonti, testoutput
@@ -131,8 +125,8 @@ namespace Nettbank.Controllers
                 using (var db = new KundeContext())
                 {
                     var nyTrans = new transaksjon();
-                    nyTrans.utKonto = innTrans["UtK"];
-                    nyTrans.innKonto = innTrans["InnK"];
+                    nyTrans.utKontoId = Convert.ToInt32(innTrans["UtK"]);
+                    nyTrans.innKonto = Convert.ToInt32(innTrans["InnK"]);
                     nyTrans.beløp = Convert.ToInt32(innTrans["Beløp"]);
                     
                     if(innTrans["KID_Meld"] is string )
@@ -286,6 +280,8 @@ namespace Nettbank.Controllers
                     {
                         nyKunde.Poststed = funnetPostSted;
                     }
+                    
+
                     db.Kunder.Add(nyKunde);
                     db.SaveChanges();
                     return RedirectToAction("ListKunder");

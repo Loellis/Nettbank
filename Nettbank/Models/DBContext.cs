@@ -38,7 +38,7 @@ namespace Nettbank.Models
         public string Postnr { get; set; }
         public virtual PostSted Poststed { get; set; }
         public byte[] Passord { get; set; }
-        public virtual List<konto> Kontoer { get; set; }
+        //public virtual List<int> Kontoer { get; set; }
     }
 
     public class PostSted
@@ -53,16 +53,17 @@ namespace Nettbank.Models
         [Key]
         public int kontoId { get; set; }
         public double saldo { get; set; }
-        public virtual List<transaksjon> transaksjoner { get; set; }
+        public int kontoEier { get; set; }
+        //public List<int> transaksjoner { get; set; }
     }
 
     public class transaksjon
     {
         [Key]
         public int transId { get; set; }
-        public string utKonto { get; set; }
-        public string innKonto { get; set; }
-        public int beløp { get; set; }
+        public int utKontoId { get; set; }
+        public int innKonto { get; set; }
+        public double beløp { get; set; }
         public long KID { get; set; }
         public string melding { get; set; }
         public string transaksjonsTidspunkt { get; set; }
