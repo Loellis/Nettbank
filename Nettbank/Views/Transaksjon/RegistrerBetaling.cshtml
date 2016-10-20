@@ -1,17 +1,47 @@
-﻿@model Nettbank.Models.Transaksjon
+﻿@model List<string>
 @{
     Layout = null;
 }
 <!DOCTYPE html>
+
 <html>
 <head>
+    <meta name="viewport" content="width=device-width"/>
     <title>Registrer Betaling</title>
+    <script src="~/scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        function hentKontoerAjax()
+        {
+            $("#KontoListe").load("/Konto/HentKonti", { kontoId: $("#idListe").val() });
+        }
+
+        function hentKontoerAjax1()
+        {
+            $.getJSON("/Konto/HentKonti1", { kontoId: $("#idListe").val() }, function (konto) {
+                var ut = "Beløp på konto: ";
+                for (var i in konto) {
+                    ut += konto[i].saldo + "<br/>";
+                }
+                $("#KontoListe").html(ut);
+            });
+        }
+    </script>
 </head>
 <body>
     <div>
-        <form action="/Transaksjon/RegistrerBetaling" method="post">
+        <form action="/Transaksjon/RegBet" data-ajax="true" data-ajax-mode="replace" method="post">
             <table>
-                <tr><td>Fra Konto : </td><td><input type="text" name="UtK" /></td></tr>
+                <tr><td>Fra Konto : </td>
+                <td>
+                    <select id="idListe" onchange="hentKontoerAjax1()">
+                        @foreach (var kontoId in Model)
+                        {
+                            <option>@kontoId</option>
+                        }
+                    </select>
+                </td>
+                <td id="KontoListe">Saldo</td>
+                </tr>
                 <tr><td>Til Konto : </td><td><input type="text" name="InnK" /></td></tr>
                 <tr><td>Beløp : </td><td><input type="text" name="Beløp" /></td></tr>
                 <tr><td>KID/Melding : </td><td><input type="text" name="KID_Meld" /></td></tr>
