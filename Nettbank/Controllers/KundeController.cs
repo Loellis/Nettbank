@@ -66,12 +66,15 @@ namespace Nettbank.Controllers
             }
 
             var db = new KundeContext();
+            // Har her en liste over alle kontoer -> få kun kontoer tilhørende kundeId!
             List<konto> alleKontoListe = db.Konti.ToList();
 
-            var kId = Convert.ToInt32(Session["kundeId"]);
-            // Har her en liste over alle kontoer -> få kun kontoer tilhørende kundeId!
+            // Session lagrer info som et objekt, må konvertere for å kunne sammenligne
+            var kId = Convert.ToInt32(Session["kundeId"]); 
+            
+            //Finn riktig kundeobjekt
             dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
-            //List<konto> kontoListe = pKunde.Kontoer;
+            
             List<konto> kontoListe = new List<konto>();
             
             foreach (var konto in alleKontoListe)
@@ -280,6 +283,8 @@ namespace Nettbank.Controllers
     public class KundeController : Controller
     {
         
+
+        
         public ActionResult Index()
         {
             if(Session["LoggetInn"] == null)
@@ -416,11 +421,124 @@ namespace Nettbank.Controllers
             }
         }
 
-        
-        
+        // Metode som lager to brukere med to kontoer hver
+        public ActionResult TestOpprett()
+        {
+            try
+            {
+                //Testkunde1
+                using (var db = new KundeContext())
+                {
+                    var nyKunde1 = new dbKunde();
+                    nyKunde1.Personnummer = "99999111111";
+                    nyKunde1.Fornavn = "Tester";
+                    nyKunde1.Etternavn = "McTest";
+                    nyKunde1.Adresse = "Testbakken 1";
+                    nyKunde1.Passord = lagHash("test");
 
+                    string innPostnr = "1234";
 
+                    var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
 
+                    if (funnetPostSted == null)
+                    {
+                        var nyttPoststed = new PostSted();
+                        nyttPoststed.Postnr = innPostnr;
+                        nyttPoststed.Poststed = "Testby";
+                        db.Poststeder.Add(nyttPoststed);
+                    }
+                    else
+                    {
+                        nyKunde1.Poststed = funnetPostSted;
+                    }
+                    db.Kunder.Add(nyKunde1);
+                    db.SaveChanges();
+                }
+
+                //Testkunde2
+                using (var db = new KundeContext())
+                {
+                    var nyKunde2 = new dbKunde();
+                    nyKunde2.Personnummer = "99999222222";
+                    nyKunde2.Fornavn = "Fru Test";
+                    nyKunde2.Etternavn = "McTest";
+                    nyKunde2.Adresse = "Testbakken 1";
+                    nyKunde2.Passord = lagHash("test");
+
+                    string innPostnr = "1234";
+
+                    var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
+
+                    if (funnetPostSted == null)
+                    {
+                        var nyttPoststed = new PostSted();
+                        nyttPoststed.Postnr = innPostnr;
+                        nyttPoststed.Poststed = "Testby";
+                        db.Poststeder.Add(nyttPoststed);
+                    }
+                    else
+                    {
+                        nyKunde2.Poststed = funnetPostSted;
+                    }
+                    db.Kunder.Add(nyKunde2);
+                    db.SaveChanges();
+                }
+
+                //Testkonti for testkunde1
+                using (var db = new KundeContext())
+                {
+                    var nyKonto1 = new konto();
+                    
+                    nyKonto1.saldo = 1066601;
+                    var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "99999111111");
+                    nyKonto1.kontoEier = k1.id;
+                    
+                    //Lagre konto
+                    db.Konti.Add(nyKonto1);
+                    db.SaveChanges();
+
+                    var nyKonto2 = new konto();
+
+                    nyKonto2.saldo = 10201;
+                    
+                    nyKonto2.kontoEier = k1.id;
+
+                    //Lagre konto
+                    db.Konti.Add(nyKonto2);
+                    db.SaveChanges();
+                }
+
+                //Testkonti for testkunde2
+                using (var db = new KundeContext())
+                {
+                    var nyKonto1 = new konto();
+
+                    nyKonto1.saldo = 123456;
+                    var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "99999222222");
+                    nyKonto1.kontoEier = k1.id;
+
+                    //Lagre konto
+                    db.Konti.Add(nyKonto1);
+                    db.SaveChanges();
+
+                    var nyKonto2 = new konto();
+
+                    nyKonto2.saldo = 54951;
+
+                    nyKonto2.kontoEier = k1.id;
+
+                    //Lagre konto
+                    db.Konti.Add(nyKonto2);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("ListKunder");
+            }
+            catch (Exception feil)
+            {
+                return RedirectToAction("Index");
+            }
+        }
 
     }
 }
