@@ -561,5 +561,13 @@ namespace Nettbank.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult LoggUt()
+        {
+            Session["LoggetInn"] = false;
+            Session["kundeId"] = null;
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
