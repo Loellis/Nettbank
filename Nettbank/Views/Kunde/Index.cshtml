@@ -30,6 +30,9 @@
                     @Html.ValidationMessageFor(model => model.personnummer)
                 </div>
                 @ViewBag.KundeMelding
+                <p>
+                    <input type="submit" value="Logg inn" />
+                </p>
             }
             else if ((bool)Session["BankID"] == true && (bool)Session["LoggetInn"] == false)
             {
@@ -41,14 +44,15 @@
                     @Html.EditorFor(model => model.passord)
                     @Html.ValidationMessageFor(model => model.passord)
                 </div>
+                <p>
+                    <input type="submit" value="Logg inn" />
+                </p>
             }
 
             
 
 
-            <p>
-                <input type="submit" value="Logg inn" />
-            </p>
+            
             @if ((bool)Session["LoggetInn"] == true)
             {
                 <p style="color:forestgreen">Logget inn</p>
