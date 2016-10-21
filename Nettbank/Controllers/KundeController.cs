@@ -348,7 +348,7 @@ namespace Nettbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(kunde innKunde)
+        public ActionResult Index(Kunde innKunde)
         {
 
             if (Kunde_i_DB(innKunde) && (Session["KundeId"] == null))
@@ -413,7 +413,7 @@ namespace Nettbank.Controllers
             }
         }
 
-        private static bool Kunde_i_DB(kunde innKunde)
+        private static bool Kunde_i_DB(Kunde innKunde)
         {
             //Innloggingstest for å finne om brukeren eksisterer 
             using (var db = new KundeContext())
@@ -430,7 +430,7 @@ namespace Nettbank.Controllers
             }
         }
 
-        private static bool Kunde_Passord(string kPID, kunde innKunde)
+        private static bool Kunde_Passord(string kPID, Kunde innKunde)
         {
             //Innloggingstest for å sjekke om brukerens passord er riktig
             using (var db = new KundeContext())
