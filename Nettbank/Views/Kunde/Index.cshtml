@@ -41,9 +41,9 @@
             @if (ViewBag.Innlogget)
             {
                 <p style="color:forestgreen">Logget inn</p>
-                <p> Bruker viewdata: @ViewData["kundeId"] </p>
-                <p> Bruker viewbag: @ViewBag.kId </p>
-                <p> Bruker session: @Session["kundeId"] </p>
+                <p> KundeId session: @Session["kundeId"] </p>
+                <p>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</p>
+                
 
             }
             else
@@ -53,7 +53,9 @@
         </fieldset>
     }
     
-   
+    <div>
+        @Html.ActionLink("Logg ut", "LoggUt")
+    </div>
     
 
     <div>
@@ -66,7 +68,11 @@
             Personnr.: 9999911111 og 99999222222 <br />
             Passord.: test <br />
             @Html.ActionLink("Autogenerer", "TestOpprett")
+            <br />
+            @Html.ActionLink("Slett DB", "SlettDB")
         </p>
+        <br />
+
 </div>
 </body>
 </html>

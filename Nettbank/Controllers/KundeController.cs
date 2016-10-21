@@ -474,6 +474,18 @@ namespace Nettbank.Controllers
         {
             try
             {
+                //Sjekk om testkundene finnes id DB allerede
+                var dbC = new KundeContext();
+
+                var kundeSjekk1 = dbC.Kunder.FirstOrDefault(p => p.Personnummer == "99999111111");
+                var kundeSjekk2 = dbC.Kunder.FirstOrDefault(p => p.Personnummer == "99999222222");
+                
+                if (kundeSjekk1 != null || kundeSjekk2 != null)
+                {
+                    return RedirectToAction("ListKunder");
+                }
+
+                //Opprett testkunder og testkonti
                 //Testkunde1
                 using (var db = new KundeContext())
                 {
@@ -586,6 +598,23 @@ namespace Nettbank.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        public ActionResult SlettDB()
+        {
+            var db = new KundeContext();
+
+            System.Data.Entity.Database.Delete("Bank1");
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult LoggUt()
+        {
+            Session["LoggetInn"] = false;
+            Session["kundeId"] = null;
+
+            return RedirectToAction("Index");
         }
 
     }
