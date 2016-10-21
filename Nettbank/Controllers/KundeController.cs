@@ -466,6 +466,8 @@ namespace Nettbank.Controllers
             var db = new KundeContext();
             List<dbKunde> kundeListe = db.Kunder.ToList();
             List<Kunde> kListe = new List<Kunde>();
+
+            // Trekk ut info fra kundeListe(dbKunde) og legg inn i kListe(Kunde)
             foreach(dbKunde dbK in kundeListe)
             {
                 Kunde tempKunde = new Kunde();
@@ -484,10 +486,9 @@ namespace Nettbank.Controllers
                     tempKunde.Poststed = "ERROR";
                 }
                 
-                //tempKunde.Passord = System.Text.Encoding.UTF8.GetString(dbK.Passord);
-
                 kListe.Add(tempKunde);
             }
+            // Returner en List<Kunde> til viewet.
             return View(kListe);
         }
 
@@ -498,7 +499,7 @@ namespace Nettbank.Controllers
             return View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult OpprettKunde(FormCollection innListe)
         {
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
@@ -519,16 +520,63 @@ namespace Nettbank.Controllers
 
                     if(funnetPostSted == null)
                     {
-                        var nyttPoststed = new Models.PostSted();
+                        var nyttPoststed = new PostSted();
                         nyttPoststed.Postnr = innListe["Postnummer"];
                         nyttPoststed.Poststed = innListe["Poststed"];
                         db.Poststeder.Add(nyttPoststed);
+                        //db.SaveChanges();
+                        //Context.Entry<T>(entity).Reload()
+                        //db.Entry<PostSted>(nyttPoststed).Reload();
                     }
                     else
                     {
                         nyKunde.Poststed = funnetPostSted;
                     }
-                    
+
+                    db.Kunder.Add(nyKunde);
+                    db.SaveChanges();
+                    return RedirectToAction("ListKunder");
+                }
+            }
+            catch (Exception feil)
+            {
+                return View();
+            }
+        }*/
+        [HttpPost]
+        public ActionResult OpprettKunde(Kunde innKunde)
+        {
+            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
+            try
+            {
+                using (var db = new KundeContext())
+                {
+                    var nyKunde = new dbKunde();
+                    nyKunde.Personnummer = innKunde.Personnummer;
+                    nyKunde.Fornavn = innKunde.Fornavn;
+                    nyKunde.Etternavn = innKunde.Etternavn;
+                    nyKunde.Adresse = innKunde.Adresse;
+                    nyKunde.Postnr = innKunde.Postnr;
+                    nyKunde.Passord = lagHash(innKunde.Passord);
+
+                    string innPostnr = innKunde.Postnr;
+
+                    var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
+
+                    if (funnetPostSted == null || funnetPostSted.Poststed == "")
+                    {
+                        var nyttPoststed = new PostSted();
+                        nyttPoststed.Postnr = innPostnr;
+                        nyttPoststed.Poststed = innKunde.Poststed;
+                        db.Poststeder.Add(nyttPoststed);
+                        db.SaveChanges();
+                        //Context.Entry<T>(entity).Reload()
+                        //db.Entry<PostSted>(nyttPoststed).Reload();
+                    }
+                    else
+                    {
+                        nyKunde.Poststed = funnetPostSted;
+                    }
 
                     db.Kunder.Add(nyKunde);
                     db.SaveChanges();
@@ -576,6 +624,7 @@ namespace Nettbank.Controllers
                     nyKunde1.Fornavn = "Tester";
                     nyKunde1.Etternavn = "McTest";
                     nyKunde1.Adresse = "Testbakken 1";
+                    nyKunde1.Postnr = "1234";
                     nyKunde1.Passord = lagHash("test");
 
                     string innPostnr = "1234";
@@ -606,6 +655,7 @@ namespace Nettbank.Controllers
                     nyKunde2.Fornavn = "Fru Test";
                     nyKunde2.Etternavn = "McTest";
                     nyKunde2.Adresse = "Testbakken 1";
+                    nyKunde2.Postnr = "1234";
                     nyKunde2.Passord = lagHash("test");
 
                     string innPostnr = "1234";
