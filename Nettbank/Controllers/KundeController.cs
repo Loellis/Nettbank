@@ -14,7 +14,7 @@ namespace Nettbank.Controllers
         public ActionResult OpprettKonto()
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -25,7 +25,7 @@ namespace Nettbank.Controllers
         public ActionResult OpprettKonto(FormCollection innListe)
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -60,17 +60,17 @@ namespace Nettbank.Controllers
         public ActionResult ListKonti()
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
 
             var db = new KundeContext();
-            // Har her en liste over alle kontoer -> få kun kontoer tilhørende kundeId!
+            // Har her en liste over alle kontoer -> få kun kontoer tilhørende KundeId!
             List<konto> alleKontoListe = db.Konti.ToList();
 
             // Session lagrer info som et objekt, må konvertere for å kunne sammenligne
-            var kId = Convert.ToInt32(Session["kundeId"]); 
+            var kId = Convert.ToInt32(Session["KundeId"]); 
             
             //Finn riktig kundeobjekt
             dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
@@ -147,7 +147,7 @@ namespace Nettbank.Controllers
         public ActionResult RegistrerBetaling()
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -158,7 +158,7 @@ namespace Nettbank.Controllers
         public ActionResult RegistrerBetaling(FormCollection innTrans)
         {
             // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -199,7 +199,7 @@ namespace Nettbank.Controllers
         public ActionResult RegistrerBetaling()
         {
             //Sjekker om logget inn
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -210,7 +210,7 @@ namespace Nettbank.Controllers
                 List<konto> alleKonti = db.Konti.ToList();
                 //Finner innlogget kundes ID og deretter tilhørende kontoer
                 //som legges inn i ny tom liste
-                var kId = Convert.ToInt32(Session["kundeId"]);
+                var kId = Convert.ToInt32(Session["KundeId"]);
                 dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
                 List<konto> konti = new List<konto>();
 
@@ -265,7 +265,7 @@ namespace Nettbank.Controllers
 
         public ActionResult visTransaksjoner()
         {
-            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
@@ -276,7 +276,7 @@ namespace Nettbank.Controllers
                 List<konto> alleKonti = db.Konti.ToList();
                 //Finner innlogget kundes ID og deretter tilhørende kontoer
                 //som legges inn i ny tom liste
-                var kId = Convert.ToInt32(Session["kundeId"]);
+                var kId = Convert.ToInt32(Session["KundeId"]);
                 dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
                 List<konto> konti = new List<konto>();
 
@@ -348,43 +348,117 @@ namespace Nettbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Kunde innKunde)
+        public ActionResult Index(kunde innKunde)
         {
-            if (DBKunde.Kunde_i_DB(innKunde))
-            {
-                // Lagre innlogget status i session "LoggetInn"
-                
-                Session["LoggetInn"] = true;
-                
 
-                // Få lagret brukerens kundeID i session "kundeId"
-                using(var db = new KundeContext())
+            if (Kunde_i_DB(innKunde) && (Session["KundeId"] == null))
+            {
+                ViewBag.KundeIdB = true;
+                ViewBag.Innlogget = false;
+                ViewBag.BankID = false;
+                Session["BankID"] = false;
+
+                // Lagre brukerens kundeID i session "KundeId"
+                using (var db = new KundeContext())
                 {
                     dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Personnummer == innKunde.Personnummer);
                     if (funnetKunde != null)
                     {
-                        // Trenger kun en, men her er tre måter å lagre globalt
-                        ViewData["kundeId"] = funnetKunde.id;
-                        ViewBag.kId = funnetKunde.id;
-                        Session["kundeId"] = funnetKunde.id;
+                        // Lagre KundeId i session
+                        Session["KundeId"] = funnetKunde.id;
+                        Session["kPID"] = innKunde.Personnummer;
                     }
                 }
+                // Kunde funnet, gå til BankID
+                //return View(innKunde);
+                return RedirectToAction("BankID");
+            }
+            else if ((bool)Session["BankID"] == true)
+            {
+                if (Kunde_Passord((string)Session["kPID"], innKunde))
+                {
+                    // Kunde i DB, riktig BankID, riktig passord -> logg inn.
+                    // Lagre innlogget status i session "LoggetInn"
+                    Session["LoggetInn"] = true;
+                    ViewBag.Innlogget = true;
 
-                ViewBag.Innlogget = true;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.PassordMelding = "Feil passord, vennligst prøv igjen.";
+
+                    return View(innKunde);
+                }
+            }
+            else if ((bool)Session["LoggetInn"] == true)
+            {
                 return View();
             }
             else
             {
-                Session["LoggetInn"] = false;
+                // Kunde ikke funnet
+                ViewBag.KundeMelding = "Ingen kunde funnet med oppgitt personnummer, vennligst prøv igjen.";
+
+                // Nullstill globale variabler for sikkerhetsskyld
+                /*Session["LoggetInn"] = false;
+                Session["KundeId"] = null;
+                ViewBag.KundeIdB = false;
                 ViewBag.Innlogget = false;
+                ViewBag.BankID = false;
+                ViewBag.BankIdMelding = null;
+                ViewBag.PassordMelding = null;
+*/
                 return View();
             }
         }
 
+        private static bool Kunde_i_DB(kunde innKunde)
+        {
+            //Innloggingstest for å finne om brukeren eksisterer 
+            using (var db = new KundeContext())
+            {
+                dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Personnummer == innKunde.Personnummer);
+                if(funnetKunde == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
 
+        private static bool Kunde_Passord(string kPID, kunde innKunde)
+        {
+            //Innloggingstest for å sjekke om brukerens passord er riktig
+            using (var db = new KundeContext())
+            {
+                byte[] passordDb = lagHash(innKunde.Passord);
+                dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Personnummer == kPID && b.Passord == passordDb);
+                if (funnetKunde == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
 
-       
-        
+        private static byte[] lagHash(string innPassord)
+        {
+            //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
+
+            byte[] innData, utData;
+            var algoritme = System.Security.Cryptography.SHA256.Create();
+            innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
+            utData = algoritme.ComputeHash(innData);
+            return utData;
+        }
+
         public ActionResult ListKunder()
         {
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
@@ -393,14 +467,7 @@ namespace Nettbank.Controllers
             List<dbKunde> kundeListe = db.Kunder.ToList();
             return View(kundeListe);
         }
-        
 
-        public ActionResult ListKunderJS()
-        {
-            var kundeDB = new DBKunde();
-            List<Kunde> alleKunder = kundeDB.hentAlle();
-            return View(alleKunder);
-        }
         // Metoder for oppretting av kunder/konti
         public ActionResult OpprettKunde()
         {
@@ -408,23 +475,6 @@ namespace Nettbank.Controllers
             return View();
         }
 
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult OpprettKundeJS(Kunde innKunde)
-        {
-            if (ModelState.IsValid)
-            {
-                var kundeDB = new DBKunde();
-                bool insertOK = kundeDB.settInn(innKunde);
-                if (insertOK)
-                {
-                    return RedirectToAction("ListKunder");
-                }
-            }
-            return View();
-        }
-
-        
         [HttpPost]
         public ActionResult OpprettKunde(FormCollection innListe)
         {
@@ -468,17 +518,6 @@ namespace Nettbank.Controllers
             }
         }
 
-        public static byte[] lagHash(string innPassord)
-        {
-            //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
-
-            byte[] innData, utData;
-            var algoritme = System.Security.Cryptography.SHA256.Create();
-            innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
-            utData = algoritme.ComputeHash(innData);
-            return utData;
-        }
-
         // Metode som lager to brukere med to kontoer hver
         public ActionResult TestOpprett()
         {
@@ -504,7 +543,7 @@ namespace Nettbank.Controllers
                     nyKunde1.Fornavn = "Tester";
                     nyKunde1.Etternavn = "McTest";
                     nyKunde1.Adresse = "Testbakken 1";
-                    nyKunde1.Passord = DBKunde.lagHash("test");
+                    nyKunde1.Passord = lagHash("test");
 
                     string innPostnr = "1234";
 
@@ -533,7 +572,7 @@ namespace Nettbank.Controllers
                     nyKunde2.Fornavn = "Fru Test";
                     nyKunde2.Etternavn = "McTest";
                     nyKunde2.Adresse = "Testbakken 1";
-                    nyKunde2.Passord = DBKunde.lagHash("test");
+                    nyKunde2.Passord = lagHash("test");
 
                     string innPostnr = "1234";
 
@@ -560,7 +599,7 @@ namespace Nettbank.Controllers
                     var nyKonto1 = new konto();
                     
                     nyKonto1.saldo = 1066601;
-                    var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "999991111111");
+                    var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "99999111111");
                     nyKonto1.kontoEier = k1.id;
                     
                     //Lagre konto
@@ -621,10 +660,49 @@ namespace Nettbank.Controllers
 
         public ActionResult LoggUt()
         {
+            // Nullstill globale variabler
             Session["LoggetInn"] = false;
-            Session["kundeId"] = null;
+            Session["KundeId"] = null;
+            Session["kPID"] = null;
+            ViewBag.KundeIdB = false;
+            ViewBag.Innlogget = false;
+            ViewBag.BankID = false;
+            Session["BankID"] = false;
+            ViewBag.KundeMelding = null;
+            ViewBag.BankIdMelding = null;
+            ViewBag.PassordMelding = null;
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult BankID()
+        {
+            //Sjekker om logget inn
+            if (Session["KundeId"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.BankID = false;
+            ViewBag.KundeIdB = true;
+            ViewBag.BankIdMelding = "";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BankID(string bIdInput)
+        {
+            //int bId = Convert.ToInt32(bIdInput);
+            string bId = bIdInput;
+            if (bId == "123456")
+            {
+                ViewBag.BankID = true;
+                Session["BankID"] = true;
+                ViewBag.BankIdMelding = "";
+                return RedirectToAction("Index");
+            }
+            ViewBag.BankIdMelding = "Feil BankID, vennligst prøv igjen.";
+            ViewBag.ErrorMsg = bIdInput;
+            return View();
         }
 
     }
