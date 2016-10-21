@@ -1,37 +1,65 @@
-﻿@model List<Nettbank.Models.dbKunde>
-@{
-    Layout = null;
-}
+﻿@model List<Nettbank.Models.Kunde>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>List Alle Kunder</title>
 </head>
 <body>
-    <div>
-        <h3>Her er brukerne i databasen:</h3>
-        <table>
-            @foreach (var bruker in Model)
-            {
-                <tr>
-                    <td>@bruker.id
-                    <td />
-                    <td>@bruker.Personnummer
-                    <td />
-                    <td>@bruker.Fornavn
-                    <td />
-                    <td>@bruker.Etternavn
-                    <td />
-                    <td>@bruker.Adresse
-                    <td />
-                    <td>@bruker.Postnr
-                    <td />
-                    <td>@bruker.Poststed
-                </tr>
-            }
-        </table>
-        @ViewBag.Melding
-        <a href="/Kunde/OpprettKunde">Opprett Kunde</a>
-    </div>
+    <br /><br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Personnummer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Fornavn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Etternavn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Adresse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Postnr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Poststed)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Personnummer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fornavn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Etternavn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adresse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Postnr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Poststed)
+                </td>
+                <td></td>
+            </tr>
+        }
+    </table>
 </body>
 </html>
