@@ -332,9 +332,7 @@ namespace Nettbank.Controllers
 
     public class KundeController : Controller
     {
-        
 
-        
         public ActionResult Index()
         {
             if(Session["LoggetInn"] == null)

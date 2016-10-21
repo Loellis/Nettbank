@@ -1,7 +1,26 @@
-﻿@model Nettbank.Models.Kunde
+﻿@model Nettbank.Models.kunde
 @{
-    Layout = null;
+    ViewBag.Title = "Opprett Kunde";
 }
+
+<h2>Opprett Kunde</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Kunde</legend>
+        @Html.LabelFor(model => model.Fornavn)
+        @Html.EditorFor(model => model.Fornavn)
+        @Html.ValidateMessageFor(model => model.Fornavn)
+
+    </fieldset>
+}
+
+
+<!-- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,4 +44,4 @@
     </div>
 </body>
 </html>
-
+-->

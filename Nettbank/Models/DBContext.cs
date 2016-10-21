@@ -11,16 +11,21 @@ namespace Nettbank.Models
     public class kunde
     {
         [Key]
-        public int id { get; set; } 
-        [Required(ErrorMessage="Personnummer må oppgis")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "Personnummer må oppgis")]
+        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Personnummeret må være 11 siffer.")]
         public string Personnummer { get; set; }
+        [StringLength(50, ErrorMessage = "Maks 50 tegn i fornavn")]
         [Required(ErrorMessage = "Fornavn må oppgis")]
         public string Fornavn { get; set; }
+        [StringLength(50, ErrorMessage = "Maks 50 tegn i etternavn")]
         [Required(ErrorMessage = "Etternavn må oppgis")]
         public string Etternavn { get; set; }
+        [StringLength(50, ErrorMessage = "Maks 50 tegn i adressen")]
         [Required(ErrorMessage = "Adresse må oppgis")]
         public string Adresse { get; set; }
         [Required(ErrorMessage = "Postnr må oppgis")]
+        [RegularExpression(@"[0-9]{4}", ErrorMessage ="Postnummer må være 4 siffer")]
         public string Postnr { get; set; }
         public virtual PostSted Poststed { get; set; }
         [Required(ErrorMessage = "Passord må oppgis")]
@@ -38,7 +43,6 @@ namespace Nettbank.Models
         public string Postnr { get; set; }
         public virtual PostSted Poststed { get; set; }
         public byte[] Passord { get; set; }
-        //public virtual List<int> Kontoer { get; set; }
     }
 
     public class PostSted
