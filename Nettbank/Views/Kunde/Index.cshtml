@@ -41,7 +41,9 @@
             @if (ViewBag.Innlogget)
             {
                 <p style="color:forestgreen">Logget inn</p>
-                <p> Bruker session: @Session["kundeId"] </p>
+                <p> KundeId session: @Session["kundeId"] </p>
+                <p>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</p>
+                
 
             }
             else
