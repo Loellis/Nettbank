@@ -236,7 +236,7 @@ namespace Nettbank.Controllers
             }
         }
 
-        public string RegBet(Models.transaksjon ajaxTrans)
+        public ActionResult RegBet(Models.transaksjon ajaxTrans)
         {
             using (var db = new KundeContext())
             {
@@ -258,6 +258,56 @@ namespace Nettbank.Controllers
                     ut += t.tilhørendeKonto + "</td></tr>";
                 }
                 ut += "</table>";
+
+                return RedirectToAction("/RegistrerBetaling");
+            }
+        }
+
+        public ActionResult visTransaksjoner()
+        {
+            if ((Session["LoggetInn"] == null) || (Session["kundeId"] == null))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
+            using (var db = new KundeContext())
+            {
+                //Liste med alle kontoer
+                List<konto> alleKonti = db.Konti.ToList();
+                //Finner innlogget kundes ID og deretter tilhørende kontoer
+                //som legges inn i ny tom liste
+                var kId = Convert.ToInt32(Session["kundeId"]);
+                dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
+                List<konto> konti = new List<konto>();
+
+                foreach (var konto in alleKonti)
+                {
+                    if (konto.kontoEier == kId)
+                    {
+                        konti.Add(konto);
+                    }
+                }
+
+                //Legger kundens kontoer inn i en nedtrekksmeny
+                var nedtrekk = new List<string>();
+                nedtrekk.Add("---Velg her---");
+                foreach (var k in konti)
+                {
+                    if (!nedtrekk.Contains(k.kontoId.ToString()))
+                    {
+                        nedtrekk.Add(k.kontoId.ToString());
+                    }
+                }
+                return View(nedtrekk);
+            }
+        }
+
+        public JsonResult HentTrans(int kontoId)
+        {
+            using (var db = new KundeContext())
+            {
+                List<transaksjon> trans = db.Transaksjoner.Where(s => s.tilhørendeKonto == kontoId).ToList();
+                JsonResult ut = Json(trans, JsonRequestBehavior.AllowGet);
                 return ut;
             }
         }

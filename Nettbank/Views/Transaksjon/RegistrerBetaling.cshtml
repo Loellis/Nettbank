@@ -29,7 +29,7 @@
 </head>
 <body>
     <div>
-        <form action="/Transaksjon/RegBet" data-ajax="true" data-ajax-mode="replace" method="post">
+        <form action="/Transaksjon/RegBet" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#Resultat" method="post">
             <table>
                 <tr><td>Fra Konto : </td>
                 <td>
@@ -49,6 +49,13 @@
                 <tr><td><input type="submit" value="Legg til betaling" /> </td></tr>
             </table>
         </form>
+    </div>
+    <div id="Resultat">
+        <table>
+        </table>
+    </div>
+    <div>
+        
     </div>
 </body>
 </html>

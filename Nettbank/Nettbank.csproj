@@ -188,6 +188,7 @@
     <Content Include="Views\Konto\ListKonti.cshtml" />
     <Content Include="Views\Konto\OpprettKonto.cshtml" />
     <Content Include="Views\Transaksjon\RegistrerBetaling.cshtml" />
+    <Content Include="Views\Transaksjon\visTransaksjoner.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

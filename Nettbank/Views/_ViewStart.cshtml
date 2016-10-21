@@ -8,10 +8,19 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Oddma Bank</title>
+    <script src="~/scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
     <h1>Velkommen til Oddma Bank</h1>
-    <div>
+    <div id="NavBar" display="inline">
+        <ul>
+            <li>@Html.ActionLink("Home", "/Index", "Kunde")</li>
+            <li>@Html.ActionLink("Log In", "/Index", "Kunde")</li>
+            <li>@Html.ActionLink("Opprett Konto", "/OpprettKonto", "Konto")</li>
+            <li>@Html.ActionLink("Registrer Betaling", "/RegistrerBetaling", "Transaksjon")</li>
+        </ul>
     </div>
 </body>
 </html>

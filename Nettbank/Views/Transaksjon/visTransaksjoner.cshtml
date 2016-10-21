@@ -1,0 +1,44 @@
+﻿@model List<string>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Vis Transaksjoner</title>
+    <script src="~/scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        function hentKontoerAjax()
+        {
+            $("#KontoListe").load("/Konto/HentKonti", { kontoId: $("#idListe").val() });
+        }
+
+        function hentTransAjax()
+        {
+            $.getJSON("/Transaksjon/HentTrans", { kontoId: $("#idListe").val() }, function (trans) {
+                var ut = "";
+                for (var i in trans) {
+                    ut += trans[i].transId + " " + trans.utKontoId + " " + trans.innKonto + " " + trans.beløp + " " + trans.KID + " " + trans.melding + " " + trans.transaksjonsTidspunkt + "<br/>";
+                }
+                $("#TransListe").html(ut);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Velg en konto du ønsker å se transaksjoner for</h2>
+        <select id="idListe" onchange="hentTransAjax()">
+            @foreach (var konto in Model)
+            {
+                <option>@konto</option>
+            }
+        </select>
+    </div>
+    <div id="TransListe">
+        Her kommer transaksjonene!
+    </div>
+</body>
+</html>
