@@ -465,7 +465,30 @@ namespace Nettbank.Controllers
 
             var db = new KundeContext();
             List<dbKunde> kundeListe = db.Kunder.ToList();
-            return View(kundeListe);
+            List<Kunde> kListe = new List<Kunde>();
+            foreach(dbKunde dbK in kundeListe)
+            {
+                Kunde tempKunde = new Kunde();
+                tempKunde.id = dbK.id;
+                tempKunde.Personnummer = dbK.Personnummer;
+                tempKunde.Fornavn = dbK.Fornavn;
+                tempKunde.Etternavn = dbK.Etternavn;
+                tempKunde.Adresse = dbK.Adresse;
+                tempKunde.Postnr = dbK.Postnr;
+                if (dbK.Poststed != null)
+                {
+                    tempKunde.Poststed = dbK.Poststed.Poststed;
+                }
+                else
+                {
+                    tempKunde.Poststed = "ERROR";
+                }
+                
+                //tempKunde.Passord = System.Text.Encoding.UTF8.GetString(dbK.Passord);
+
+                kListe.Add(tempKunde);
+            }
+            return View(kListe);
         }
 
         // Metoder for oppretting av kunder/konti
@@ -534,6 +557,16 @@ namespace Nettbank.Controllers
                     return RedirectToAction("ListKunder");
                 }
 
+                //Opprett PostSted
+                using (var db = new KundeContext())
+                {
+                    var nyttPoststed = new PostSted();
+                    nyttPoststed.Postnr = "1234";
+                    nyttPoststed.Poststed = "Testby";
+                    db.Poststeder.Add(nyttPoststed);
+                    db.SaveChanges();
+                }
+
                 //Opprett testkunder og testkonti
                 //Testkunde1
                 using (var db = new KundeContext())
@@ -549,12 +582,13 @@ namespace Nettbank.Controllers
 
                     var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
 
-                    if (funnetPostSted == null)
+                    if (funnetPostSted == null || funnetPostSted.Poststed == "")
                     {
                         var nyttPoststed = new PostSted();
                         nyttPoststed.Postnr = innPostnr;
                         nyttPoststed.Poststed = "Testby";
                         db.Poststeder.Add(nyttPoststed);
+                        db.SaveChanges();
                     }
                     else
                     {
@@ -578,12 +612,13 @@ namespace Nettbank.Controllers
 
                     var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
 
-                    if (funnetPostSted == null)
+                    if (funnetPostSted == null || funnetPostSted.Poststed == "")
                     {
                         var nyttPoststed = new PostSted();
                         nyttPoststed.Postnr = innPostnr;
                         nyttPoststed.Poststed = "Testby";
                         db.Poststeder.Add(nyttPoststed);
+                        db.SaveChanges();
                     }
                     else
                     {
