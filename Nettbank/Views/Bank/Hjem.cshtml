@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Hjem";
+}
+@model Nettbank.Models.Kunde
+
+<h2>LøMey Bank - En bank for soknafjordingar!</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Tast in </legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.personnummer)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.personnummer)
+            @Html.ValidationMessageFor(model => model.personnummer)
+        </div>
+
+        <p>
+            <input type="submit" value="Logg inn" />
+        </p>
+        @if (ViewBag.Innlogget)
+        {
+            <p style="color:forestgreen">Logget inn</p>
+                <p> KundeId session: @Session["kundeId"] </p>
+                <p>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</p>
+
+
+        }
+        else
+        {
+            <p style="color:red">Ikke logget inn</p>
+        }
+    </fieldset>
+}

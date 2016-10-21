@@ -11,7 +11,7 @@
     <script src="~/scripts/jquery.validate.min.js"></script>
     <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 
-    @using (Html.BeginForm())
+        @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
@@ -19,31 +19,42 @@
         <fieldset>
             <legend>Logg inn</legend>
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.personnummer)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.personnummer)
-                @Html.ValidationMessageFor(model => model.personnummer)
-            </div>
+            @if (Session["KundeId"] == null)
+            {
+                <p>Vennligst oppgi ditt personnummer:</p>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.personnummer)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.personnummer)
+                    @Html.ValidationMessageFor(model => model.personnummer)
+                </div>
+                @ViewBag.KundeMelding
+            }
+            else if ((bool)Session["BankID"] == true && (bool)Session["LoggetInn"] == false)
+            {
+                <p>Vennligst oppgi ditt personlige passord:</p>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.passord)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.passord)
+                    @Html.ValidationMessageFor(model => model.passord)
+                </div>
+            }
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.passord)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.passord)
-                @Html.ValidationMessageFor(model => model.passord)
-            </div>
+            
+
 
             <p>
                 <input type="submit" value="Logg inn" />
             </p>
-            @if (ViewBag.Innlogget)
+            @if ((bool)Session["LoggetInn"] == true)
             {
                 <p style="color:forestgreen">Logget inn</p>
                 <p> KundeId session: @Session["kundeId"] </p>
                 <p>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</p>
-                
+
 
             }
             else
@@ -52,7 +63,7 @@
             }
         </fieldset>
     }
-    
+
     <div>
         @Html.ActionLink("Logg ut", "LoggUt")
     </div>

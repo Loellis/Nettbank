@@ -185,6 +185,7 @@
     <Content Include="Views\Konto\OpprettKonto.cshtml" />
     <Content Include="Views\Transaksjon\RegistrerBetaling.cshtml" />
     <Content Include="Views\Transaksjon\visTransaksjoner.cshtml" />
+    <Content Include="Views\Kunde\BankID.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
