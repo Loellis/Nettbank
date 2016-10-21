@@ -348,9 +348,9 @@ namespace Nettbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(kunde innKunde)
+        public ActionResult Index(Kunde innKunde)
         {
-            if (Kunde_i_DB(innKunde))
+            if (DBKunde.Kunde_i_DB(innKunde))
             {
                 // Lagre innlogget status i session "LoggetInn"
                 
@@ -381,35 +381,10 @@ namespace Nettbank.Controllers
             }
         }
 
-        private static bool Kunde_i_DB(kunde innKunde)
-        {
-            //Innloggingstest for å finne om brukeren eksisterer 
-            using (var db = new KundeContext())
-            {
-                byte[] passordDb = lagHash(innKunde.Passord);
-                dbKunde funnetKunde = db.Kunder.FirstOrDefault(b => b.Passord == passordDb && b.Personnummer == innKunde.Personnummer);
-                if(funnetKunde == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-        }
 
-        private static byte[] lagHash(string innPassord)
-        {
-            //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
 
-            byte[] innData, utData;
-            var algoritme = System.Security.Cryptography.SHA256.Create();
-            innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
-            utData = algoritme.ComputeHash(innData);
-            return utData;
-        }
-
+       
+        
         public ActionResult ListKunder()
         {
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
@@ -418,7 +393,14 @@ namespace Nettbank.Controllers
             List<dbKunde> kundeListe = db.Kunder.ToList();
             return View(kundeListe);
         }
+        
 
+        public ActionResult ListKunderJS()
+        {
+            var kundeDB = new DBKunde();
+            List<Kunde> alleKunder = kundeDB.hentAlle();
+            return View(alleKunder);
+        }
         // Metoder for oppretting av kunder/konti
         public ActionResult OpprettKunde()
         {
@@ -426,6 +408,23 @@ namespace Nettbank.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult OpprettKundeJS(Kunde innKunde)
+        {
+            if (ModelState.IsValid)
+            {
+                var kundeDB = new DBKunde();
+                bool insertOK = kundeDB.settInn(innKunde);
+                if (insertOK)
+                {
+                    return RedirectToAction("ListKunder");
+                }
+            }
+            return View();
+        }
+
+        
         [HttpPost]
         public ActionResult OpprettKunde(FormCollection innListe)
         {
@@ -469,6 +468,17 @@ namespace Nettbank.Controllers
             }
         }
 
+        public static byte[] lagHash(string innPassord)
+        {
+            //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
+
+            byte[] innData, utData;
+            var algoritme = System.Security.Cryptography.SHA256.Create();
+            innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
+            utData = algoritme.ComputeHash(innData);
+            return utData;
+        }
+
         // Metode som lager to brukere med to kontoer hver
         public ActionResult TestOpprett()
         {
@@ -494,7 +504,7 @@ namespace Nettbank.Controllers
                     nyKunde1.Fornavn = "Tester";
                     nyKunde1.Etternavn = "McTest";
                     nyKunde1.Adresse = "Testbakken 1";
-                    nyKunde1.Passord = lagHash("test");
+                    nyKunde1.Passord = DBKunde.lagHash("test");
 
                     string innPostnr = "1234";
 
@@ -523,7 +533,7 @@ namespace Nettbank.Controllers
                     nyKunde2.Fornavn = "Fru Test";
                     nyKunde2.Etternavn = "McTest";
                     nyKunde2.Adresse = "Testbakken 1";
-                    nyKunde2.Passord = lagHash("test");
+                    nyKunde2.Passord = DBKunde.lagHash("test");
 
                     string innPostnr = "1234";
 
@@ -550,7 +560,7 @@ namespace Nettbank.Controllers
                     var nyKonto1 = new konto();
                     
                     nyKonto1.saldo = 1066601;
-                    var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "99999111111");
+                    var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "999991111111");
                     nyKonto1.kontoEier = k1.id;
                     
                     //Lagre konto
