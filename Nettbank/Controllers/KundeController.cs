@@ -21,6 +21,7 @@ namespace Nettbank.Controllers
             return View();
         }
 
+        /*
         [HttpPost]
         public ActionResult OpprettKonto(FormCollection innListe)
         {
@@ -55,6 +56,20 @@ namespace Nettbank.Controllers
             {
                 return View();
             }
+        }
+        */
+
+        [HttpPost]
+        public ActionResult OpprettKonto(Konto innKonto)
+        {
+            var kontoDB = new DBKonto();
+            bool insertOK = kontoDB.lagKonto(innKonto);
+
+            if (insertOK)
+            {
+                return RedirectToAction("ListKonti");
+            }
+            return View();
         }
 
         public ActionResult ListKonti()
@@ -104,11 +119,11 @@ namespace Nettbank.Controllers
         {
             using (var db = new KundeContext())
             {
-                var konti = db.Konti.Where(s => s.kontoId == kontoId);
+                var konti = db.Konti.Where(s => s.kontoID == kontoId);
                 string ut = "";
                 foreach (var k in konti)
                 {
-                    ut += k.kontoId + "<br/>";
+                    ut += k.kontoID + "<br/>";
                 }
                 return ut;
             }
@@ -118,7 +133,7 @@ namespace Nettbank.Controllers
         {
             using (var db = new KundeContext())
             {
-                List<konto> konti = db.Konti.Where(s => s.kontoId == kontoId).ToList();
+                List<konto> konti = db.Konti.Where(s => s.kontoID == kontoId).ToList();
                 JsonResult ut = Json(konti, JsonRequestBehavior.AllowGet);
                 return ut;
             }
@@ -227,9 +242,9 @@ namespace Nettbank.Controllers
                 nedtrekk.Add("---Velg her---");
                 foreach(var k in konti)
                 {
-                    if (!nedtrekk.Contains(k.kontoId.ToString()))
+                    if (!nedtrekk.Contains(k.kontoID.ToString()))
                     {
-                        nedtrekk.Add(k.kontoId.ToString());
+                        nedtrekk.Add(k.kontoID.ToString());
                     }
                 }
                 return View(nedtrekk);
@@ -293,9 +308,9 @@ namespace Nettbank.Controllers
                 nedtrekk.Add("---Velg her---");
                 foreach (var k in konti)
                 {
-                    if (!nedtrekk.Contains(k.kontoId.ToString()))
+                    if (!nedtrekk.Contains(k.kontoID.ToString()))
                     {
-                        nedtrekk.Add(k.kontoId.ToString());
+                        nedtrekk.Add(k.kontoID.ToString());
                     }
                 }
                 return View(nedtrekk);

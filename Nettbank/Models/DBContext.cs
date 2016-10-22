@@ -30,6 +30,7 @@ namespace Nettbank.Models
         //public virtual List<dbKunde> Kunder { get; set; }
     }
 
+    /*
     public class konto
     {
         [Key]
@@ -38,6 +39,18 @@ namespace Nettbank.Models
         public int kontoEier { get; set; }
         //public List<int> transaksjoner { get; set; }
     }
+    */
+
+    public class konto
+    {
+        [Key]
+        public int kontoID { get; set; }
+        public string kontoNavn { get; set; }
+        public double saldo { get; set; }
+        public int kontoEier { get; set; }
+    }
+
+
 
     public class transaksjon
     {

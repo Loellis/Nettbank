@@ -1,24 +1,40 @@
 ﻿@model Nettbank.Models.Konto
-@{
-    Layout = null;
-}
+
 <!DOCTYPE html>
+
 <html>
 <head>
+    <meta name="viewport" content="width=device-width" />
     <title>Opprett Konto</title>
 </head>
 <body>
-    <div>
-        <form action="/Konto/OpprettKonto" method="post">
-            <table>
-                <tr><td>Saldo : </td><td><input type="text" name="Saldo" /></td></tr>
-                <tr><td>Kontoeiers ID : </td><td><input type="text" name="Kontoeier" /></td></tr>
-                
-                <tr><td></td></tr>
-                <tr><td><input type="submit" value="Opprett Konto" /> </td></tr>
-            </table>
-        </form>
-    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Konti</h4>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.kontoNavn, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kontoNavn, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.kontoEier, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.kontoEier, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Lagre" class="btn btn-success" />
+                    @Html.ActionLink("Kontooversikt", "ListKonti", new { tom = "" }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    }
 </body>
 </html>
 
