@@ -44,9 +44,13 @@ namespace Nettbank.Models
     public class konto
     {
         [Key]
+        [Display(Name = "Kontonummer")]
         public int kontoID { get; set; }
+        [Display(Name = "Kontonavn")]
         public string kontoNavn { get; set; }
+        [Display(Name = "Saldo")]
         public double saldo { get; set; }
+        [Display(Name = "Kundenummer")]
         public int kontoEier { get; set; }
     }
 

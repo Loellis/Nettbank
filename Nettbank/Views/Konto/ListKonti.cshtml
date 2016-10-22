@@ -1,4 +1,4 @@
-﻿@model List<Nettbank.Models.Konto>
+﻿@model List<Nettbank.Models.konto>
 
 <!DOCTYPE html>
 <html>
@@ -9,8 +9,24 @@
 <body>
     <br /><br />
     <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model[0].kontoID)</th>
+            <th>@Html.DisplayNameFor(model => model[0].kontoNavn)</th>
+            <th>@Html.DisplayNameFor(model => model[0].saldo)</th>
+            <th>@Html.DisplayNameFor(model => model[0].kontoEier)</th>
+        </tr>
 
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.kontoID)</td>
+                <td>@Html.DisplayFor(modelItem => item.kontoNavn)</td>
+                <td>@Html.DisplayFor(modelItem => item.saldo)</td>
+                <td>@Html.DisplayFor(modelItem => item.kontoEier)</td>
+            </tr>
+        }
     </table>
+    @Html.ActionLink("Opprett konto", "OpprettKonto", new { tom = "" }, new { @class = "btn btn-success" })
 </body>
 </html>
 

@@ -31,5 +31,12 @@ namespace Nettbank
                 return false;
             }
         }
+
+        public List<konto> hentTilhørendeKonti(int id)
+        {
+            var db = new KundeContext();
+            List<konto> kontoListe = db.Konti.Where(k => k.kontoEier == id).ToList();
+            return kontoListe;
+        }
     }
 }

@@ -62,6 +62,12 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult OpprettKonto(Konto innKonto)
         {
+            // Send bruker til innlogging dersom ikke innlogget
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
             var kontoDB = new DBKonto();
             bool insertOK = kontoDB.lagKonto(innKonto);
 
@@ -72,6 +78,21 @@ namespace Nettbank.Controllers
             return View();
         }
 
+        public ActionResult ListKonti()
+        {
+            // Send bruker til innlogging dersom ikke innlogget
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
+            var kontoDB = new DBKonto();
+            var kId = Convert.ToInt32(Session["KundeId"]);
+            List<konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
+            return View(kontiListe);
+        }
+
+        /*
         public ActionResult ListKonti()
         {
             // Send bruker til innlogging dersom ikke innlogget
@@ -113,7 +134,7 @@ namespace Nettbank.Controllers
             }
 
             return View(kontoListe);
-        }
+        }*/
 
         public string HentKonti(int kontoId)
         {
