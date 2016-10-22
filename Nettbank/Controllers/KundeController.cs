@@ -591,13 +591,12 @@ namespace Nettbank.Controllers
 
                     if (funnetPostSted == null || funnetPostSted.Poststed == "")
                     {
-                        var nyttPoststed = new PostSted();
-                        nyttPoststed.Postnr = innPostnr;
-                        nyttPoststed.Poststed = innKunde.Poststed;
-                        db.Poststeder.Add(nyttPoststed);
-                        db.SaveChanges();
-                        //Context.Entry<T>(entity).Reload()
-                        //db.Entry<PostSted>(nyttPoststed).Reload();
+                        var nyttPoststed = new PostSted()
+                        {
+                            Postnr = innPostnr,
+                            Poststed = innKunde.Poststed
+                        };
+                        nyKunde.Poststed = nyttPoststed;
                     }
                     else
                     {
