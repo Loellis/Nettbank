@@ -1,4 +1,4 @@
-﻿@model List<Nettbank.Models.konto>
+﻿@model List<Nettbank.Models.Konto>
 
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,7 @@
     <br /><br />
     <table class="table">
         <tr>
-            <th>@Html.DisplayNameFor(model => model[0].kontoID)</th>
+            <th>@Html.DisplayNameFor(model => model[0].kontoId)</th>
             <th>@Html.DisplayNameFor(model => model[0].kontoNavn)</th>
             <th>@Html.DisplayNameFor(model => model[0].saldo)</th>
             <th>@Html.DisplayNameFor(model => model[0].kontoEier)</th>
@@ -19,7 +19,7 @@
         @foreach(var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.kontoID)</td>
+                <td>@Html.DisplayFor(modelItem => item.kontoId)</td>
                 <td>@Html.DisplayFor(modelItem => item.kontoNavn)</td>
                 <td>@Html.DisplayFor(modelItem => item.saldo)</td>
                 <td>@Html.DisplayFor(modelItem => item.kontoEier)</td>

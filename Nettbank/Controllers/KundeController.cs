@@ -88,7 +88,7 @@ namespace Nettbank.Controllers
 
             var kontoDB = new DBKonto();
             var kId = Convert.ToInt32(Session["KundeId"]);
-            List<konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
+            List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
             return View(kontiListe);
         }
 

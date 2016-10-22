@@ -32,10 +32,31 @@ namespace Nettbank
             }
         }
 
-        public List<konto> hentTilhørendeKonti(int id)
+        public List<Konto> hentTilhørendeKonti(int id)
         {
             var db = new KundeContext();
-            List<konto> kontoListe = db.Konti.Where(k => k.kontoEier == id).ToList();
+            
+            List<konto> alleKontoListe = db.Konti.ToList();
+            List<Konto> kontoListe = new List<Konto>();
+          
+            var kId = id;
+
+            foreach (var konto in alleKontoListe)
+            {
+                if (konto.kontoEier == kId)
+                {
+                    var nyKonto = new Konto()
+                    {
+                        kontoId = konto.kontoID,
+                        kontoNavn = konto.kontoNavn,
+                        saldo = konto.saldo.ToString(),
+                        kontoEier = kId.ToString()
+
+                    };
+                    kontoListe.Add(nyKonto);
+                }
+            }
+
             return kontoListe;
         }
     }

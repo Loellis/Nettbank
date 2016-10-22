@@ -30,27 +30,12 @@ namespace Nettbank.Models
         //public virtual List<dbKunde> Kunder { get; set; }
     }
 
-    /*
     public class konto
     {
         [Key]
-        public int kontoId { get; set; }
-        public double saldo { get; set; }
-        public int kontoEier { get; set; }
-        //public List<int> transaksjoner { get; set; }
-    }
-    */
-
-    public class konto
-    {
-        [Key]
-        [Display(Name = "Kontonummer")]
         public int kontoID { get; set; }
-        [Display(Name = "Kontonavn")]
         public string kontoNavn { get; set; }
-        [Display(Name = "Saldo")]
         public double saldo { get; set; }
-        [Display(Name = "Kundenummer")]
         public int kontoEier { get; set; }
     }
 
