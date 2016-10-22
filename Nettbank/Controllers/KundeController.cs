@@ -459,6 +459,7 @@ namespace Nettbank.Controllers
             return utData;
         }
 
+        /*
         public ActionResult ListKunder()
         {
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
@@ -490,6 +491,14 @@ namespace Nettbank.Controllers
             }
             // Returner en List<Kunde> til viewet.
             return View(kListe);
+        }
+        */
+
+        public ActionResult ListKunder()
+        {
+            var kundeDB = new DBKunde();
+            List<Kunde> alleK = kundeDB.hentAlle();
+            return View(alleK);
         }
 
         // Metoder for oppretting av kunder/konti
