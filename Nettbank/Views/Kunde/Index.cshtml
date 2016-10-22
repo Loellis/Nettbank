@@ -48,11 +48,17 @@
                     <input type="submit" value="Logg inn" />
                 </p>
             }
+            else if ((bool)Session["LoggetInn"] == true)
+            {
+                @Html.ActionLink("Kontooversikt", "ListKonti", "Konto", new { tom = "" }, new { @class = "btn btn-primary" })
+                <br />
+                @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon",new { tom = "" }, new { @class = "btn btn-primary" })
+            }
 
-            
 
 
-            
+
+
             @if ((bool)Session["LoggetInn"] == true)
             {
                 <p style="color:forestgreen">Logget inn</p>

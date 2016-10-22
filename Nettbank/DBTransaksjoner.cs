@@ -34,5 +34,23 @@ namespace Nettbank
                 return false;
             }
         }
+
+        // Foreløpig utestet kode
+        public bool slettTransaksjon(int tID)
+        {
+            var db = new KundeContext();
+
+            try
+            {
+                transaksjon slettTrans = db.Transaksjoner.Find(tID);
+                db.Transaksjoner.Remove(slettTrans);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception feil)
+            {
+                return false;
+            }
+        }
     }
 }
