@@ -32,7 +32,5 @@ namespace Nettbank.Models
 
         [Display(Name ="Time of Transaction")]
         public string Tidspunkt { get; set; }
-
-        public string TilhørendeKonto { get; set; }
     }
 }

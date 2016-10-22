@@ -179,7 +179,7 @@ namespace Nettbank.Controllers
 
     public class TransaksjonController : Controller
     {
-        /*
+        
         public ActionResult RegistrerBetaling()
         {
             // Send bruker til innlogging dersom ikke innlogget
@@ -190,6 +190,26 @@ namespace Nettbank.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult RegistrerBetaling(Transaksjon trans)
+        {
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
+            var transDB = new DBTransaksjoner();
+            bool insertOK = transDB.regBetaling(trans);
+
+            if (insertOK)
+            {
+                return RedirectToAction("visTransaksjoner");
+            }
+            return View();
+
+        }
+
+        /*
         [HttpPost]
         public ActionResult RegistrerBetaling(FormCollection innTrans)
         {
@@ -232,6 +252,8 @@ namespace Nettbank.Controllers
             }
         }
         */
+
+            /*
         public ActionResult RegistrerBetaling()
         {
             //Sjekker om logget inn
@@ -271,7 +293,9 @@ namespace Nettbank.Controllers
                 return View(nedtrekk);
             }
         }
+        */
 
+        /*
         public ActionResult RegBet(Models.transaksjon ajaxTrans)
         {
             using (var db = new KundeContext())
@@ -287,18 +311,15 @@ namespace Nettbank.Controllers
                     //Setter transaksjonstidspunktet og formaterer det etter britisk standard
                     t.transaksjonsTidspunkt = DateTime.Now.ToString();
 
-                    ut += t.transaksjonsTidspunkt + "</td><td>";
+                    ut += t.transaksjonsTidspunkt + "</td></tr>";
 
-                    t.tilhørendeKonto = t.utKontoId;
-
-                    ut += t.tilhørendeKonto + "</td></tr>";
                 }
                 ut += "</table>";
 
                 return RedirectToAction("/RegistrerBetaling");
             }
         }
-
+        */
         public ActionResult visTransaksjoner()
         {
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
@@ -338,14 +359,35 @@ namespace Nettbank.Controllers
             }
         }
 
-        public JsonResult HentTrans(int kontoId)
+        public JsonResult HentTransaksjoner(int kontoID)
         {
-            using (var db = new KundeContext())
+            var db = new KundeContext();
+
+            List<transaksjon> alleTrans = db.Transaksjoner.ToList();
+            List<Transaksjon> trans = new List<Transaksjon>();
+
+            var kId = kontoID;
+
+            foreach (var t in alleTrans)
             {
-                List<transaksjon> trans = db.Transaksjoner.Where(s => s.tilhørendeKonto == kontoId).ToList();
-                JsonResult ut = Json(trans, JsonRequestBehavior.AllowGet);
-                return ut;
+                if (t.utKontoId == kId)
+                {
+                    var nyT = new Transaksjon()
+                    {
+                        TransaksjonsID = t.transId,
+                        Utkonto = t.utKontoId.ToString(),
+                        Innkonto = t.innKonto.ToString(),
+                        Beløp = t.beløp.ToString(),
+                        KID = t.KID.ToString(),
+                        Melding = t.melding,
+                        Tidspunkt = t.transaksjonsTidspunkt
+
+                    };
+                    trans.Add(nyT);
+                }
             }
+            JsonResult ut = Json(trans, JsonRequestBehavior.AllowGet);
+            return ut;
         }
     }
 
@@ -787,7 +829,35 @@ namespace Nettbank.Controllers
                     db.SaveChanges();
                 }
 
-                return RedirectToAction("ListKunder");
+                //Test transaksjoner for testkunde2
+                using (var db = new KundeContext())
+                {
+                    var nyTrans1 = new transaksjon();
+
+                    var k1 = db.Konti.FirstOrDefault(k => k.kontoID == 3);
+                    nyTrans1.utKontoId = k1.kontoID;
+                    nyTrans1.innKonto = 999;
+                    nyTrans1.beløp = 100;
+                    nyTrans1.KID = 45645464;
+                    nyTrans1.transaksjonsTidspunkt = DateTime.Now.ToString();
+
+                    db.Transaksjoner.Add(nyTrans1);
+                    db.SaveChanges();
+
+                    var nyTrans2 = new transaksjon();
+
+                    var k2 = db.Konti.FirstOrDefault(k => k.kontoID == 4);
+                    nyTrans1.utKontoId = k2.kontoID;
+                    nyTrans1.innKonto = 777;
+                    nyTrans1.beløp = 555;
+                    nyTrans1.melding = "Hei på deg";
+                    nyTrans1.transaksjonsTidspunkt = DateTime.Now.ToString();
+
+                    db.Transaksjoner.Add(nyTrans2);
+                    db.SaveChanges();
+                }
+
+                    return RedirectToAction("ListKunder");
             }
             catch (Exception feil)
             {

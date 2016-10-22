@@ -1,7 +1,5 @@
 ﻿@model List<string>
-@{
-    Layout = null;
-}
+
 <!DOCTYPE html>
 
 <html>
@@ -17,7 +15,7 @@
 
         function hentTransAjax()
         {
-            $.getJSON("/Transaksjon/HentTrans", { kontoId: $("#idListe").val() }, function (trans) {
+            $.getJSON("/Transaksjon/HentTransaksjoner", { kontoId: $("#idListe").val() }, function (trans) {
                 var ut = "";
                 for (var i in trans) {
                     ut += trans[i].transId + " " + trans.utKontoId + " " + trans.innKonto + " " + trans.beløp + " " + trans.KID + " " + trans.melding + " " + trans.transaksjonsTidspunkt + "<br/>";
