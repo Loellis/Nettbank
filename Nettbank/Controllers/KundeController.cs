@@ -501,12 +501,27 @@ namespace Nettbank.Controllers
             return View(alleK);
         }
 
-        // Metoder for oppretting av kunder/konti
+        // Metoder for oppretting av kunder
         public ActionResult OpprettKunde()
         {
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             return View();
         }
+        /*
+        [HttpPost]
+        public ActionResult OpprettKunde(Kunde innKunde)
+        {
+            if (ModelState.IsValid)
+            {
+                var kundeDB = new DBKunde();
+                bool insertOK = kundeDB.settKunde(innKunde);
+                if (insertOK)
+                {
+                    return RedirectToAction("ListKunder");
+                }
+            }
+            return View();
+        } */
 
         /*[HttpPost]
         public ActionResult OpprettKunde(FormCollection innListe)
@@ -551,7 +566,9 @@ namespace Nettbank.Controllers
             {
                 return View();
             }
-        }*/
+        }
+        */
+
         [HttpPost]
         public ActionResult OpprettKunde(Kunde innKunde)
         {
@@ -596,7 +613,7 @@ namespace Nettbank.Controllers
             {
                 return View();
             }
-        }
+        } 
 
         // Metode som lager to brukere med to kontoer hver
         public ActionResult TestOpprett()

@@ -27,7 +27,7 @@ namespace Nettbank.Models
         public string Postnr { get; set; }
         public string Poststed { get; set; }
 
-        public virtual List<dbKunde> Kunder { get; set; }
+        //public virtual List<dbKunde> Kunder { get; set; }
     }
 
     public class konto
