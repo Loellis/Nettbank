@@ -18,7 +18,8 @@ namespace Nettbank
                 beløp = Convert.ToDouble(trans.Beløp),
                 KID = Convert.ToInt64(trans.KID),
                 melding = trans.Melding,
-                transaksjonsTidspunkt = trans.Tidspunkt
+                transaksjonsTidspunkt = trans.Tidspunkt,
+                erGodkjent = false
             };
 
             var db = new KundeContext();

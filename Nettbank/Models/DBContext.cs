@@ -51,6 +51,7 @@ namespace Nettbank.Models
         public long KID { get; set; }
         public string melding { get; set; }
         public string transaksjonsTidspunkt { get; set; }
+        public bool erGodkjent { get; set; }
     }
 
     public class KundeContext : DbContext

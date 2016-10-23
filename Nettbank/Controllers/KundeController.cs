@@ -136,6 +136,7 @@ namespace Nettbank.Controllers
             return View(kontoListe);
         }*/
 
+            /*
         public string HentKonti(int kontoId)
         {
             using (var db = new KundeContext())
@@ -159,7 +160,7 @@ namespace Nettbank.Controllers
                 return ut;
             }
         }
-
+        */
     }
 
 
@@ -359,6 +360,7 @@ namespace Nettbank.Controllers
             }
         }
 
+        /*
         public JsonResult HentTransaksjoner(int kontoID)
         {
             var db = new KundeContext();
@@ -389,6 +391,7 @@ namespace Nettbank.Controllers
             JsonResult ut = Json(trans, JsonRequestBehavior.AllowGet);
             return ut;
         }
+        */
     }
 
 
@@ -840,6 +843,7 @@ namespace Nettbank.Controllers
                     nyTrans1.beløp = 100;
                     nyTrans1.KID = 45645464;
                     nyTrans1.transaksjonsTidspunkt = DateTime.Now.ToString();
+                    nyTrans1.erGodkjent = true;
 
                     db.Transaksjoner.Add(nyTrans1);
                     db.SaveChanges();
@@ -847,11 +851,12 @@ namespace Nettbank.Controllers
                     var nyTrans2 = new transaksjon();
 
                     var k2 = db.Konti.FirstOrDefault(k => k.kontoID == 4);
-                    nyTrans1.utKontoId = k2.kontoID;
-                    nyTrans1.innKonto = 777;
-                    nyTrans1.beløp = 555;
-                    nyTrans1.melding = "Hei på deg";
-                    nyTrans1.transaksjonsTidspunkt = DateTime.Now.ToString();
+                    nyTrans2.utKontoId = k2.kontoID;
+                    nyTrans2.innKonto = 777;
+                    nyTrans2.beløp = 555;
+                    nyTrans2.melding = "Hei på deg";
+                    nyTrans2.transaksjonsTidspunkt = DateTime.Now.ToString();
+                    nyTrans2.erGodkjent = false;
 
                     db.Transaksjoner.Add(nyTrans2);
                     db.SaveChanges();

@@ -1,4 +1,100 @@
-﻿@model List<string>
+﻿@model List<Nettbank.Models.Transaksjon>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Transaksjonshistorikk</title>
+</head>
+<body>
+    <br /><br />
+    <h4>Ubekreftede betalinger</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model[0].TransaksjonsID)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Utkonto)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Innkonto)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Beløp)</th>
+            <th>@Html.DisplayNameFor(model => model[0].KID)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Melding)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Tidspunkt)</th>
+            <th></th>
+        </tr>
+        
+        @foreach(var item in Model)
+        {
+            @if (item.Bekreftet == false.ToString())
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TransaksjonsID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Utkonto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Innkonto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Beløp)</td>
+                    <td>@Html.DisplayFor(modelItem => item.KID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Melding)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Tidspunkt)</td>
+                    <td>@Html.ActionLink("Slette", "Slett", new { id = item.TransaksjonsID }, new { @class = "btn btn-danger" })</td>
+                </tr>
+            }
+
+        }
+    </table>
+
+    <h4>Godkjente betalinger</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model[0].TransaksjonsID)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Utkonto)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Innkonto)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Beløp)</th>
+            <th>@Html.DisplayNameFor(model => model[0].KID)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Melding)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Tidspunkt)</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            @if (item.Bekreftet == true.ToString())
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TransaksjonsID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Utkonto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Innkonto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Beløp)</td>
+                    <td>@Html.DisplayFor(modelItem => item.KID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Melding)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Tidspunkt)</td>
+                    <td></td>
+                </tr>
+            }
+
+        }
+    </table>
+
+    @Html.ActionLink("Legg til betaling", "RegistrerBetaling", new { tom = "" }, new { @class = "btn btn-success" })
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--@*
+@model List<string>
 
 <!DOCTYPE html>
 
@@ -40,3 +136,4 @@
     </div>
 </body>
 </html>
+*@-->

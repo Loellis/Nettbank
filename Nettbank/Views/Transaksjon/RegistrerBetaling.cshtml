@@ -3,8 +3,69 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width"/>
-    <title>Registrer Betaling</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>Opprett Kunde</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Opprett Kunde</h4>
+            <hr />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.TransaksjonsID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Utkonto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Utkonto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Innkonto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Innkonto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Innkonto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Beløp, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Beløp, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Beløp, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.KID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.KID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.KID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Melding, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Melding, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Melding, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Opprett Kunde" class="btn btn-success" />
+                    @Html.ActionLink("Vis kontooversikt", "visTransaksjoner", new { tom = "" }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+
+        </div>
+    }
+</body>
+</html>
+    <!--@*
     <script src="~/scripts/jquery-3.1.1.js"></script>
     <script type="text/javascript">
         function hentKontoerAjax()
@@ -23,62 +84,6 @@
             });
         }
     </script>
-</head>
-<body>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>Registrer betaling</h4>
-            <hr />
-            <div class="form-group">
-                @Html.Label("Fra Konto: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <select id="idListe" onchange="hentKontoerAjax1()" name="utKontoId">
-                        @for (var i = 0; i<10; i+=1)
-                        {
-                            <option></option>
-                        }
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Til Konto: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.Editor("innKonto", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Beløp: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.Editor("Beløp", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.Label("KID: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.Editor("KID", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Melding: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.Editor("Melding", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Registrer betaling" class="btn btn-success" />
-                    @Html.ActionLink("Vis Transaksjoner", "visTransaksjoner", new { tom = "" }, new { @class = "btn btn-primary" })
-                </div>
-            </div>
-      </div>
-    }
-</body>
-</html>
-    <!--@*
     <div>
         <form action="/Transaksjon/RegBet" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#Resultat" method="post">
             <table>
