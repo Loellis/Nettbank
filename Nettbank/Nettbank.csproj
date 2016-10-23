@@ -147,6 +147,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Readme.txt" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -204,9 +205,6 @@
     <Content Include="scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Kunde\IndexJS.cshtml" />
-    <Content Include="Views\Kunde\OpprettKundeJS.cshtml" />
-    <Content Include="Views\Kunde\ListKunderJS.cshtml" />
     <Content Include="Views\Konto\ListKonti.cshtml" />
     <Content Include="Views\Konto\OpprettKonto.cshtml" />
     <Content Include="Views\Transaksjon\RegistrerBetaling.cshtml" />
@@ -218,8 +216,6 @@
     <Content Include="Views\Kunde\BankID.cshtml" />
     <Content Include="Views\Kunde\ListKunder.cshtml" />
     <Content Include="Views\Kunde\OpprettKunde.cshtml" />
-    <Content Include="Views\Transaksjon\ListTransaksjoner.cshtml" />
-    <Content Include="Views\Transaksjon\OpprettTransaksjon.cshtml" />
     <Content Include="Views\Transaksjon\velgKonto.cshtml" />
     <Content Include="Views\Transaksjon\Slett.cshtml" />
     <None Include="Web.Debug.config">
