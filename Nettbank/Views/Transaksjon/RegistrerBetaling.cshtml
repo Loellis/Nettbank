@@ -61,9 +61,11 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Tidspunkt, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
+                    Skriv inn dato på dd/mm/åååå format, eller la feltet være blankt for å bruke nåværende tidspunkt
                     @Html.EditorFor(model => model.Tidspunkt, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Tidspunkt, "", new { @class = "text-danger" })
                 </div>
+                
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
