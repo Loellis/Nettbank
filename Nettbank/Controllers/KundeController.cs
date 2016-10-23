@@ -203,7 +203,8 @@ namespace Nettbank.Controllers
             //if (ModelState.IsValid)
             //{
                 var transDB = new DBTransaksjoner();
-                bool insertOK = transDB.regBetaling(trans);
+                var kId = Convert.ToInt32(Session["KundeId"]);
+                bool insertOK = transDB.regBetaling(trans, kId);
 
                 if (insertOK)
                 {
