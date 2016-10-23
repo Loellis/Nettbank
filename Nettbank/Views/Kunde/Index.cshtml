@@ -90,7 +90,7 @@
                 <br />
                 @Html.ActionLink("Kontooversikt", "ListKonti", "Konto", new { tom = "" }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon", new { tom = "" }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Legg til betaling", "RegistrerBetaling",, "Transaksjon" new { tom = "" }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Legg til betaling", "RegistrerBetaling", "Transaksjon", new { tom = "" }, new { @class = "btn btn-success" })
             }
 
             @if ((bool)Session["LoggetInn"] == true)

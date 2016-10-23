@@ -22,7 +22,6 @@
             @Html.HiddenFor(model => model.TransaksjonsID)
             @Html.HiddenFor(model => model.KID)
             @Html.HiddenFor(model => model.Melding)
-            @Html.HiddenFor(model => model.Tidspunkt)
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -57,6 +56,13 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Melding, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Melding, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tidspunkt, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Tidspunkt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Tidspunkt, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
