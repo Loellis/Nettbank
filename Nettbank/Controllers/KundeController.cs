@@ -200,13 +200,17 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            var transDB = new DBTransaksjoner();
-            bool insertOK = transDB.regBetaling(trans);
+            //if (ModelState.IsValid)
+            //{
+                var transDB = new DBTransaksjoner();
+                bool insertOK = transDB.regBetaling(trans);
 
-            if (insertOK)
-            {
-                return RedirectToAction("visTransaksjoner");
-            }
+                if (insertOK)
+                {
+                    return RedirectToAction("visTransaksjoner");
+                }
+            //}
+
             return View();
 
         }
