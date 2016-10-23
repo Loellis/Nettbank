@@ -442,9 +442,12 @@ namespace Nettbank.Controllers
                 Session["LoggetInn"] = false;
                 ViewBag.Innlogget = false;
                 Session["BankID"] = false;
+                ViewBag.Avbrutt = true;
+                Session["Avbrutt"] = true;
             }
             else
             {
+                ViewBag.Avbrutt = true;
                 ViewBag.Innlogget = (bool)Session["LoggetInn"];
             }
             return View();
@@ -457,13 +460,17 @@ namespace Nettbank.Controllers
                 Session["LoggetInn"] = false;
                 ViewBag.Innlogget = false;
                 Session["BankID"] = false;
+                ViewBag.Avbrutt = true;
+                Session["Avbrutt"] = true;
             }
             else if ((bool)Session["BankID"] == true && (bool)Session["LoggetInn"] == false)
             {
                 ViewBag.Innlogget = false;
+                ViewBag.Avbrutt = false;
             }
             else
             {
+                ViewBag.Avbrutt = false;
                 ViewBag.Innlogget = (bool)Session["LoggetInn"];
             }
             return View();
@@ -478,7 +485,9 @@ namespace Nettbank.Controllers
                 ViewBag.KundeIdB = true;
                 ViewBag.Innlogget = false;
                 ViewBag.BankID = false;
+                ViewBag.Avbrutt = false;
                 Session["BankID"] = false;
+                Session["Avbrutt"] = false;
 
                 // Lagre brukerens kundeID i session "KundeId"
                 using (var db = new KundeContext())
@@ -504,6 +513,7 @@ namespace Nettbank.Controllers
                     // Lagre innlogget status i session "LoggetInn"
                     Session["LoggetInn"] = true;
                     ViewBag.Innlogget = true;
+                    Session["Avbrutt"] = false;
 
                     return View();
                 }
@@ -948,6 +958,7 @@ namespace Nettbank.Controllers
             ViewBag.BankID = false;
             ViewBag.KundeIdB = true;
             ViewBag.BankIdMelding = "";
+            ViewBag.Avbrutt = false;
             return View();
         }
 
@@ -961,10 +972,14 @@ namespace Nettbank.Controllers
                 ViewBag.BankID = true;
                 Session["BankID"] = true;
                 ViewBag.BankIdMelding = "";
+                ViewBag.Avbrutt = false;
+                Session["Avbrutt"] = false;
+
                 return RedirectToAction("Index");
             }
             ViewBag.BankIdMelding = "Feil BankID, vennligst prøv igjen.";
-            ViewBag.ErrorMsg = bIdInput;
+            ViewBag.ErrorMsg = "Inntastet BankID-kode: " + bIdInput;
+            ViewBag.Avbrutt = false;
             return View();
         }
 

@@ -53,7 +53,7 @@
                     <input type="submit" value="Logg inn" />
                 </p>
             }
-            else if ((bool)Session["BankID"] == false)
+            else if ((bool)Session["BankID"] == false || (bool)Session["Avbrutt"] == true)
             {
                 <p>Vennligst oppgi ditt personnummer:</p>
                 <div class="editor-label">
@@ -81,6 +81,9 @@
                 <p>
                     <input type="submit" value="Logg inn" />
                 </p>
+                <div>
+                    @Html.ActionLink("Avbryt", "LoggUt", new { tom = "" }, new { @class = "btn btn-danger" })
+                </div>
             }
             else if ((bool)Session["LoggetInn"] == true)
             {
@@ -95,8 +98,6 @@
                 <br />
                 <p style="color:forestgreen">Logget inn</p>
 
-                //For testing av sessionvariabel:
-                //<p> KundeId session: @Session["kundeId"] </p>
                 @Html.ActionLink("Logg ut", "LoggUt", new { tom = "" }, new { @class = "btn btn-danger" })
 
             }
