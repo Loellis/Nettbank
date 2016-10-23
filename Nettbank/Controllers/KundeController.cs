@@ -84,10 +84,11 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            DateTime transDato;
             // Sjekk om dato er gyldig
+            DateTime transDato;
             if (!(trans.Tidspunkt == null || trans.Tidspunkt == ""))
             {
+                // Dato er oppgitt av kunde, sjekk gyldighet av denne
                 if (!DateTime.TryParse(trans.Tidspunkt, out transDato))
                 {
                     // Innskrevet dato er på et ugjennkjennelig format
