@@ -94,7 +94,6 @@ namespace Nettbank.Controllers
             }
 
             return View();
-
         }
 
         public ActionResult visTransaksjoner([DefaultValue(0)] int id)
@@ -151,9 +150,10 @@ namespace Nettbank.Controllers
         }
     }// end TransaksjonController
 
-
-
-
+    /*
+     * KundeController
+     * 
+     */
     public class KundeController : Controller
     {
         public ActionResult Hjem()
@@ -255,15 +255,6 @@ namespace Nettbank.Controllers
                 // Kunde ikke funnet
                 ViewBag.KundeMelding = "Ingen kunde funnet med oppgitt personnummer, vennligst prøv igjen.";
 
-                // Nullstill globale variabler for sikkerhetsskyld
-                /*Session["LoggetInn"] = false;
-                Session["KundeId"] = null;
-                ViewBag.KundeIdB = false;
-                ViewBag.Innlogget = false;
-                ViewBag.BankID = false;
-                ViewBag.BankIdMelding = null;
-                ViewBag.PassordMelding = null;
-*/
                 return View();
             }
         }
@@ -306,48 +297,12 @@ namespace Nettbank.Controllers
         private static byte[] lagHash(string innPassord)
         {
             //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
-
             byte[] innData, utData;
             var algoritme = System.Security.Cryptography.SHA256.Create();
             innData = System.Text.Encoding.ASCII.GetBytes(innPassord);
             utData = algoritme.ComputeHash(innData);
             return utData;
         }
-
-        /*
-        public ActionResult ListKunder()
-        {
-            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
-
-            var db = new KundeContext();
-            List<dbKunde> kundeListe = db.Kunder.ToList();
-            List<Kunde> kListe = new List<Kunde>();
-
-            // Trekk ut info fra kundeListe(dbKunde) og legg inn i kListe(Kunde)
-            foreach(dbKunde dbK in kundeListe)
-            {
-                Kunde tempKunde = new Kunde();
-                tempKunde.id = dbK.id;
-                tempKunde.Personnummer = dbK.Personnummer;
-                tempKunde.Fornavn = dbK.Fornavn;
-                tempKunde.Etternavn = dbK.Etternavn;
-                tempKunde.Adresse = dbK.Adresse;
-                tempKunde.Postnr = dbK.Postnr;
-                if (dbK.Poststed != null)
-                {
-                    tempKunde.Poststed = dbK.Poststed.Poststed;
-                }
-                else
-                {
-                    tempKunde.Poststed = "ERROR";
-                }
-                
-                kListe.Add(tempKunde);
-            }
-            // Returner en List<Kunde> til viewet.
-            return View(kListe);
-        }
-        */
 
         public ActionResult ListKunder()
         {
@@ -362,67 +317,6 @@ namespace Nettbank.Controllers
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             return View();
         }
-        /*
-        [HttpPost]
-        public ActionResult OpprettKunde(Kunde innKunde)
-        {
-            if (ModelState.IsValid)
-            {
-                var kundeDB = new DBKunde();
-                bool insertOK = kundeDB.settKunde(innKunde);
-                if (insertOK)
-                {
-                    return RedirectToAction("ListKunder");
-                }
-            }
-            return View();
-        } */
-
-        /*[HttpPost]
-        public ActionResult OpprettKunde(FormCollection innListe)
-        {
-            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
-            try
-            {
-                using (var db = new KundeContext())
-                {
-                    var nyKunde = new dbKunde();
-                    nyKunde.Personnummer = innListe["Personnummer"];
-                    nyKunde.Fornavn = innListe["Fornavn"];
-                    nyKunde.Etternavn = innListe["Etternavn"];
-                    nyKunde.Adresse = innListe["Adresse"];
-                    nyKunde.Passord = lagHash(innListe["Passord"]);
-
-                    string innPostnr = innListe["Postnummer"];
-
-                    var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
-
-                    if(funnetPostSted == null)
-                    {
-                        var nyttPoststed = new PostSted();
-                        nyttPoststed.Postnr = innListe["Postnummer"];
-                        nyttPoststed.Poststed = innListe["Poststed"];
-                        db.Poststeder.Add(nyttPoststed);
-                        //db.SaveChanges();
-                        //Context.Entry<T>(entity).Reload()
-                        //db.Entry<PostSted>(nyttPoststed).Reload();
-                    }
-                    else
-                    {
-                        nyKunde.Poststed = funnetPostSted;
-                    }
-
-                    db.Kunder.Add(nyKunde);
-                    db.SaveChanges();
-                    return RedirectToAction("ListKunder");
-                }
-            }
-            catch (Exception feil)
-            {
-                return View();
-            }
-        }
-        */
 
         [HttpPost]
         public ActionResult OpprettKunde(Kunde innKunde)
@@ -690,7 +584,6 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult BankID(string bIdInput)
         {
-            //int bId = Convert.ToInt32(bIdInput);
             string bId = bIdInput;
             if (bId == "123456")
             {
@@ -707,6 +600,5 @@ namespace Nettbank.Controllers
             ViewBag.Avbrutt = false;
             return View();
         }
-
-    }
-}
+    }// end KundeController
+}// end Controller
