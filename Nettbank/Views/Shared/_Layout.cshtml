@@ -30,7 +30,8 @@
                     <li>@Html.ActionLink("Opprett Kunde", "OpprettKunde", "Kunde")</li>
                     @if ((bool)Session["LoggetInn"] == false)
                     {
-                        <li>@Html.ActionLink("Logg Inn", "Index", "Kunde")</li>
+                        // Går til "LoggUt" for å nullstille innloggingsprosessen
+                        <li>@Html.ActionLink("Logg Inn", "LoggUt", "Kunde")</li>
                     }
                     @if (Session["LoggetInn"] != null && (bool)Session["LoggetInn"] == true)
                     {

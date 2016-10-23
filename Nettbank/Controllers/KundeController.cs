@@ -944,6 +944,8 @@ namespace Nettbank.Controllers
             ViewBag.KundeMelding = null;
             ViewBag.BankIdMelding = null;
             ViewBag.PassordMelding = null;
+            Session["KundeNavn"] = null;
+            Session["Avbrutt"] = true;
 
             return RedirectToAction("Index");
         }

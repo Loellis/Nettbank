@@ -25,7 +25,8 @@
         {
             <p style="color:red">Ikke logget inn</p>
             <br />
-            @Html.ActionLink("Logg inn", "Index", "Kunde", new { tom = "" }, new { @class = "btn btn-primary" })
+            // Bruker "LoggUt" for å nullstille påloggingsprosessen
+            @Html.ActionLink("Logg inn", "LoggUt", "Kunde", new { tom = "" }, new { @class = "btn btn-primary" })
         }
         <p>
             Velkommen
