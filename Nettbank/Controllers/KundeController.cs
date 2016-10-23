@@ -84,6 +84,21 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
+            DateTime transDato;
+            // Sjekk om dato er gyldig
+            if (!DateTime.TryParse(trans.Tidspunkt, out transDato))
+            {
+                // Innskrevet dato er på et ugjennkjennelig format
+                ViewBag.TidErrMsg = "Skriv dato på format: dd/mm/åååå eller la være blank";
+                return View();
+            }
+            if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
+            {
+                // Dato er før dagens dato
+                ViewBag.TidErrMsg = "Dato må være dagens dato eller frem i tid";
+                return View();
+            }
+            ViewBag.TidErrMsg = "";
             var transDB = new DBTransaksjoner();
             var kId = Convert.ToInt32(Session["KundeId"]);
             bool insertOK = transDB.regBetaling(trans, kId);

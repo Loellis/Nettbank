@@ -43,7 +43,6 @@ namespace Nettbank
                         beløp = Convert.ToDouble(trans.Beløp),
                         KID = Convert.ToInt64(trans.KID),
                         melding = trans.Melding,
-                        //transaksjonsTidspunkt = DateTime.Now.ToString(),
                         transaksjonsTidspunkt = transTid,
                         erGodkjent = false
                     };
