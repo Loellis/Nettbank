@@ -112,6 +112,10 @@ namespace Nettbank.Controllers
             {
                 return RedirectToAction("visTransaksjoner");
             }
+            else
+            {
+                ViewBag.ErrMsg = "Transaksjonen mislyktes. Sjekk at opplysningene er korrekt eller prøv igjen senere";
+            }
 
             return View();
         }
