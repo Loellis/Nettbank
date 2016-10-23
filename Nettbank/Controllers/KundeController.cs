@@ -9,7 +9,10 @@ using System.Web.Script.Serialization;
 
 namespace Nettbank.Controllers
 {
-    
+    /*
+     *  KontoController
+     * 
+     */
     public class KontoController : Controller
     {
         public ActionResult OpprettKonto()
@@ -21,44 +24,6 @@ namespace Nettbank.Controllers
             }
             return View();
         }
-
-        /*
-        [HttpPost]
-        public ActionResult OpprettKonto(FormCollection innListe)
-        {
-            // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
-            {
-                return RedirectToAction("/Index", "Kunde");
-            }
-
-            try
-            {
-                using (var db = new KundeContext())
-                {
-                    var nyKonto = new konto();
-                    // Konverter streng til double
-                    nyKonto.saldo = Convert.ToDouble(innListe["Saldo"]);
-
-                    int innKunde = Convert.ToInt32(innListe["Kontoeier"]);
-
-                    nyKonto.kontoEier = innKunde;
-
-                    var funnetKunde = db.Kunder.FirstOrDefault(p => p.id == innKunde);
-
-                    //Lagre konto
-                    db.Konti.Add(nyKonto);
-                    db.SaveChanges();
-
-                    return RedirectToAction("/ListKonti");
-                }
-            }
-            catch (Exception feil)
-            {
-                return View();
-            }
-        }
-        */
 
         [HttpPost]
         public ActionResult OpprettKonto(Konto innKonto)
@@ -92,93 +57,12 @@ namespace Nettbank.Controllers
             List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
             return View(kontiListe);
         }
+    } // end KontoController
 
-        /*
-        public ActionResult ListKonti()
-        {
-            // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
-            {
-                return RedirectToAction("/Index", "Kunde");
-            }
-
-            var db = new KundeContext();
-            // Har her en liste over alle kontoer -> få kun kontoer tilhørende KundeId!
-            List<konto> alleKontoListe = db.Konti.ToList();
-
-            // Session lagrer info som et objekt, må konvertere for å kunne sammenligne
-            var kId = Convert.ToInt32(Session["KundeId"]); 
-            
-            //Finn riktig kundeobjekt
-            dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
-            
-            List<konto> kontoListe = new List<konto>();
-            
-            foreach (var konto in alleKontoListe)
-            {
-                if (konto.kontoEier == kId)
-                {
-                    kontoListe.Add(konto);
-                }
-            }
-
-            
-            // For å vise innlogget status påp ListKonti, testoutput
-            if (Session["LoggetInn"] == null)
-            {
-                Session["LoggetInn"] = false;
-                ViewBag.Innlogget = false;
-            }
-            else
-            {
-                ViewBag.Innlogget = (bool)Session["LoggetInn"];
-            }
-
-            return View(kontoListe);
-        }*/
-
-            /*
-        public string HentKonti(int kontoId)
-        {
-            using (var db = new KundeContext())
-            {
-                var konti = db.Konti.Where(s => s.kontoID == kontoId);
-                string ut = "";
-                foreach (var k in konti)
-                {
-                    ut += k.kontoID + "<br/>";
-                }
-                return ut;
-            }
-        }
-
-        public JsonResult HentKonti1(int kontoId)
-        {
-            using (var db = new KundeContext())
-            {
-                List<konto> konti = db.Konti.Where(s => s.kontoID == kontoId).ToList();
-                JsonResult ut = Json(konti, JsonRequestBehavior.AllowGet);
-                return ut;
-            }
-        }
-        */
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /*
+     *  TransaksjonsController
+     * 
+     */
     public class TransaksjonController : Controller
     {
 
@@ -200,134 +84,18 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            //if (ModelState.IsValid)
-            //{
-                var transDB = new DBTransaksjoner();
-                var kId = Convert.ToInt32(Session["KundeId"]);
-                bool insertOK = transDB.regBetaling(trans, kId);
+            var transDB = new DBTransaksjoner();
+            var kId = Convert.ToInt32(Session["KundeId"]);
+            bool insertOK = transDB.regBetaling(trans, kId);
 
-                if (insertOK)
-                {
-                    return RedirectToAction("visTransaksjoner");
-                }
-            //}
+            if (insertOK)
+            {
+                return RedirectToAction("visTransaksjoner");
+            }
 
             return View();
 
         }
-
-        /*
-        [HttpPost]
-        public ActionResult RegistrerBetaling(FormCollection innTrans)
-        {
-            // Send bruker til innlogging dersom ikke innlogget
-            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
-            {
-                return RedirectToAction("/Index", "Kunde");
-            }
-
-            try
-            {
-                using (var db = new KundeContext())
-                {
-                    var nyTrans = new transaksjon();
-
-                    nyTrans.utKontoId = Convert.ToInt32(innTrans["UtK"]);
-                    nyTrans.innKonto = Convert.ToInt32(innTrans["InnK"]);
-                    nyTrans.beløp = Convert.ToInt32(innTrans["Beløp"]);
-                    
-                    if(innTrans["KID_Meld"] is string )
-                    {
-                        nyTrans.melding = innTrans["KID_Meld"];
-                    }
-                    else
-                    {
-                        nyTrans.KID = Convert.ToUInt32(innTrans["KID_Meld"]);
-                    }
-
-                    //Setter transaksjonstidspunktet og formaterer det etter britisk standard
-                    nyTrans.transaksjonsTidspunkt = DateTime.Now.ToString("en-GB");
-
-                    db.Transaksjoner.Add(nyTrans);
-                    db.SaveChanges();
-                    return RedirectToAction("ListKonti");
-                }
-            }
-            catch(Exception feil)
-            {
-                return View();
-            }
-        }
-        */
-
-        /*
-    public ActionResult RegistrerBetaling()
-    {
-        //Sjekker om logget inn
-        if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
-        {
-            return RedirectToAction("/Index", "Kunde");
-        }
-
-        using (var db = new KundeContext())
-        {
-            //Liste med alle kontoer
-            List<konto> alleKonti = db.Konti.ToList();
-            //Finner innlogget kundes ID og deretter tilhørende kontoer
-            //som legges inn i ny tom liste
-            var kId = Convert.ToInt32(Session["KundeId"]);
-            dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
-            List<konto> konti = new List<konto>();
-
-            foreach (var konto in alleKonti)
-            {
-                if (konto.kontoEier == kId)
-                {
-                    konti.Add(konto);
-                }
-            }
-
-            //Legger kundens kontoer inn i en nedtrekksmeny
-            var nedtrekk = new List<string>();
-            nedtrekk.Add("---Velg her---");
-            foreach(var k in konti)
-            {
-                if (!nedtrekk.Contains(k.kontoID.ToString()))
-                {
-                    nedtrekk.Add(k.kontoID.ToString());
-                }
-            }
-            return View(nedtrekk);
-        }
-    }
-    */
-
-        /*
-        public ActionResult RegBet(Models.transaksjon ajaxTrans)
-        {
-            using (var db = new KundeContext())
-            {
-                db.Transaksjoner.Add(ajaxTrans);
-                db.SaveChanges();
-                string ut = "<table>";
-                IEnumerable<transaksjon> transaksjoner = db.Transaksjoner;
-                foreach(var t in transaksjoner)
-                {
-                    ut += "<tr><td>" + t.transId + "</td><td>" + t.utKontoId + "</td><td>" + t.innKonto + "</td><td>" + t.beløp + "</td><td>" + t.KID + "</td><td>" + t.melding + "</td><td>";
-
-                    //Setter transaksjonstidspunktet og formaterer det etter britisk standard
-                    t.transaksjonsTidspunkt = DateTime.Now.ToString();
-
-                    ut += t.transaksjonsTidspunkt + "</td></tr>";
-
-                }
-                ut += "</table>";
-
-                return RedirectToAction("/RegistrerBetaling");
-            }
-        }
-        */
-
 
         public ActionResult visTransaksjoner([DefaultValue(0)] int id)
         {
@@ -381,54 +149,7 @@ namespace Nettbank.Controllers
             List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
             return View(kontiListe);
         }
-
-        /*
-        public JsonResult HentTransaksjoner(int kontoID)
-        {
-            var db = new KundeContext();
-
-            List<transaksjon> alleTrans = db.Transaksjoner.ToList();
-            List<Transaksjon> trans = new List<Transaksjon>();
-
-            var kId = kontoID;
-
-            foreach (var t in alleTrans)
-            {
-                if (t.utKontoId == kId)
-                {
-                    var nyT = new Transaksjon()
-                    {
-                        TransaksjonsID = t.transId,
-                        Utkonto = t.utKontoId.ToString(),
-                        Innkonto = t.innKonto.ToString(),
-                        Beløp = t.beløp.ToString(),
-                        KID = t.KID.ToString(),
-                        Melding = t.melding,
-                        Tidspunkt = t.transaksjonsTidspunkt
-
-                    };
-                    trans.Add(nyT);
-                }
-            }
-            JsonResult ut = Json(trans, JsonRequestBehavior.AllowGet);
-            return ut;
-        }
-        */
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }// end TransaksjonController
 
 
 
@@ -499,6 +220,7 @@ namespace Nettbank.Controllers
                         Session["KundeId"] = funnetKunde.id;
                         Session["kPID"] = funnetKunde.Personnummer;
                         Session["KundeNavn"] = funnetKunde.Fornavn;
+                        Session["KundeEtternavn"] = funnetKunde.Etternavn;
                     }
                 }
                 // Kunde funnet, gå til BankID
@@ -945,6 +667,7 @@ namespace Nettbank.Controllers
             ViewBag.BankIdMelding = null;
             ViewBag.PassordMelding = null;
             Session["KundeNavn"] = null;
+            Session["KundeEtternavn"] = null;
             Session["Avbrutt"] = true;
 
             return RedirectToAction("Index");
