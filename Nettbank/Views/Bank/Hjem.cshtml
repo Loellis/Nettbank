@@ -12,23 +12,10 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Tast in </legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.personnummer)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.personnummer)
-            @Html.ValidationMessageFor(model => model.personnummer)
-        </div>
-
-        <p>
-            <input type="submit" value="Logg inn" />
-        </p>
-        @if (ViewBag.Innlogget)
+        @if ((bool)Session["LoggetInn"] == true)
         {
             <p style="color:forestgreen">Logget inn</p>
-                <p> KundeId session: @Session["kundeId"] </p>
+            <p> KundeId session: @Session["kundeId"] </p>
                 <p>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</p>
 
 
@@ -37,5 +24,8 @@
         {
             <p style="color:red">Ikke logget inn</p>
         }
+        <p>
+            Velkommen
+        </p>
     </fieldset>
 }
