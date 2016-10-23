@@ -211,13 +211,13 @@
     <Content Include="Views\Transaksjon\visTransaksjoner.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="scripts\jquery.validate.unobtrusive.bootstrap.min.js.map" />
-    <Content Include="Views\Bank\Hjem.cshtml" />
     <Content Include="Views\Kunde\Index.cshtml" />
     <Content Include="Views\Kunde\BankID.cshtml" />
     <Content Include="Views\Kunde\ListKunder.cshtml" />
     <Content Include="Views\Kunde\OpprettKunde.cshtml" />
     <Content Include="Views\Transaksjon\velgKonto.cshtml" />
     <Content Include="Views\Transaksjon\Slett.cshtml" />
+    <Content Include="Views\Kunde\Hjem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

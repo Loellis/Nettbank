@@ -10,5 +10,6 @@ Passord: test
 BankID: 123456
 
 Som man kan se i noen av .cshtml-filene, som f.eks. i Transaksjon/visTransaksjon.cshtml og i Transaksjon/RegistrerBetaling.cshtml, så har vi i bunnen av filene gjort (utkommenterte) forsøk på bruk av Ajax og JSON.
-Vi tok en avgjørelse om å legge Ajax og JSON til side til neste oblig for å fokusere på funksjonalitet i denne obligen.
+Vi tok en avgjørelse om å legge Ajax og JSON til side til oblig 2 for å fokusere på funksjonalitet i denne obligen.
+I toppen av navbaren er det to linker til "Kundeliste" og "Opprett Kunde". Disse er der for test-funksjonalitet i denne omgang, og vil brukes videre til admin-forbruk i oblig 2.
 

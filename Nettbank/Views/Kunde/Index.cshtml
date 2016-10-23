@@ -1,13 +1,13 @@
 ﻿@model Nettbank.Models.Kunde
 @{
-    ViewBag.Title = "Nettbank";
+    ViewBag.Title = "Innlogging";
 }
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    
+
 </head>
 <body>
     <script src="~/scripts/jquery-3.1.1.min.js"></script>
@@ -21,7 +21,7 @@
 
         <fieldset>
             <legend>Logg inn</legend>
-
+            <br />
             @if (Session["KundeId"] == null)
             {
                 <p>Vennligst oppgi ditt personnummer:</p>
@@ -53,8 +53,9 @@
             }
             else if ((bool)Session["LoggetInn"] == true)
             {
+                <br />
                 @Html.ActionLink("Kontooversikt", "ListKonti", "Konto", new { tom = "" }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon",new { tom = "" }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon", new { tom = "" }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Legg til betaling", "RegistrerBetaling", new { tom = "" }, new { @class = "btn btn-success" })
             }
 
@@ -63,36 +64,38 @@
 
 
             @if ((bool)Session["LoggetInn"] == true)
-            { 
+            {
+                <br />
                 <p style="color:forestgreen">Logget inn</p>
 
                 //For testing av sessionvariabel:
                 //<p> KundeId session: @Session["kundeId"] </p>
                 @Html.ActionLink("Logg ut", "LoggUt", new { tom = "" }, new { @class = "btn btn-danger" })
-                
+
             }
             else
             {
+                <br />
                 <p style="color:red">Ikke logget inn</p>
             }
         </fieldset>
     }
 
-   
-    
+
+
     <div>
         <p style="color:hotpink">
             <br />
             Autogenerer to kunder med to konti hver.
             Personnr.: 9999911111 og 99999222222 <br />
-            Passord.: test <br />
+            Passord: test <br />
             @Html.ActionLink("Autogenerer", "TestOpprett")
             <br />
             @Html.ActionLink("Slett DB", "SlettDB")
         </p>
         <br />
 
-</div>
+    </div>
 </body>
 </html>
 
