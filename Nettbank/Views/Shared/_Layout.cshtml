@@ -27,6 +27,12 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Kundeliste", "ListKunder", "Kunde")</li>
                     <li>@Html.ActionLink("Opprett Kunde", "OpprettKunde", "Kunde")</li>
+                    @if (Session["LoggetInn"] != null && (bool)Session["LoggetInn"] == true)
+                    {
+                        <li>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</li>
+                        <li>@Html.ActionLink("Betal", "RegistrerBetaling", "Transaksjon")</li>
+                        <li>@Html.ActionLink("Logg ut", "LoggUt", "Kunde")</li>
+                    }
                 </ul>
             </div>
         </div>
