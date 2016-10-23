@@ -1,6 +1,14 @@
 ﻿@model Nettbank.Models.Kunde
 @{
-    ViewBag.Title = "Innlogging";
+    if ((bool)Session["LoggetInn"] == false)
+    {
+        ViewBag.Title = "Innlogging";
+    }
+    else
+    {
+        ViewBag.Title = "Din side";
+    }
+
 }
 <!DOCTYPE html>
 
@@ -19,10 +27,33 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
+        <br /><br />
         <fieldset>
-            <legend>Logg inn</legend>
+            @if ((bool)Session["LoggetInn"] == false)
+            {
+                <legend>Logg inn</legend>
+            }
+            else
+            {
+                <legend>Velkommen, @Session["KundeNavn"]</legend>
+            }
             <br />
             @if (Session["KundeId"] == null)
+            {
+                <p>Vennligst oppgi ditt personnummer:</p>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Personnummer)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Personnummer)
+                    @Html.ValidationMessageFor(model => model.Personnummer)
+                </div>
+                @ViewBag.KundeMelding
+                <p>
+                    <input type="submit" value="Logg inn" />
+                </p>
+            }
+            else if ((bool)Session["BankID"] == false)
             {
                 <p>Vennligst oppgi ditt personnummer:</p>
                 <div class="editor-label">
@@ -59,10 +90,6 @@
                 @Html.ActionLink("Legg til betaling", "RegistrerBetaling", new { tom = "" }, new { @class = "btn btn-success" })
             }
 
-
-
-
-
             @if ((bool)Session["LoggetInn"] == true)
             {
                 <br />
@@ -81,21 +108,21 @@
         </fieldset>
     }
 
-
-
-    <div>
-        <p style="color:hotpink">
+    @if (Session["LoggetInn"] != null && (bool)Session["LoggetInn"] == false)
+    {
+        <div>
+            <p style="color:hotpink">
+                <br />
+                Autogenerer to kunder med to konti hver.
+                Personnr.: 9999911111 og 99999222222 <br />
+                Passord: test <br />
+                @Html.ActionLink("Autogenerer", "TestOpprett")
+                <br />
+                @Html.ActionLink("Slett DB", "SlettDB")
+            </p>
             <br />
-            Autogenerer to kunder med to konti hver.
-            Personnr.: 9999911111 og 99999222222 <br />
-            Passord: test <br />
-            @Html.ActionLink("Autogenerer", "TestOpprett")
-            <br />
-            @Html.ActionLink("Slett DB", "SlettDB")
-        </p>
-        <br />
-
-    </div>
+        </div>
+    }
 </body>
 </html>
 

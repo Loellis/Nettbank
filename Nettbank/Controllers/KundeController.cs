@@ -435,12 +435,31 @@ namespace Nettbank.Controllers
 
     public class KundeController : Controller
     {
+        public ActionResult Hjem()
+        {
+            if (Session["LoggetInn"] == null || (bool)Session["BankID"] == false)
+            {
+                Session["LoggetInn"] = false;
+                ViewBag.Innlogget = false;
+                Session["BankID"] = false;
+            }
+            else
+            {
+                ViewBag.Innlogget = (bool)Session["LoggetInn"];
+            }
+            return View();
+        }
 
         public ActionResult Index()
         {
-            if(Session["LoggetInn"] == null)
+            if(Session["LoggetInn"] == null || (bool)Session["BankID"] == false)
             {
                 Session["LoggetInn"] = false;
+                ViewBag.Innlogget = false;
+                Session["BankID"] = false;
+            }
+            else if ((bool)Session["BankID"] == true && (bool)Session["LoggetInn"] == false)
+            {
                 ViewBag.Innlogget = false;
             }
             else
@@ -454,7 +473,7 @@ namespace Nettbank.Controllers
         public ActionResult Index(Kunde innKunde)
         {
 
-            if (Kunde_i_DB(innKunde) && (Session["KundeId"] == null))
+            if (Kunde_i_DB(innKunde))
             {
                 ViewBag.KundeIdB = true;
                 ViewBag.Innlogget = false;
@@ -469,7 +488,8 @@ namespace Nettbank.Controllers
                     {
                         // Lagre KundeId i session
                         Session["KundeId"] = funnetKunde.id;
-                        Session["kPID"] = innKunde.Personnummer;
+                        Session["kPID"] = funnetKunde.Personnummer;
+                        Session["KundeNavn"] = funnetKunde.Fornavn;
                     }
                 }
                 // Kunde funnet, gå til BankID

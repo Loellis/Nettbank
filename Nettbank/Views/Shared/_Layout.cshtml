@@ -21,24 +21,32 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Hjem", "Index", "Kunde", new { tom = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Hjem", "Hjem", "Kunde", new { tom = "" }, new { @class = "navbar-brand" })
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Kundeliste", "ListKunder", "Kunde")</li>
                     <li>@Html.ActionLink("Opprett Kunde", "OpprettKunde", "Kunde")</li>
+                    @if ((bool)Session["LoggetInn"] == false)
+                    {
+                        <li>@Html.ActionLink("Logg Inn", "Index", "Kunde")</li>
+                    }
                     @if (Session["LoggetInn"] != null && (bool)Session["LoggetInn"] == true)
                     {
+                        <li>@Html.ActionLink("Din side", "Index", "Kunde")</li>
                         <li>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</li>
                         <li>@Html.ActionLink("Betal", "RegistrerBetaling", "Transaksjon")</li>
-                        <li>@Html.ActionLink("Logg ut", "LoggUt", "Kunde")</li>
+                        <li>@Html.ActionLink("Logg Ut", "LoggUt", "Kunde")</li>
                     }
                 </ul>
             </div>
+
         </div>
     </div>
     <br />
     <div class="container body-content">
+        <br />
         @RenderBody()
         <hr />
         <footer>
