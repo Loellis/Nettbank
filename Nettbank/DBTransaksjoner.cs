@@ -14,6 +14,21 @@ namespace Nettbank
             var db = new KundeContext();
             var kontoDB = new DBKonto();
 
+            string transTid;
+            DateTime transDato;
+            if (trans.Tidspunkt == null || trans.Tidspunkt == "")
+            {
+                transTid = DateTime.Now.ToString();
+            }
+            else if (!DateTime.TryParse(trans.Tidspunkt, out transDato))
+            {
+                return false;
+            }
+            else
+            {
+                transTid = transDato.ToString();
+            }
+
             List<Konto> kontoer = kontoDB.hentTilhørendeKonti(id);
             List<int> kontoID = new List<int>();
 
@@ -28,7 +43,8 @@ namespace Nettbank
                         beløp = Convert.ToDouble(trans.Beløp),
                         KID = Convert.ToInt64(trans.KID),
                         melding = trans.Melding,
-                        transaksjonsTidspunkt = DateTime.Now.ToString(),
+                        //transaksjonsTidspunkt = DateTime.Now.ToString(),
+                        transaksjonsTidspunkt = transTid,
                         erGodkjent = false
                     };
 
