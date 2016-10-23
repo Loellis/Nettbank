@@ -324,7 +324,7 @@ namespace Nettbank.Controllers
         */
 
 
-        public ActionResult visTransaksjoner([DefaultValue(0)] int kID)
+        public ActionResult visTransaksjoner([DefaultValue(0)] int id)
         {
             // Send bruker til innlogging dersom ikke innlogget
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
@@ -334,13 +334,13 @@ namespace Nettbank.Controllers
 
             var tDB = new DBTransaksjoner();
 
-            if(kID == 0)
+            if(id == 0)
             {
                 List<Transaksjon> tList = tDB.hentAlleTransaksjoner();
                 return View(tList);
             }
 
-            List<Transaksjon> tListe = tDB.hentTilhørendeTransaksjon(kID);
+            List<Transaksjon> tListe = tDB.hentTilhørendeTransaksjon(id);
             return View(tListe);
         }
 
