@@ -51,8 +51,8 @@
             else if ((bool)Session["LoggetInn"] == true)
             {
                 @Html.ActionLink("Kontooversikt", "ListKonti", "Konto", new { tom = "" }, new { @class = "btn btn-primary" })
-                <br />
                 @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon",new { tom = "" }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Legg til betaling", "RegistrerBetaling", new { tom = "" }, new { @class = "btn btn-success" })
             }
 
 
@@ -60,12 +60,13 @@
 
 
             @if ((bool)Session["LoggetInn"] == true)
-            {
+            { 
                 <p style="color:forestgreen">Logget inn</p>
-                <p> KundeId session: @Session["kundeId"] </p>
-                <p>@Html.ActionLink("Kontooversikt", "ListKonti", "Konto")</p>
 
-
+                //For testing av sessionvariabel:
+                //<p> KundeId session: @Session["kundeId"] </p>
+                @Html.ActionLink("Logg ut", "LoggUt", new { tom = "" }, new { @class = "btn btn-success" })
+                
             }
             else
             {
@@ -74,17 +75,11 @@
         </fieldset>
     }
 
-    <div>
-        @Html.ActionLink("Logg ut", "LoggUt")
-    </div>
+   
     
-
-    <div>
-        @Html.ActionLink("Back to start", "Index")
-    </div>
-
     <div>
         <p style="color:hotpink">
+            <br />
             Autogenerer to kunder med to konti hver.
             Personnr.: 9999911111 og 99999222222 <br />
             Passord.: test <br />
