@@ -321,43 +321,59 @@ namespace Nettbank.Controllers
             }
         }
         */
-        public ActionResult visTransaksjoner()
+
+        public ActionResult visTranaksjoner()
         {
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
+            var tDB = new DBTransaksjoner();
+            List<Transaksjon> tList = tDB.hentAlleTransaksjoner();
+            return View(tList);
+        }
 
-            using (var db = new KundeContext())
+        public ActionResult visTransaksjoner(int kID)
+        {
+            // Send bruker til innlogging dersom ikke innlogget
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
-                //Liste med alle kontoer
-                List<konto> alleKonti = db.Konti.ToList();
-                //Finner innlogget kundes ID og deretter tilhørende kontoer
-                //som legges inn i ny tom liste
-                var kId = Convert.ToInt32(Session["KundeId"]);
-                dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
-                List<konto> konti = new List<konto>();
-
-                foreach (var konto in alleKonti)
-                {
-                    if (konto.kontoEier == kId)
-                    {
-                        konti.Add(konto);
-                    }
-                }
-
-                //Legger kundens kontoer inn i en nedtrekksmeny
-                var nedtrekk = new List<string>();
-                nedtrekk.Add("---Velg her---");
-                foreach (var k in konti)
-                {
-                    if (!nedtrekk.Contains(k.kontoID.ToString()))
-                    {
-                        nedtrekk.Add(k.kontoID.ToString());
-                    }
-                }
-                return View(nedtrekk);
+                return RedirectToAction("/Index", "Kunde");
             }
+
+            var tDB = new DBTransaksjoner();
+
+            List<Transaksjon> tListe = tDB.hentTilhørendeTransaksjon(kID);
+            return View(tListe);
+        }
+
+        public ActionResult Slett(int tID)
+        {
+            var tDB = new DBTransaksjoner();
+            Transaksjon trans = tDB.hentTransaksjon(tID);
+            return View(trans);
+        }
+
+        [HttpPost]
+        public ActionResult Slett(int tID, Transaksjon slettTrans)
+        {
+            var tDB = new DBTransaksjoner();
+            bool slettOK = tDB.slettTransaksjon(tID);
+            if (slettOK)
+            {
+                return RedirectToAction("visTransaksjoner");
+            }
+            return View();
+        }
+
+        public ActionResult velgKonto()
+        {
+            // Send bruker til innlogging dersom ikke innlogget
+            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+            return View();
         }
 
         /*

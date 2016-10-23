@@ -221,6 +221,8 @@
     <Content Include="Views\Kunde\OpprettKunde.cshtml" />
     <Content Include="Views\Transaksjon\ListTransaksjoner.cshtml" />
     <Content Include="Views\Transaksjon\OpprettTransaksjon.cshtml" />
+    <Content Include="Views\Transaksjon\velgKonto.cshtml" />
+    <Content Include="Views\Transaksjon\Slett.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

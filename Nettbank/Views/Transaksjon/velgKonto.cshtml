@@ -1,0 +1,35 @@
+﻿@model List<Nettbank.Models.Konto>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Velg Konto</title>
+</head>
+<body>
+    <h4>Velg konto du ønsker å se transaksjoner for</h4>
+    <hr />
+    <br /><br />
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model[0].kontoId)</th>
+            <th>@Html.DisplayNameFor(model => model[0].kontoNavn)</th>
+            <th>@Html.DisplayNameFor(model => model[0].saldo)</th>
+            <th>@Html.DisplayNameFor(model => model[0].kontoEier)</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.kontoId)</td>
+                <td>@Html.DisplayFor(modelItem => item.kontoNavn)</td>
+                <td>@Html.DisplayFor(modelItem => item.saldo)</td>
+                <td>@Html.DisplayFor(modelItem => item.kontoEier)</td>
+                <td>@Html.ActionLink("Vis Transaksjoner", "visTransaksjoner", new { id = item.kontoId }, new { @class = "btn btn-danger" })</td>
+            </tr>
+        }
+    </table>
+    @Html.ActionLink("Opprett konto", "OpprettKonto", new { tom = "" }, new { @class = "btn btn-success" })
+</body>
+</html>

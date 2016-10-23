@@ -1,0 +1,88 @@
+﻿
+@model Nettbank.Models.Transaksjon
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Slett</title>
+</head>
+<body>
+    <br /><br />
+    <h3>Er du sikker på at du vil slette denne?</h3>
+    <div>
+        <h4>Transaksjon</h4>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TransaksjonsID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TransaksjonsID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Utkonto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Utkonto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Innkonto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Innkonto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Beløp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Beløp)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.KID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.KID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Melding)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Melding)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tidspunkt)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tidspunkt)
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Slett" class="btn btn-danger" />
+                @Html.ActionLink("Kontooversikt", "visTransaksjoner", new { tom = "" }, new { @class = "btn btn-primary" })
+            </div>
+        }
+    </div>
+</body>
+</html>
+

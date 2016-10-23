@@ -36,6 +36,90 @@ namespace Nettbank
             }
         }
 
+        //Finner transaksjoner som tilhører bestemt konto
+        public List<Transaksjon> hentTilhørendeTransaksjon(int id)
+        {
+            var db = new KundeContext();
+
+            List<transaksjon> alleTransListe = db.Transaksjoner.ToList();
+            List<Transaksjon> transListe = new List<Transaksjon>();
+
+            foreach (var t in alleTransListe)
+            {
+                if (t.transId == id)
+                {
+                    var nyTrans = new Transaksjon()
+                    {
+                        TransaksjonsID = t.transId,
+                        Utkonto = t.utKontoId.ToString(),
+                        Innkonto = t.innKonto.ToString(),
+                        Beløp = t.beløp.ToString(),
+                        KID = t.KID.ToString(),
+                        Melding = t.melding,
+                        Tidspunkt = t.transaksjonsTidspunkt,
+                        Bekreftet = t.erGodkjent.ToString()
+                    };
+                    transListe.Add(nyTrans);
+                }
+            }
+
+            return transListe;
+        }
+
+        //Finner alle transaksjoner
+        public List<Transaksjon> hentAlleTransaksjoner()
+        {
+            var db = new KundeContext();
+
+            List<transaksjon> alleTransListe = db.Transaksjoner.ToList();
+            List<Transaksjon> transListe = new List<Transaksjon>();
+
+            foreach (var t in alleTransListe)
+            {
+                var nyTrans = new Transaksjon()
+                {
+                    TransaksjonsID = t.transId,
+                    Utkonto = t.utKontoId.ToString(),
+                    Innkonto = t.innKonto.ToString(),
+                    Beløp = t.beløp.ToString(),
+                    KID = t.KID.ToString(),
+                    Melding = t.melding,
+                    Tidspunkt = t.transaksjonsTidspunkt,
+                    Bekreftet = t.erGodkjent.ToString()
+                };
+                transListe.Add(nyTrans);
+            }
+            return transListe;
+        }
+
+        public Transaksjon hentTransaksjon(int id)
+        {
+            var db = new KundeContext();
+
+            var enTrans = db.Transaksjoner.Find(id);
+
+            if(enTrans == null)
+            {
+                return null;
+            }
+            else
+            {
+                var utTrans = new Transaksjon()
+                {
+                    TransaksjonsID = enTrans.transId,
+                    Utkonto = enTrans.utKontoId.ToString(),
+                    Innkonto = enTrans.innKonto.ToString(),
+                    Beløp = enTrans.beløp.ToString(),
+                    KID = enTrans.KID.ToString(),
+                    Melding = enTrans.melding,
+                    Tidspunkt = enTrans.transaksjonsTidspunkt,
+                    Bekreftet = enTrans.erGodkjent.ToString()
+                };
+                return utTrans;
+            }
+        }
+
+
         // Foreløpig utestet kode
         public bool slettTransaksjon(int tID)
         {

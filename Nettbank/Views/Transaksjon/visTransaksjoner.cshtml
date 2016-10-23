@@ -24,7 +24,7 @@
         
         @foreach(var item in Model)
         {
-            @if (item.Bekreftet == false.ToString())
+            if (item.Bekreftet == false.ToString())
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.TransaksjonsID)</td>
@@ -34,7 +34,7 @@
                     <td>@Html.DisplayFor(modelItem => item.KID)</td>
                     <td>@Html.DisplayFor(modelItem => item.Melding)</td>
                     <td>@Html.DisplayFor(modelItem => item.Tidspunkt)</td>
-                    <td>@Html.ActionLink("Slette", "Slett", new { id = item.TransaksjonsID }, new { @class = "btn btn-danger" })</td>
+                    <td>@Html.ActionLink("Slett", "Slett", new { id = item.TransaksjonsID }, new { @class = "btn btn-danger" })</td>
                 </tr>
             }
 
@@ -57,7 +57,7 @@
 
         @foreach (var item in Model)
         {
-            @if (item.Bekreftet == true.ToString())
+            if (item.Bekreftet == true.ToString())
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.TransaksjonsID)</td>
@@ -73,7 +73,7 @@
 
         }
     </table>
-
+    @Html.ActionLink("Velg konto", "velgKonto", new { tom = "" }, new { @class = "btn btn-success" })
     @Html.ActionLink("Legg til betaling", "RegistrerBetaling", new { tom = "" }, new { @class = "btn btn-success" })
 </body>
 </html>
