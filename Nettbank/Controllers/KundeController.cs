@@ -344,18 +344,18 @@ namespace Nettbank.Controllers
             return View(tListe);
         }
 
-        public ActionResult Slett(int tID)
+        public ActionResult Slett(int id)
         {
             var tDB = new DBTransaksjoner();
-            Transaksjon trans = tDB.hentTransaksjon(tID);
+            Transaksjon trans = tDB.hentTransaksjon(id);
             return View(trans);
         }
 
         [HttpPost]
-        public ActionResult Slett(int tID, Transaksjon slettTrans)
+        public ActionResult Slett(int id, Transaksjon slettTrans)
         {
             var tDB = new DBTransaksjoner();
-            bool slettOK = tDB.slettTransaksjon(tID);
+            bool slettOK = tDB.slettTransaksjon(id);
             if (slettOK)
             {
                 return RedirectToAction("visTransaksjoner");
@@ -370,7 +370,11 @@ namespace Nettbank.Controllers
             {
                 return RedirectToAction("/Index", "Kunde");
             }
-            return View();
+
+            var kontoDB = new DBKonto();
+            var kId = Convert.ToInt32(Session["KundeId"]);
+            List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
+            return View(kontiListe);
         }
 
         /*
