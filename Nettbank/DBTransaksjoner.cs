@@ -14,6 +14,7 @@ namespace Nettbank
             var db = new KundeContext();
             var kontoDB = new DBKonto();
 
+            //Sjekk datogyldighet
             string transTid;
             DateTime transDato;
             if (trans.Tidspunkt == null || trans.Tidspunkt == "")
@@ -29,34 +30,51 @@ namespace Nettbank
                 transTid = transDato.ToString();
             }
 
+            //Sjekk kontogyldighet
+            if (Convert.ToInt32(trans.Innkonto) < 1)
+            {
+                return false;
+            }
+            else if (Convert.ToInt32(trans.Innkonto) == Convert.ToInt32(trans.Utkonto))
+            {
+                return false;
+            }
+
             List<Konto> kontoer = kontoDB.hentTilhørendeKonti(id);
             List<int> kontoID = new List<int>();
 
             foreach (var k in kontoer)
             {
-                if(k.kontoId == Convert.ToUInt32(trans.Utkonto))
+                try
                 {
-                    var nyTrans = new transaksjon()
+                    if (k.kontoId == Convert.ToUInt32(trans.Utkonto))
                     {
-                        utKontoId = Convert.ToInt32(trans.Utkonto),
-                        innKonto = Convert.ToInt32(trans.Innkonto),
-                        beløp = Convert.ToDouble(trans.Beløp),
-                        KID = Convert.ToInt64(trans.KID),
-                        melding = trans.Melding,
-                        transaksjonsTidspunkt = transTid,
-                        erGodkjent = false
-                    };
+                        var nyTrans = new transaksjon()
+                        {
+                            utKontoId = Convert.ToInt32(trans.Utkonto),
+                            innKonto = Convert.ToInt32(trans.Innkonto),
+                            beløp = Convert.ToDouble(trans.Beløp),
+                            KID = Convert.ToInt64(trans.KID),
+                            melding = trans.Melding,
+                            transaksjonsTidspunkt = transTid,
+                            erGodkjent = false
+                        };
 
-                    try
-                    {
-                        db.Transaksjoner.Add(nyTrans);
-                        db.SaveChanges();
-                        return true;
+                        try
+                        {
+                            db.Transaksjoner.Add(nyTrans);
+                            db.SaveChanges();
+                            return true;
+                        }
+                        catch (Exception feil)
+                        {
+                            return false;
+                        }
                     }
-                    catch (Exception feil)
-                    {
-                        return false;
-                    }
+                }
+                catch (OverflowException oe)
+                {
+                    return false;
                 }
             }
             return false;
