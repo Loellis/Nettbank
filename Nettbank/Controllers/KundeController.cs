@@ -1,6 +1,7 @@
 ﻿using Nettbank.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -180,7 +181,7 @@ namespace Nettbank.Controllers
 
     public class TransaksjonController : Controller
     {
-        
+
         public ActionResult RegistrerBetaling()
         {
             // Send bruker til innlogging dersom ikke innlogget
@@ -254,47 +255,47 @@ namespace Nettbank.Controllers
         }
         */
 
-            /*
-        public ActionResult RegistrerBetaling()
+        /*
+    public ActionResult RegistrerBetaling()
+    {
+        //Sjekker om logget inn
+        if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
         {
-            //Sjekker om logget inn
-            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
-            {
-                return RedirectToAction("/Index", "Kunde");
-            }
-
-            using (var db = new KundeContext())
-            {
-                //Liste med alle kontoer
-                List<konto> alleKonti = db.Konti.ToList();
-                //Finner innlogget kundes ID og deretter tilhørende kontoer
-                //som legges inn i ny tom liste
-                var kId = Convert.ToInt32(Session["KundeId"]);
-                dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
-                List<konto> konti = new List<konto>();
-
-                foreach (var konto in alleKonti)
-                {
-                    if (konto.kontoEier == kId)
-                    {
-                        konti.Add(konto);
-                    }
-                }
-
-                //Legger kundens kontoer inn i en nedtrekksmeny
-                var nedtrekk = new List<string>();
-                nedtrekk.Add("---Velg her---");
-                foreach(var k in konti)
-                {
-                    if (!nedtrekk.Contains(k.kontoID.ToString()))
-                    {
-                        nedtrekk.Add(k.kontoID.ToString());
-                    }
-                }
-                return View(nedtrekk);
-            }
+            return RedirectToAction("/Index", "Kunde");
         }
-        */
+
+        using (var db = new KundeContext())
+        {
+            //Liste med alle kontoer
+            List<konto> alleKonti = db.Konti.ToList();
+            //Finner innlogget kundes ID og deretter tilhørende kontoer
+            //som legges inn i ny tom liste
+            var kId = Convert.ToInt32(Session["KundeId"]);
+            dbKunde pKunde = db.Kunder.FirstOrDefault(k => k.id == kId);
+            List<konto> konti = new List<konto>();
+
+            foreach (var konto in alleKonti)
+            {
+                if (konto.kontoEier == kId)
+                {
+                    konti.Add(konto);
+                }
+            }
+
+            //Legger kundens kontoer inn i en nedtrekksmeny
+            var nedtrekk = new List<string>();
+            nedtrekk.Add("---Velg her---");
+            foreach(var k in konti)
+            {
+                if (!nedtrekk.Contains(k.kontoID.ToString()))
+                {
+                    nedtrekk.Add(k.kontoID.ToString());
+                }
+            }
+            return View(nedtrekk);
+        }
+    }
+    */
 
         /*
         public ActionResult RegBet(Models.transaksjon ajaxTrans)
@@ -322,18 +323,8 @@ namespace Nettbank.Controllers
         }
         */
 
-        public ActionResult visTranaksjoner()
-        {
-            if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
-            {
-                return RedirectToAction("/Index", "Kunde");
-            }
-            var tDB = new DBTransaksjoner();
-            List<Transaksjon> tList = tDB.hentAlleTransaksjoner();
-            return View(tList);
-        }
 
-        public ActionResult visTransaksjoner(int kID)
+        public ActionResult visTransaksjoner([DefaultValue(0)] int kID)
         {
             // Send bruker til innlogging dersom ikke innlogget
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
@@ -342,6 +333,12 @@ namespace Nettbank.Controllers
             }
 
             var tDB = new DBTransaksjoner();
+
+            if(kID == 0)
+            {
+                List<Transaksjon> tList = tDB.hentAlleTransaksjoner();
+                return View(tList);
+            }
 
             List<Transaksjon> tListe = tDB.hentTilhørendeTransaksjon(kID);
             return View(tListe);
