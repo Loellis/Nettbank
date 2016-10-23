@@ -9,31 +9,42 @@ namespace Nettbank
 {
     public class DBTransaksjoner
     {
-        public bool regBetaling(Transaksjon trans)
+        public bool regBetaling(Transaksjon trans, int id)
         {
-            var nyTrans = new transaksjon()
-            {
-                utKontoId = Convert.ToInt32(trans.Utkonto),
-                innKonto = Convert.ToInt32(trans.Innkonto),
-                beløp = Convert.ToDouble(trans.Beløp),
-                KID = Convert.ToInt64(trans.KID),
-                melding = trans.Melding,
-                transaksjonsTidspunkt = DateTime.Now.ToString(),
-                erGodkjent = false
-            };
-
             var db = new KundeContext();
+            var kontoDB = new DBKonto();
 
-            try
+            List<Konto> kontoer = kontoDB.hentTilhørendeKonti(id);
+            List<int> kontoID = new List<int>();
+
+            foreach (var k in kontoer)
             {
-                db.Transaksjoner.Add(nyTrans);
-                db.SaveChanges();
-                return true;
+                if(k.kontoId == Convert.ToUInt32(trans.Utkonto))
+                {
+                    var nyTrans = new transaksjon()
+                    {
+                        utKontoId = Convert.ToInt32(trans.Utkonto),
+                        innKonto = Convert.ToInt32(trans.Innkonto),
+                        beløp = Convert.ToDouble(trans.Beløp),
+                        KID = Convert.ToInt64(trans.KID),
+                        melding = trans.Melding,
+                        transaksjonsTidspunkt = DateTime.Now.ToString(),
+                        erGodkjent = false
+                    };
+
+                    try
+                    {
+                        db.Transaksjoner.Add(nyTrans);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception feil)
+                    {
+                        return false;
+                    }
+                }
             }
-            catch(Exception feil)
-            {
-                return false;
-            }
+            return false;
         }
 
         //Finner transaksjoner som tilhører bestemt konto
