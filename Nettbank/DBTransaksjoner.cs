@@ -146,8 +146,6 @@ namespace Nettbank
             }
         }
 
-
-        // Foreløpig utestet kode
         public bool slettTransaksjon(int tID)
         {
             var db = new KundeContext();
