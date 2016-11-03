@@ -218,6 +218,7 @@
     <Content Include="Views\Transaksjon\velgKonto.cshtml" />
     <Content Include="Views\Transaksjon\Slett.cshtml" />
     <Content Include="Views\Kunde\Hjem.cshtml" />
+    <Content Include="Views\Transaksjon\Endre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

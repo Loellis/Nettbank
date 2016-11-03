@@ -159,6 +159,35 @@ namespace Nettbank.Controllers
             return View();
         }
 
+        public ActionResult Endre([DefaultValue(0)] int id)
+        {
+            if(id == 0)
+            {
+                return RedirectToAction("visTransaksjoner");
+            }
+
+            var tDB = new DBTransaksjoner();
+            Transaksjon trans = tDB.hentTransaksjon(id);
+            return View(trans);
+        }
+
+        [HttpPost]
+        public ActionResult Endre(int id, Transaksjon endreTrans)
+        {
+            var tDB = new DBTransaksjoner();
+
+            if (ModelState.IsValid)
+            {
+                bool endreOK = tDB.endreTrans(id, endreTrans);
+                if (endreOK)
+                {
+                    return RedirectToAction("visTransaksjoner");
+                }
+            }
+            return View();
+
+        }
+
         public ActionResult velgKonto()
         {
             // Send bruker til innlogging dersom ikke innlogget

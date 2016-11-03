@@ -13,10 +13,12 @@ namespace Nettbank.Models
         public int TransaksjonsID { get; set; }
 
         [Display(Name ="Fra Konto")]
+        [RegularExpression(@"[0-9]*", ErrorMessage = "Kontonummeret må bestå av siffer.")]
         [Required(ErrorMessage = "Velg konto du ønsker å overføre beløpet fra")]
         public string Utkonto { get; set; }
 
         [Display(Name ="Til Konto")]
+        [RegularExpression(@"[0-9]*", ErrorMessage = "Kontonummeret må bestå av siffer.")]
         [Required(ErrorMessage = "Velg konto du ønsker å overføre beløpet til")]
         public string Innkonto { get; set; }
 
@@ -25,6 +27,7 @@ namespace Nettbank.Models
         public string Beløp { get; set; }
 
         [Display(Name ="KID")]
+        [RegularExpression(@"[0-9]*", ErrorMessage = "KID-nummeret må bestå av siffer.")]
         public string KID { get; set; }
 
         [Display(Name ="Melding")]

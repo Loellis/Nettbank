@@ -179,5 +179,27 @@ namespace Nettbank
                 return false;
             }
         }
+
+        public bool endreTrans(int id, Transaksjon innTrans)
+        {
+            var db = new KundeContext();
+
+            try
+            {
+                transaksjon endreTrans = db.Transaksjoner.Find(id);
+                endreTrans.utKontoId = Convert.ToInt64(innTrans.Utkonto);
+                endreTrans.innKonto = Convert.ToInt64(innTrans.Innkonto);
+                endreTrans.beløp = Convert.ToDouble(innTrans.Beløp);
+                endreTrans.KID = Convert.ToInt64(innTrans.KID);
+                endreTrans.melding = innTrans.Melding;
+
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

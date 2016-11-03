@@ -9,7 +9,7 @@ namespace Nettbank.Models
     public class Konto
     {
         [Display(Name = "Kontonummer")]
-        public int kontoId { get; set; }
+        public long kontoId { get; set; }
 
         [Display(Name = "Kontonavn")]
         public string kontoNavn { get; set; }
