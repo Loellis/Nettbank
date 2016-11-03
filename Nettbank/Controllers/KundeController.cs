@@ -1,4 +1,5 @@
-﻿using Nettbank.Models;
+﻿using BLL;
+using Nettbank.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -412,6 +413,9 @@ namespace Nettbank.Controllers
             }
             catch (Exception feil)
             {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
                 return View();
             }
         } 
@@ -587,6 +591,9 @@ namespace Nettbank.Controllers
             }
             catch (Exception feil)
             {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
                 return RedirectToAction("Index");
             }
         }

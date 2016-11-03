@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Nettbank.Models;
 using System.Web.Mvc;
+using BLL;
 
 namespace Nettbank
 {
@@ -68,12 +69,18 @@ namespace Nettbank
                         }
                         catch (Exception feil)
                         {
+                            var loggFeil = new LoggFeil();
+                            loggFeil.SkrivTilFil(feil);
+
                             return false;
                         }
                     }
                 }
-                catch (OverflowException oe)
+                catch (Exception feil)
                 {
+                    var loggFeil = new LoggFeil();
+                    loggFeil.SkrivTilFil(feil);
+
                     return false;
                 }
             }
@@ -176,6 +183,9 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
                 return false;
             }
         }
@@ -198,6 +208,9 @@ namespace Nettbank
             }
             catch
             {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
                 return false;
             }
         }

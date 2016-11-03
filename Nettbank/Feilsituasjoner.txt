@@ -1,0 +1,12 @@
+Message :Forsøkte å dele med null.<br/>
+StackTrace :   ved Nettbank.Controllers.TransaksjonController.RegistrerBetaling() i C:\Users\oddmm\Source\Repos\Nettbank\Nettbank\Controllers\KundeController.cs:linje 77
+Date :03.11.2016 21.16.03
+
+-----------------------------------------------------------------------------
+
+Message :Forsøkte å dele med null.<br/>
+StackTrace :   ved Nettbank.Controllers.TransaksjonController.RegistrerBetaling() i C:\Users\oddmm\Source\Repos\Nettbank\Nettbank\Controllers\KundeController.cs:linje 77
+Date :03.11.2016 21.16.15
+
+-----------------------------------------------------------------------------
+

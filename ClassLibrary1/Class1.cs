@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL
+namespace ClassLibrary1
 {
-    public class KundeBLL
+    public class Class1
     {
-        
     }
 }

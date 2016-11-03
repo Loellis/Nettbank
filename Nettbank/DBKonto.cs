@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Nettbank.Models;
+using BLL;
 
 namespace Nettbank
 {
@@ -28,6 +29,9 @@ namespace Nettbank
             }
             catch(Exception feil)
             {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
                 return false;
             }
         }

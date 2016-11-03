@@ -36,14 +36,16 @@ namespace Nettbank
                     nyKunde.Poststed = nyttPoststed;
                 }
 
-                Debug.Print("ID = " + nyKunde.id + "\nPERSONNR = " + nyKunde.Personnummer + "\nFORNAVN = " + nyKunde.Fornavn + "\nETTERNAVN = " + nyKunde.Etternavn + "\nADRESSE = " + nyKunde.Adresse + "\nPOSTNR = " + nyKunde.Postnr + "\nPOSTSTED = " + nyKunde.Poststed + "\nPASSORD = " + nyKunde.Passord.GetType()  );
+                //Debug.Print("ID = " + nyKunde.id + "\nPERSONNR = " + nyKunde.Personnummer + "\nFORNAVN = " + nyKunde.Fornavn + "\nETTERNAVN = " + nyKunde.Etternavn + "\nADRESSE = " + nyKunde.Adresse + "\nPOSTNR = " + nyKunde.Postnr + "\nPOSTSTED = " + nyKunde.Poststed + "\nPASSORD = " + nyKunde.Passord.GetType()  );
                 db.Kunder.Add(nyKunde);
                 db.SaveChanges();
                 return true;
             }
             catch(Exception feil)
             {
-                Debug.Print("ID = " + nyKunde.id + "\nPERSONNR = " + nyKunde.Personnummer + "\nFORNAVN = " + nyKunde.Fornavn + "\nETTERNAVN = " + nyKunde.Etternavn + "\nADRESSE = " + nyKunde.Adresse + "\nPOSTNR = " + nyKunde.Postnr + "\nPOSTSTED = " + nyKunde.Poststed + "\nPASSORD = " + nyKunde.Passord.GetType());
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+                //Debug.Print("ID = " + nyKunde.id + "\nPERSONNR = " + nyKunde.Personnummer + "\nFORNAVN = " + nyKunde.Fornavn + "\nETTERNAVN = " + nyKunde.Etternavn + "\nADRESSE = " + nyKunde.Adresse + "\nPOSTNR = " + nyKunde.Postnr + "\nPOSTSTED = " + nyKunde.Poststed + "\nPASSORD = " + nyKunde.Passord.GetType());
                 return false;
             }
         }
@@ -88,7 +90,9 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                Debug.WriteLine(feil.ToString());
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+                //Debug.WriteLine(feil.ToString());
                 return false;
             }
         }
