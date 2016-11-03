@@ -31,11 +31,11 @@ namespace Nettbank
             }
 
             //Sjekk kontogyldighet
-            if (Convert.ToInt32(trans.Innkonto) < 1)
+            if (Convert.ToInt64(trans.Innkonto) < 1)
             {
                 return false;
             }
-            else if (Convert.ToInt32(trans.Innkonto) == Convert.ToInt32(trans.Utkonto))
+            else if (Convert.ToInt64(trans.Innkonto) == Convert.ToInt64(trans.Utkonto))
             {
                 return false;
             }
@@ -47,12 +47,12 @@ namespace Nettbank
             {
                 try
                 {
-                    if (k.kontoId == Convert.ToUInt32(trans.Utkonto))
+                    if (k.kontoId == Convert.ToInt64(trans.Utkonto))
                     {
                         var nyTrans = new transaksjon()
                         {
-                            utKontoId = Convert.ToInt32(trans.Utkonto),
-                            innKonto = Convert.ToInt32(trans.Innkonto),
+                            utKontoId = Convert.ToInt64(trans.Utkonto),
+                            innKonto = Convert.ToInt64(trans.Innkonto),
                             beløp = Convert.ToDouble(trans.Beløp),
                             KID = Convert.ToInt64(trans.KID),
                             melding = trans.Melding,

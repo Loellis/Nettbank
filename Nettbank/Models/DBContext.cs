@@ -33,7 +33,7 @@ namespace Nettbank.Models
     public class konto
     {
         [Key]
-        public int kontoID { get; set; }
+        public long kontoID { get; set; }
         public string kontoNavn { get; set; }
         public double saldo { get; set; }
         public int kontoEier { get; set; }
@@ -45,8 +45,8 @@ namespace Nettbank.Models
     {
         [Key]
         public int transId { get; set; }
-        public int utKontoId { get; set; }
-        public int innKonto { get; set; }
+        public long utKontoId { get; set; }
+        public long innKonto { get; set; }
         public double beløp { get; set; }
         public long KID { get; set; }
         public string melding { get; set; }
