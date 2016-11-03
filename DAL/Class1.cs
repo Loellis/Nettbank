@@ -9,5 +9,6 @@ namespace DAL
     public class Class1
     {
         // DBKonto/DBKunde/DBTransaksjon kan føres over i DAL-laget, men er ikke et krav for oblig 2
+        // Dersom det gjøres må KontoBLL etc kodes som mellomlag til Nettbank
     }
 }
