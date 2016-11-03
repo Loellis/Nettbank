@@ -21,6 +21,7 @@
             <th>@Html.DisplayNameFor(model => model[0].Melding)</th>
             <th>@Html.DisplayNameFor(model => model[0].Tidspunkt)</th>
             <th></th>
+            <th></th>
         </tr>
         
         @foreach(var item in Model)
@@ -35,7 +36,10 @@
                     <td>@Html.DisplayFor(modelItem => item.KID)</td>
                     <td>@Html.DisplayFor(modelItem => item.Melding)</td>
                     <td>@Html.DisplayFor(modelItem => item.Tidspunkt)</td>
-                    <td>@Html.ActionLink("Slett", "Slett", new { id = item.TransaksjonsID }, new { @class = "btn btn-danger" })</td>
+                    <td>
+                        @Html.ActionLink("Slett", "Slett", new { id = item.TransaksjonsID }, new { @class = "btn btn-danger" })
+                    </td>
+                    <td>@Html.ActionLink("Endre", "Endre", new { id = item.TransaksjonsID }, new { @class = "btn btn-primary" })</td>
                 </tr>
             }
 

@@ -43,7 +43,7 @@ namespace Nettbank
 
             foreach (var konto in alleKontoListe)
             {
-                if (konto.kontoEier == kId)
+                if ((int)konto.kontoEier == kId)
                 {
                     var nyKonto = new Konto()
                     {
