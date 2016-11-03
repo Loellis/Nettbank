@@ -5,9 +5,16 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using TrackerEnabledDbContext;
 
 namespace Nettbank.Models
 {
+    // [TrackChanges] er en tag som forteller TrackingEnabledDbContext-biblioteket
+    // hvilke tabellers endringer som skal loggføres.
+    // Dersom et felt i en tabell ikke skal loggføres kan taggen [SkipTracking] brukes.
+    // Se forøvrig https://github.com/bilal-fazlani/tracker-enabled-dbcontext/wiki for bruk.
+
+    [TrackChanges]
     public class dbKunde
     {
         [Key]
@@ -21,6 +28,7 @@ namespace Nettbank.Models
         public byte[] Passord { get; set; }
     }
 
+    [TrackChanges]
     public class PostSted
     {
         [Key]
@@ -30,6 +38,7 @@ namespace Nettbank.Models
         //public virtual List<dbKunde> Kunder { get; set; }
     }
 
+    [TrackChanges]
     public class konto
     {
         [Key]
@@ -39,8 +48,7 @@ namespace Nettbank.Models
         public int kontoEier { get; set; }
     }
 
-
-
+    [TrackChanges]
     public class transaksjon
     {
         [Key]
@@ -54,7 +62,9 @@ namespace Nettbank.Models
         public bool erGodkjent { get; set; }
     }
 
-    public class KundeContext : DbContext
+    // Bruker her TrackerContext istedenfor DbContext
+    // for å benytte TrackingEnabledDbContext-biblioteket
+    public class KundeContext : TrackerContext
     {
         public KundeContext()
             : base("name=Bank1")
