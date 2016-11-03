@@ -10,3 +10,15 @@ Date :03.11.2016 21.16.15
 
 -----------------------------------------------------------------------------
 
+Message :Forsøkte å dele med null.<br/>
+StackTrace :   ved Nettbank.Controllers.KundeController.Index() i C:\Users\oddmm\Source\Repos\Nettbank\Nettbank\Controllers\KundeController.cs:linje 236
+Date :03.11.2016 21.57.03
+
+-----------------------------------------------------------------------------
+
+Message :Forsøkte å dele med null.<br/>
+StackTrace :   ved Nettbank.Controllers.KundeController.Index() i C:\Users\oddmm\Source\Repos\Nettbank\Nettbank\Controllers\KundeController.cs:linje 236
+Date :03.11.2016 22.00.38
+
+-----------------------------------------------------------------------------
+

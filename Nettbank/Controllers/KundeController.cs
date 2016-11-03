@@ -230,7 +230,7 @@ namespace Nettbank.Controllers
 
         public ActionResult Index()
         {
-            if(Session["LoggetInn"] == null || (bool)Session["BankID"] == false)
+            if (Session["LoggetInn"] == null || (bool)Session["BankID"] == false)
             {
                 Session["LoggetInn"] = false;
                 ViewBag.Innlogget = false;

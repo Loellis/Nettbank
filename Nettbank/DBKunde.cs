@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Nettbank.Models;
 using System.Diagnostics;
+using BLL;
 
 namespace Nettbank
 {

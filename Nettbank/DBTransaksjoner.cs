@@ -206,7 +206,7 @@ namespace Nettbank
                 db.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception feil)
             {
                 var loggFeil = new LoggFeil();
                 loggFeil.SkrivTilFil(feil);
