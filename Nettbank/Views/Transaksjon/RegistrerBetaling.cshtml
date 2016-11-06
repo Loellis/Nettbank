@@ -52,7 +52,7 @@
                 @Html.LabelFor(model => model.Item1.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <!--@*@Html.EditorFor(model => model.Item1.Utkonto, new { htmlAttributes = new { @class = "form-control" } }) *@-->
-                    <select id="kontoListe" onchange="hentKontiAjax1()">
+                    <select id="kontoListe" onchange="hentKontiAjax1()" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                         @foreach(var kontoEierID in Model.Item2)
                         {
                             <option>@kontoEierID</option>
