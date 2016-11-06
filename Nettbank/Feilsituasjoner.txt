@@ -22,3 +22,12 @@ Date :03.11.2016 22.00.38
 
 -----------------------------------------------------------------------------
 
+Message :Strengreferansen er ikke satt til en forekomst av en streng.
+Parameternavn: s<br/>
+StackTrace :   ved System.Text.Encoding.GetBytes(String s)
+   ved Nettbank.Controllers.KundeController.lagHash(String innPassord) i C:\Users\Martin\Desktop\WebAppProsjekt\Nettbank-master\Nettbank\Controllers\KundeController.cs:linje 396
+   ved Nettbank.Controllers.KundeController.OpprettKunde(Kunde innKunde) i C:\Users\Martin\Desktop\WebAppProsjekt\Nettbank-master\Nettbank\Controllers\KundeController.cs:linje 429
+Date :06.11.2016 14:40:54
+
+-----------------------------------------------------------------------------
+

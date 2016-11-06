@@ -1,4 +1,4 @@
-﻿@model Nettbank.Models.Transaksjon
+﻿@model Tuple<Nettbank.Models.Transaksjon, List<string>>
 @{
     ViewBag.Title = "Registrer Betaling";
 }
@@ -7,6 +7,27 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <script src="~/scripts/jquery-3.1.1.js"></script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript">
+        function hentKontiAjax()
+        {
+            $("#visSaldo").load("/Konto/HentKonti", { kontoEierID: $("#kontoListe").val() });
+        }
+
+        function hentKontiAjax1()
+        {
+            $.getJSON("/Konto/HentKonti1", { kontoEierID: $("#kontoListe").val() }, function (konto)
+            {
+                var ut = "<b>Disponibelt beløp:</b> <br/>";
+                for (var k in konto)
+                {
+                    ut += konto[k].saldo.toString() + "<br/>";
+                }
+                $("#visSaldo").html(ut);
+            });
+        }
+    </script>
 </head>
 <body>
     @using (Html.BeginForm())
@@ -19,7 +40,7 @@
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            @Html.HiddenFor(model => model.TransaksjonsID)
+            @Html.HiddenFor(model => model.Item1.TransaksjonsID)
 
             @if (ViewBag.ErrMsg != null)
             {
@@ -28,50 +49,58 @@
 
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Item1.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Utkonto, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Utkonto, "", new { @class = "text-danger" })
+                    <!--@*@Html.EditorFor(model => model.Item1.Utkonto, new { htmlAttributes = new { @class = "form-control" } }) *@-->
+                    <select id="kontoListe" onchange="hentKontiAjax1()">
+                        @foreach(var kontoEierID in Model.Item2)
+                        {
+                            <option>@kontoEierID</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Item1.Utkonto, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-10" id="visSaldo">
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Innkonto, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Item1.Innkonto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Innkonto, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Innkonto, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Item1.Innkonto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Item1.Innkonto, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Beløp, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Item1.Beløp, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Beløp, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Beløp, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Item1.Beløp, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Item1.Beløp, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.KID, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Item1.KID, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.KID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.KID, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Item1.KID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Item1.KID, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Melding, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Item1.Melding, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Melding, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Melding, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Item1.Melding, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Item1.Melding, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Tidspunkt, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Item1.Tidspunkt, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     Skriv inn dato på dd/mm/åååå format, eller la feltet være blankt for å bruke nåværende tidspunkt
                     @if (ViewBag.TidErrMsg != null)
                     {
                         <p class="alert-info">@ViewBag.TidErrMsg</p>
                     }
-                    @Html.EditorFor(model => model.Tidspunkt, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Tidspunkt, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Item1.Tidspunkt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Item1.Tidspunkt, "", new { @class = "text-danger" })
                 </div>
                 
             </div>

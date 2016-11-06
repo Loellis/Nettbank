@@ -89,7 +89,7 @@
             {
                 <br />
                 @Html.ActionLink("Kontooversikt", "ListKonti", "Konto", new { tom = "" }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon", new { tom = "" }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Vis transaksjoner", "visTransaksjoner", "Transaksjon", new { id = Session["KundeId"] }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Legg til betaling", "RegistrerBetaling", "Transaksjon", new { tom = "" }, new { @class = "btn btn-success" })
             }
 

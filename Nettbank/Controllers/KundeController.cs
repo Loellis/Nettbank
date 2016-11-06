@@ -58,6 +58,30 @@ namespace Nettbank.Controllers
             List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
             return View(kontiListe);
         }
+
+        public string HentKonti(int kontoEierID)
+        {
+            using (var db = new KundeContext())
+            {
+                var konto = db.Konti.Where(k => k.kontoID == kontoEierID);
+                string ut = "";
+                foreach (var k in konto)
+                {
+                    ut += k.kontoID + "<br/>";
+                }
+                return ut;
+            }
+        }
+
+        public JsonResult HentKonti1(int kontoEierID)
+        {
+            using (var db = new KundeContext())
+            {
+                List<konto> konti = db.Konti.Where(k => k.kontoID == kontoEierID).ToList();
+                JsonResult ut = Json(konti, JsonRequestBehavior.AllowGet);
+                return ut;
+            }
+        }
     } // end KontoController
 
     /*
@@ -74,7 +98,23 @@ namespace Nettbank.Controllers
             {
                 return RedirectToAction("/Index", "Kunde");
             }
-            return View();
+
+            var db = new DBKonto();
+
+            
+            List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
+            Transaksjon ny = new Transaksjon();
+            var nedtrekk = new List<string>();
+            nedtrekk.Add("--- Velg Konto ---");
+            foreach(var k in konti)
+            {
+                nedtrekk.Add(k.kontoId.ToString());
+            }
+
+            var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);
+            return View(tupleReturn);
+            
+            
         }
 
         [HttpPost]
@@ -133,8 +173,8 @@ namespace Nettbank.Controllers
 
             if(id == 0)
             {
-                List<Transaksjon> tList = tDB.hentAlleTransaksjoner();
-                return View(tList);
+                List<Transaksjon> tom = new List<Transaksjon>();
+                return View(tom);
             }
 
             List<Transaksjon> tListe = tDB.hentTilhørendeTransaksjon(id);

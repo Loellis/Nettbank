@@ -91,26 +91,33 @@ namespace Nettbank
         public List<Transaksjon> hentTilhørendeTransaksjon(int id)
         {
             var db = new KundeContext();
+            var KDB = new DBKonto();
+
+
+            List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
 
             List<transaksjon> alleTransListe = db.Transaksjoner.ToList();
             List<Transaksjon> transListe = new List<Transaksjon>();
 
             foreach (var t in alleTransListe)
             {
-                if (t.transId == id)
+                foreach(var k in TilhørendeKonti)
                 {
-                    var nyTrans = new Transaksjon()
+                    if(k.kontoId == t.utKontoId)
                     {
-                        TransaksjonsID = t.transId,
-                        Utkonto = t.utKontoId.ToString(),
-                        Innkonto = t.innKonto.ToString(),
-                        Beløp = t.beløp.ToString(),
-                        KID = t.KID.ToString(),
-                        Melding = t.melding,
-                        Tidspunkt = t.transaksjonsTidspunkt,
-                        Bekreftet = t.erGodkjent.ToString()
-                    };
-                    transListe.Add(nyTrans);
+                        var nyTrans = new Transaksjon()
+                        {
+                            TransaksjonsID = t.transId,
+                            Utkonto = t.utKontoId.ToString(),
+                            Innkonto = t.innKonto.ToString(),
+                            Beløp = t.beløp.ToString(),
+                            KID = t.KID.ToString(),
+                            Melding = t.melding,
+                            Tidspunkt = t.transaksjonsTidspunkt,
+                            Bekreftet = t.erGodkjent.ToString()
+                        };
+                        transListe.Add(nyTrans);
+                    }
                 }
             }
 
