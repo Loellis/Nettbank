@@ -26,8 +26,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Kundeliste", "ListKunder", "Kunde")</li>
-                    <li>@Html.ActionLink("Opprett Kunde", "OpprettKunde", "Kunde")</li>
+                    @if (Convert.ToInt32(Session["KundeId"]) == 1)
+                    {
+                        <li>@Html.ActionLink("Kundeliste", "ListKunder", "Kunde")</li>
+                        <li>@Html.ActionLink("Opprett Kunde", "OpprettKunde", "Kunde")</li>
+                    }
+                    
                     @if ((bool)Session["LoggetInn"] == false)
                     {
                         // Går til "LoggUt" for å nullstille innloggingsprosessen

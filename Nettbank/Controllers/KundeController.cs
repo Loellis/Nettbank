@@ -279,6 +279,7 @@ namespace Nettbank.Controllers
                 ViewBag.Avbrutt = true;
                 ViewBag.Innlogget = (bool)Session["LoggetInn"];
             }
+
             return View();
         }
 
@@ -414,6 +415,11 @@ namespace Nettbank.Controllers
 
         public ActionResult ListKunder()
         {
+            if ((Session["LoggetInn"] == null) || (Convert.ToInt32(Session["KundeId"]) != 1))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
+
             var kundeDB = new DBKunde();
             List<Kunde> alleK = kundeDB.hentAlle();
             return View(alleK);
@@ -422,6 +428,10 @@ namespace Nettbank.Controllers
         // Metoder for oppretting av kunder
         public ActionResult OpprettKunde()
         {
+            if ((Session["LoggetInn"] == null) || (Convert.ToInt32(Session["KundeId"]) != 1))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             return View();
         }
@@ -429,6 +439,10 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult OpprettKunde(Kunde innKunde)
         {
+            if ((Session["LoggetInn"] == null) || (Convert.ToInt32(Session["KundeId"]) != 1))
+            {
+                return RedirectToAction("/Index", "Kunde");
+            }
             // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             try
             {
@@ -497,6 +511,37 @@ namespace Nettbank.Controllers
                     nyttPoststed.Postnr = "1234";
                     nyttPoststed.Poststed = "Testby";
                     db.Poststeder.Add(nyttPoststed);
+                    db.SaveChanges();
+                }
+
+                //Opprett Admin
+                using (var db = new KundeContext())
+                {
+                    var Admin = new dbKunde();
+                    Admin.Personnummer = "00000000000";
+                    Admin.Fornavn = "Admin";
+                    Admin.Etternavn = "admin";
+                    Admin.Adresse = "Local";
+                    Admin.Postnr = "0000";
+                    Admin.Passord = lagHash("admin");
+
+                    string innPostnr = "0000";
+
+                    var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
+
+                    if (funnetPostSted == null || funnetPostSted.Poststed == "")
+                    {
+                        var nyttPoststed = new PostSted();
+                        nyttPoststed.Postnr = innPostnr;
+                        nyttPoststed.Poststed = "Admin";
+                        db.Poststeder.Add(nyttPoststed);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        Admin.Poststed = funnetPostSted;
+                    }
+                    db.Kunder.Add(Admin);
                     db.SaveChanges();
                 }
 
