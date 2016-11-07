@@ -136,7 +136,7 @@ namespace Nettbank.Controllers
                     ViewBag.TidErrMsg = "Skriv dato på format: dd/mm/åååå eller la være blank";
                     return View();
                 }
-                if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
+                else if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
                 {
                     // Dato er før dagens dato
                     ViewBag.TidErrMsg = "Dato må være dagens dato eller frem i tid";
