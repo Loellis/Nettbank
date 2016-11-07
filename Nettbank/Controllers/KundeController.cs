@@ -149,9 +149,23 @@ namespace Nettbank.Controllers
             var kId = Convert.ToInt32(Session["KundeId"]);
             bool insertOK = transDB.regBetaling(trans, kId);
 
+            var db = new DBKonto();
+
+
+            List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
+            Transaksjon ny = new Transaksjon();
+            var nedtrekk = new List<string>();
+            nedtrekk.Add("--- Velg Konto ---");
+            foreach (var k in konti)
+            {
+                nedtrekk.Add(k.kontoId.ToString());
+            }
+
+            var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);
+
             if (insertOK)
             {
-                return RedirectToAction("visTransaksjoner");
+                return RedirectToAction("visTransaksjoner", tupleReturn);
             }
             else
             {

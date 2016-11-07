@@ -27,6 +27,15 @@
                 $("#visSaldo").html(ut);
             });
         }
+
+        function sendUtkonto()
+        {
+            $.ajax({
+                type: "GET",
+                url: "visTransaksjoner",
+                data: { utKonto: $("#kontoListe").val() }
+            }).done();
+        }
     </script>
 </head>
 <body>
@@ -106,7 +115,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Registrer Betaling" class="btn btn-success" />
+                    <input type="submit" value="Registrer Betaling" onclick="sendUtkonto()" class="btn btn-success" />
                     @Html.ActionLink("Vis transaksjonsoversikt", "visTransaksjoner", new { tom = "" }, new { @class = "btn btn-primary" })
                 </div>
             </div>

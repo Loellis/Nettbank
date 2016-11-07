@@ -63,5 +63,21 @@ namespace Nettbank
 
             return kontoListe;
         }
+
+        public bool eksisterendeKonto(long id)
+        {
+            var db = new KundeContext();
+
+            List<konto> alleKontoListe = db.Konti.ToList();
+
+            foreach(var konto in alleKontoListe)
+            {
+                if(id == konto.kontoID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
