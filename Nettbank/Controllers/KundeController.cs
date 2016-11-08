@@ -195,6 +195,25 @@ namespace Nettbank.Controllers
             return View(tListe);
         }
 
+        public ActionResult godkjennBetaling(int id)
+        {
+            var tDB = new DBTransaksjoner();
+            Transaksjon trans = tDB.hentTransaksjon(id);
+            return View(trans);
+        }
+
+        [HttpPost]
+        public ActionResult godkjennBetaling(int id, Transaksjon godkjennTrans)
+        {
+            var tDB = new DBTransaksjoner();
+            bool godkjent = tDB.sjekkTransaksjon(id);
+            if (godkjent)
+            {
+                return RedirectToAction("visTransaksjoner");
+            }
+            return View();
+        }
+
         public ActionResult Slett(int id)
         {
             var tDB = new DBTransaksjoner();
@@ -676,7 +695,7 @@ namespace Nettbank.Controllers
 
                     var k2 = db.Konti.FirstOrDefault(k => k.kontoID == 4);
                     nyTrans2.utKontoId = k2.kontoID;
-                    nyTrans2.innKonto = 777;
+                    nyTrans2.innKonto = k1.kontoID;
                     nyTrans2.beløp = 555;
                     nyTrans2.melding = "Hei på deg";
                     nyTrans2.transaksjonsTidspunkt = DateTime.Now.ToString();

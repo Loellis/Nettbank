@@ -82,7 +82,7 @@
 
             <div class="form-actions no-color">
                 <input type="submit" value="Slett" class="btn btn-danger" />
-                @Html.ActionLink("Kontooversikt", "visTransaksjoner", new { tom = "" }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Kontooversikt", "visTransaksjoner", new { id = Session["KundeId"] }, new { @class = "btn btn-success" })
             </div>
         }
     </div>
