@@ -182,13 +182,44 @@ namespace Nettbank.Controllers
             {
                 return RedirectToAction("/Index", "Kunde");
             }
+            else if (id != 0)
+            {
+                bool tilgang = false;
+                // Sjekk at innlogget bruker har tilgang på denne siden
+                try
+                {
+                    var kontoDB = new DBKonto();
+                    List<Konto> kontoListe = kontoDB.hentTilhørendeKonti((int)Session["KundeId"]);
+                    foreach (var konto in kontoListe)
+                    {
+                        if (konto.kontoId == id)
+                        {
+                            // Innlogget bruker er kontoeier
+                            tilgang = true;
+                            break;
+                        }
+                    }
+                }
+                catch (Exception feil)
+                {
+                    var loggFeil = new LoggFeil();
+                    loggFeil.SkrivTilFil(feil);
+                }
+
+                // Dersom bruker ikke har tilgang til denne kontoen/kontos transaksjoner, 
+                // vis kundes transaksjoner
+                if (!tilgang)
+                {
+                    return RedirectToAction("ListKonti", "Konto");
+                }
+            }
 
             var tDB = new DBTransaksjoner();
 
             if(id == 0)
             {
-                List<Transaksjon> tom = new List<Transaksjon>();
-                return View(tom);
+                List<Transaksjon> alleKundesTrans = tDB.hentKundesTransaksjoner((int)Session["KundeId"]);
+                return View(alleKundesTrans);
             }
 
             List<Transaksjon> tListe = tDB.hentTilhørendeTransaksjon(id);
