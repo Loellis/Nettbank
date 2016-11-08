@@ -94,31 +94,96 @@ namespace Nettbank
             var KDB = new DBKonto();
 
 
+            //List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
+
+            List<transaksjon> alleTransListe = db.Transaksjoner.ToList();
+            List<Transaksjon> transListe = new List<Transaksjon>();
+            /*Konto konto = new Konto();
+            bool kontoFins = false;
+            foreach (var k in TilhørendeKonti)
+            {
+                if (k.kontoId == (long)id)
+                {
+                    konto = k;
+                    kontoFins = true;
+                    break;
+                }
+            }*/
+            
+            try
+            {
+                foreach (var t in alleTransListe)
+                {
+                    /*if (kontoFins)
+                    {*/
+                        //if (konto.kontoId == t.utKontoId)
+                        if (id == t.utKontoId)
+                        {
+                            var nyTrans = new Transaksjon()
+                            {
+                                TransaksjonsID = t.transId,
+                                Utkonto = t.utKontoId.ToString(),
+                                Innkonto = t.innKonto.ToString(),
+                                Beløp = t.beløp.ToString(),
+                                KID = t.KID.ToString(),
+                                Melding = t.melding,
+                                Tidspunkt = t.transaksjonsTidspunkt,
+                                Bekreftet = t.erGodkjent.ToString()
+                            };
+                            transListe.Add(nyTrans);
+                        }
+                    //}
+                }
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+            }
+
+            return transListe;
+        }
+
+        // Finner alle transaksjoner tilhørende en kunde
+        public List<Transaksjon> hentKundesTransaksjoner(int id)
+        {
+            var db = new KundeContext();
+            var KDB = new DBKonto();
+
+
             List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
 
             List<transaksjon> alleTransListe = db.Transaksjoner.ToList();
             List<Transaksjon> transListe = new List<Transaksjon>();
-
-            foreach (var t in alleTransListe)
+            
+            try
             {
-                foreach(var k in TilhørendeKonti)
+                foreach (var t in alleTransListe)
                 {
-                    if(k.kontoId == t.utKontoId)
+                    foreach (var k in TilhørendeKonti)
                     {
-                        var nyTrans = new Transaksjon()
+                        if (k.kontoId == t.utKontoId)
                         {
-                            TransaksjonsID = t.transId,
-                            Utkonto = t.utKontoId.ToString(),
-                            Innkonto = t.innKonto.ToString(),
-                            Beløp = t.beløp.ToString(),
-                            KID = t.KID.ToString(),
-                            Melding = t.melding,
-                            Tidspunkt = t.transaksjonsTidspunkt,
-                            Bekreftet = t.erGodkjent.ToString()
-                        };
-                        transListe.Add(nyTrans);
+                            var nyTrans = new Transaksjon()
+                            {
+                                TransaksjonsID = t.transId,
+                                Utkonto = t.utKontoId.ToString(),
+                                Innkonto = t.innKonto.ToString(),
+                                Beløp = t.beløp.ToString(),
+                                KID = t.KID.ToString(),
+                                Melding = t.melding,
+                                Tidspunkt = t.transaksjonsTidspunkt,
+                                Bekreftet = t.erGodkjent.ToString()
+                            };
+                            transListe.Add(nyTrans);
+                        }
                     }
                 }
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
             }
 
             return transListe;
