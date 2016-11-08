@@ -286,5 +286,38 @@ namespace Nettbank
                 return false;
             }
         }
+
+        public bool sjekkTransaksjon(int id)
+        {
+            var db = new KundeContext();
+
+            try
+            {
+                transaksjon sjekkTrans = db.Transaksjoner.Find(id);
+                konto utKonto = db.Konti.Find(sjekkTrans.utKontoId);
+                konto innKonto = db.Konti.Find(sjekkTrans.innKonto);
+
+                if(sjekkTrans.beløp <= utKonto.saldo)
+                {
+                    utKonto.saldo -= sjekkTrans.beløp;
+                    innKonto.saldo += sjekkTrans.beløp;
+
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
+                return false;
+            }
+        }
     }
 }

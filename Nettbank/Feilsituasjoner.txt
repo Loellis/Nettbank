@@ -31,3 +31,15 @@ Date :06.11.2016 14:40:54
 
 -----------------------------------------------------------------------------
 
+Message :Objektreferanse er ikke satt til en objektforekomst.<br/>
+StackTrace :   ved Nettbank.DBTransaksjoner.sjekkTransaksjon(Int32 id) i C:\Users\Martin\Desktop\WebAppProsjekt\Nettbank-master\Nettbank\DBTransaksjoner.cs:linje 238
+Date :08.11.2016 11:30:31
+
+-----------------------------------------------------------------------------
+
+Message :Objektreferanse er ikke satt til en objektforekomst.<br/>
+StackTrace :   ved Nettbank.DBTransaksjoner.sjekkTransaksjon(Int32 id) i C:\Users\Martin\Desktop\WebAppProsjekt\Nettbank-master\Nettbank\DBTransaksjoner.cs:linje 238
+Date :08.11.2016 11:31:40
+
+-----------------------------------------------------------------------------
+
