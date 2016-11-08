@@ -237,6 +237,8 @@ namespace Nettbank
                     utKonto.saldo -= sjekkTrans.beløp;
                     innKonto.saldo += sjekkTrans.beløp;
 
+                    sjekkTrans.erGodkjent = true;
+
                     db.SaveChanges();
                     return true;
                 }
