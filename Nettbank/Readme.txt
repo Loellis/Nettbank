@@ -1,7 +1,9 @@
 ﻿Utviklet av:
 Martin Veshovda Løland, s236323
 Odd Magnus Meyer, s236639
-
+=====================
+Oblig 1
+---
 Dersom det skulle oppstå noen databaseproblemer, så er det to knapper på hjemmesiden: Slett DB og Autogenerer.
 Disse to knappene utfører henholdsvis følgende:  Sletter databasen (Bank1), og oppretter to testkunder med hver sine to kontoer og noen tilhørende transaksjoner.
 Innloggingsinformasjon for testkundene:
@@ -20,6 +22,6 @@ Har her tatt i bruk TrackingEnabledDbContext gjennom NuGet packages for å loggf
 For å bruke dette biblioteket brukes "TrackerContext" istedenfor "DbContext" i DBContext.cs, tabeller som skal loggføres tagges med [TrackChanges], og individuelle felter hoppes eventuelt over med taggen [SkipTracking].
 Se forøvrig https://github.com/bilal-fazlani/tracker-enabled-dbcontext/wiki for dokumentasjon.
 ---
-Versjonskontroll: Vi har brukt Github: https://github.com/Loellis/Nettbank/
+Versjonskontroll: Vi har brukt Github og Github VS extension: https://github.com/Loellis/Nettbank/
 Autogenererte tester: Har brukt IntelliTest i VS Enterprise
 
