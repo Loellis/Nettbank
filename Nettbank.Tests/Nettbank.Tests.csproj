@@ -37,6 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Nettbank\bin\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ExtendedReflection">
       <HintPath>F:\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.dll</HintPath>
     </Reference>
@@ -51,6 +55,14 @@
       <HintPath>..\Nettbank\bin\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
+    <Reference Include="TrackerEnabledDbContext, Version=3.6.1.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Nettbank\bin\TrackerEnabledDbContext.dll</HintPath>
+    </Reference>
+    <Reference Include="TrackerEnabledDbContext.Common, Version=3.6.1.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Nettbank\bin\TrackerEnabledDbContext.Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nettbank\Nettbank.csproj">
@@ -59,10 +71,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBKontoTest.cs" />
+    <Compile Include="DBKontoTest.lagKonto.g.cs">
+      <DependentUpon>DBKontoTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DBKundeTest.cs" />
+    <Compile Include="DBKundeTest.settKunde.g.cs">
+      <DependentUpon>DBKundeTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DBTransaksjonerTest.cs" />
+    <Compile Include="DBTransaksjonerTest.slettTransaksjon.g.cs">
+      <DependentUpon>DBTransaksjonerTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="KontoControllerTest.cs" />
     <Compile Include="KontoControllerTest.OpprettKonto01.g.cs">
       <DependentUpon>KontoControllerTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="KundeContextTest.Constructor.g.cs">
+      <DependentUpon>KundeContextTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KundeContextTest.cs" />
     <Compile Include="KundeControllerTest.cs" />
     <Compile Include="KundeControllerTest.TestOpprett.g.cs">
       <DependentUpon>KundeControllerTest.cs</DependentUpon>
