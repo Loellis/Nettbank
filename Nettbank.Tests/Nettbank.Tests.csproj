@@ -59,6 +59,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KontoControllerTest.cs" />
+    <Compile Include="KontoControllerTest.OpprettKonto01.g.cs">
+      <DependentUpon>KontoControllerTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="KundeControllerTest.cs" />
     <Compile Include="KundeControllerTest.TestOpprett.g.cs">
       <DependentUpon>KundeControllerTest.cs</DependentUpon>
