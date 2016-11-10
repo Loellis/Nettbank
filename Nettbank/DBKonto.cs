@@ -10,13 +10,13 @@ namespace Nettbank
     public class DBKonto
     {
 
-        public bool lagKonto(Konto innKonto)
+        public bool lagKonto(Konto innKonto, int id)
         {
             var nyKonto = new konto()
             {
                 kontoNavn = innKonto.kontoNavn,
                 saldo = 0,
-                kontoEier = Convert.ToInt32(innKonto.kontoEier)
+                kontoEier = id
             };
 
             var db = new KundeContext();

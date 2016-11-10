@@ -35,8 +35,10 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
+            var id = Convert.ToInt32(Session["KundeId"]);
+
             var kontoDB = new DBKonto();
-            bool insertOK = kontoDB.lagKonto(innKonto);
+            bool insertOK = kontoDB.lagKonto(innKonto, id);
 
             if (insertOK)
             {
