@@ -59,11 +59,11 @@ namespace Nettbank.Controllers
             return View(kontiListe);
         }
 
-        public string HentKonti(int kontoEierID)
+        public string HentKonti(int kontoID)
         {
             using (var db = new KundeContext())
             {
-                var konto = db.Konti.Where(k => k.kontoID == kontoEierID);
+                var konto = db.Konti.Where(k => k.kontoID == kontoID);
                 string ut = "";
                 foreach (var k in konto)
                 {
@@ -73,11 +73,11 @@ namespace Nettbank.Controllers
             }
         }
 
-        public JsonResult HentKonti1(int kontoEierID)
+        public JsonResult HentKonti1(int kontoID)
         {
             using (var db = new KundeContext())
             {
-                List<konto> konti = db.Konti.Where(k => k.kontoID == kontoEierID).ToList();
+                List<konto> konti = db.Konti.Where(k => k.kontoID == kontoID).ToList();
                 JsonResult ut = Json(konti, JsonRequestBehavior.AllowGet);
                 return ut;
             }
@@ -242,7 +242,7 @@ namespace Nettbank.Controllers
             {
                 return RedirectToAction("visTransaksjoner");
             }
-            return View();
+            return RedirectToAction("visTransaksjoner");
         }
 
         public ActionResult Slett(int id)
@@ -658,15 +658,25 @@ namespace Nettbank.Controllers
                     db.SaveChanges();
                 }
 
+                using (var db = new KundeContext())
+                {
+                    var startKonto = new konto();
+                    startKonto.saldo = 99999;
+                    startKonto.kontoEier = 1;
+                    startKonto.kontoID = 10000000001;
+                    db.Konti.Add(startKonto);
+                    db.SaveChanges();
+                }
+
                 //Testkonti for testkunde1
                 using (var db = new KundeContext())
                 {
                     var nyKonto1 = new konto();
-                    
+
                     nyKonto1.saldo = 1066601;
                     var k1 = db.Kunder.FirstOrDefault(p => p.Personnummer == "99999111111");
                     nyKonto1.kontoEier = k1.id;
-                    
+
                     //Lagre konto
                     db.Konti.Add(nyKonto1);
                     db.SaveChanges();
@@ -674,7 +684,7 @@ namespace Nettbank.Controllers
                     var nyKonto2 = new konto();
 
                     nyKonto2.saldo = 10201;
-                    
+
                     nyKonto2.kontoEier = k1.id;
 
                     //Lagre konto
