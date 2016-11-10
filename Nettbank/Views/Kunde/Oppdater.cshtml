@@ -1,0 +1,74 @@
+﻿@model Nettbank.Models.Kunde
+@{
+    ViewBag.Title = "Oppdater";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Oppdater Kunde</h4>
+            <hr />
+
+            @Html.ValidationSummary(true, "", new {@class = "text-danger" })
+
+            @Html.HiddenFor(model => model.id)
+            @Html.HiddenFor(model => model.Passord)
+
+            @if(ViewBag.ErrMsg != null)
+            {
+                <p class="alert-danger">@ViewBag.ErrMsg</p>
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Personnummer, htmlAttributes: new { @class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Personnummer, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Personnummer, "", new { @class = "text-danger"})
+                </div>
+            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fornavn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Fornavn, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fornavn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Etternavn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Etternavn, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Etternavn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Postnr, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Postnr, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Postnr, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Poststed, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Poststed, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Poststed, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oppdater" class="btn btn-success"/>
+                    @Html.ActionLink("Kundeoversikt", "ListKunder","Kunde" ,new { @class = "btn btn-primary" })
+                </div>
+            </div>
+       </div>
+    }
+</body>
+</html>
+

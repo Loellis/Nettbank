@@ -355,6 +355,61 @@ namespace Nettbank.Controllers
             }
             return View();
         }
+        
+        //Metode for å slette kunde
+        public ActionResult Slett([DefaultValue(0)] int id)
+        {
+            if (id == 0)
+            {
+                return RedirectToAction("ListKunder");
+            }
+
+            var kDB = new DBKunde();
+            Kunde kunde = kDB.hentKunde(id);
+            return View(kunde);
+        }
+
+        [HttpPost]
+        public ActionResult Slett(int id, Transaksjon slettTrans)
+        {
+            var kDB = new DBKunde();
+            bool slettOK = kDB.slettKunde(id);
+            if (slettOK)
+            {
+                return RedirectToAction("ListKunder");
+            }
+            return View();
+        }
+
+        //Metode for å endre/oppdatere kunde
+        public ActionResult Oppdater([DefaultValue(0)] int id)
+        {
+            if (id == 0)
+            {
+                return RedirectToAction("ListKunder");
+            }
+
+            var kDB = new DBKunde();
+            Kunde kunde = kDB.hentKunde(id);
+            return View(kunde);
+        }
+
+        [HttpPost]
+        public ActionResult Oppdater(int id, Kunde endreKunde)
+        {
+            var kDB = new DBKunde();
+
+            if (ModelState.IsValid)
+            {
+                bool endreOK = kDB.endreKunde(id, endreKunde);
+                if (endreOK)
+                {
+                    return RedirectToAction("ListKunder");
+                }
+            }
+            return View();
+
+        }
 
         [HttpPost]
         public ActionResult Index(Kunde innKunde)

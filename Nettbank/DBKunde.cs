@@ -143,5 +143,94 @@ namespace Nettbank
             utData = algoritme.ComputeHash(innData);
             return utData;
         }
+
+        public Kunde hentKunde(int id)
+        {
+            var db = new KundeContext();
+
+            var enKunde = db.Kunder.Find(id);
+
+            if (enKunde == null)
+            {
+                return null;
+            }
+            else
+            {
+                var utKunde = new Kunde()
+                {
+                    id = enKunde.id,
+                    Fornavn = enKunde.Fornavn,
+                    Etternavn = enKunde.Etternavn,
+                    Adresse = enKunde.Adresse,
+                    Personnummer = enKunde.Personnummer,
+                    Postnr = enKunde.Postnr,
+                    Poststed = enKunde.Poststed.Poststed
+                };
+                return utKunde;
+            }
+        }
+
+        public bool slettKunde(int kID)
+        {
+            var db = new KundeContext();
+
+            try
+            {
+                dbKunde slettKunde = db.Kunder.Find(kID);
+                db.Kunder.Remove(slettKunde);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
+                return false;
+            }
+        }
+
+        public bool endreKunde(int id, Kunde innKunde)
+        {
+            var db = new KundeContext();
+
+            try
+            {
+                dbKunde endreKunde = db.Kunder.Find(id);
+                endreKunde.Fornavn = innKunde.Fornavn;
+                endreKunde.Etternavn = innKunde.Etternavn;
+                endreKunde.Adresse = innKunde.Adresse;
+                endreKunde.Personnummer = innKunde.Personnummer;
+                if(endreKunde.Postnr != innKunde.Postnr)
+                {
+                    PostSted eksisterendePoststed = db.Poststeder.FirstOrDefault(p => p.Postnr == innKunde.Postnr);
+                    if (eksisterendePoststed == null)
+                    {
+                        var nyttPoststed = new PostSted()
+                        {
+                            Postnr = innKunde.Postnr,
+                            Poststed = innKunde.Poststed
+                        };
+                        db.Poststeder.Add(nyttPoststed);
+                    }
+                    else
+                    {
+                        endreKunde.Postnr = innKunde.Postnr;
+                    }
+                };
+                if(innKunde.Passord != null)
+                {
+                    endreKunde.Passord = lagHash(innKunde.Passord);
+                }
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
     }
 }
