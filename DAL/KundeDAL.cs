@@ -50,9 +50,9 @@ namespace DAL
             }
         }
 
+        // Adminversjon
         public bool settKunde(Kunde innKunde)
         {
-            // Ingen innloggingssjekk her, foreløpig er dette en "admin"/testside
             try
             {
                 using (var db = new KundeContext())

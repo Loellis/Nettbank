@@ -18,7 +18,9 @@ I toppen av navbaren er det to linker til "Kundeliste" og "Opprett Kunde". Disse
 =====================
 Oblig 2
 ---
-Har her tatt i bruk TrackingEnabledDbContext gjennom NuGet packages for å loggføre endringer i databasen. Denne ghør at endringer i databasen blir loggført til to relasjonstabeller i databasen; AuditLog og AuditLogDetail.
+Anbefaler å trykke på Slett DB og Autogenerer ved førstegangskjøring for å nullstille databasen.
+---
+Har her tatt i bruk TrackingEnabledDbContext gjennom NuGet packages for å loggføre endringer i databasen. Denne gjør at endringer i databasen blir loggført til to relasjonstabeller i databasen; AuditLog og AuditLogDetail.
 For å bruke dette biblioteket brukes "TrackerContext" istedenfor "DbContext" i DBContext.cs, tabeller som skal loggføres tagges med [TrackChanges], og individuelle felter hoppes eventuelt over med taggen [SkipTracking].
 Se forøvrig https://github.com/bilal-fazlani/tracker-enabled-dbcontext/wiki for dokumentasjon.
 ---
