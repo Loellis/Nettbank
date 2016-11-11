@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="KontoBLL.cs" />
     <Compile Include="KundeBLL.cs" />
-    <Compile Include="DBaksess.cs" />
     <Compile Include="LoggFeil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransaksjonBLL.cs" />

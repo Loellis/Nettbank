@@ -97,3 +97,60 @@ Date :11.11.2016 22.44.18
 
 -----------------------------------------------------------------------------
 
+Message :KC->Innkonto: 124. Utkonto: 2. Beløp: 2. Melding: test.
+StackTrace :
+Date :11.11.2016 22.53.23
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 124. Utkonto: 3. Beløp: 2. Melding: test.
+StackTrace :
+Date :11.11.2016 22.53.40
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 424. Utkonto: 2. Beløp: 12. Melding: datotom.
+StackTrace :
+Date :11.11.2016 22.53.53
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 12412. Utkonto: 2. Beløp: 2. Melding: datotom.
+StackTrace :
+Date :11.11.2016 22.55.41
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 241. Utkonto: 2. Beløp: 42. Melding: datofeil.
+StackTrace :
+Date :11.11.2016 22.55.58
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 241. Utkonto: 3. Beløp: 42. Melding: datofeil.
+StackTrace :
+Date :11.11.2016 22.56.15
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 241. Utkonto: --- Velg Konto ---. Beløp: 42. Melding: datofeil.
+StackTrace :
+Date :11.11.2016 22.56.21
+
+-----------------------------------------------------------------------------
+
+Message :Inndatastrengen hadde ugyldig format.
+StackTrace :   ved System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   ved System.Number.ParseInt64(String value, NumberStyles options, NumberFormatInfo numfmt)
+   ved System.Convert.ToInt64(String value)
+   ved DAL.TransaksjonDAL.regBetaling(Transaksjon trans, Int32 id) i C:\Users\oddmm\Source\Repos\Nettbank\DAL\TransaksjonerDAL.cs:linje 43
+Date :11.11.2016 22.56.21
+
+-----------------------------------------------------------------------------
+
+Message :KC->Innkonto: 241. Utkonto: 2. Beløp: 42. Melding: datofeil.
+StackTrace :
+Date :11.11.2016 22.56.24
+
+-----------------------------------------------------------------------------
+

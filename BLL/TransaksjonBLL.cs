@@ -11,10 +11,10 @@ namespace BLL
     public class TransaksjonBLL
     {
         // Registrerer en betaling
-        public bool regBetaling(Transaksjon trans, int id, string utKonto)
+        public bool regBetaling(Transaksjon trans, int id)
         {
             var transaksjonDAL = new TransaksjonDAL();
-            return transaksjonDAL.regBetaling(trans, id, utKonto);
+            return transaksjonDAL.regBetaling(trans, id);
         }
 
         //Finner transaksjoner som tilhører bestemt konto

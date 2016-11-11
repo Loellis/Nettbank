@@ -129,50 +129,14 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            /*try
-            {
-                trans.Utkonto = utKonto;
-            }
-            catch (Exception feil)
-            {
-                trans.Utkonto = utKonto;
-                var loggFeil = new LoggFeil();
-                loggFeil.SkrivTilFil(feil);
-            }
-            try
-            {
-                string tmp2 = "KC->Innkonto: " + trans.Innkonto + ". Utkonto: " + utKonto + ". Beløp: " + trans.Beløp + ". Melding: " + trans.Melding + ".";
-            }
-            catch (Exception feil)
-            {
-                var loggFeil = new LoggFeil();
-                loggFeil.SkrivTilFil(feil);
-            }*/
-            // Sjekk om dato er gyldig
-            DateTime transDato;
-            bool datoFeil = false;
-            //if (!(trans.Tidspunkt == null) || !(trans.Tidspunkt == ""))
+            
+            
             if (trans == null)
             {
                 var lF = new LoggFeilDAL();
-                lF.SkrivTilFil(new Exception("trans er null, hvorfor er trans null?"));
+                lF.SkrivTilFil(new Exception("trans er null, hvorfor er modellen null?"));
             }
-            /*if (trans.Tidspunkt != null)
-            {
-                // Dato er oppgitt av kunde, sjekk gyldighet av denne
-                if (!DateTime.TryParse(trans.Tidspunkt, out transDato))
-                {
-                    // Innskrevet dato er på et ugjennkjennelig format
-                    ViewBag.TidErrMsg = "Skriv dato på format: dd/mm/åååå eller la være blank";
-                    datoFeil = true;
-                }
-                else if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
-                {
-                    // Dato er før dagens dato
-                    ViewBag.TidErrMsg = "Dato må være dagens dato eller frem i tid";
-                    datoFeil = true;
-                }
-            }*/
+            
 
             //trans.Utkonto = bruke name fra select?
             //TEST TEST TEST
@@ -197,19 +161,32 @@ namespace Nettbank.Controllers
                 loggFeil.SkrivTilFil(feil);
             }
 
-            var loggFeil1 = new LoggFeilDAL();
-            //string tmp = "Utkonto: " + utKonto;
-            string tmp = "KC->Innkonto: " + nyTrans.Innkonto + ". Utkonto: " + nyTrans.Utkonto + ". Beløp: " + nyTrans.Beløp + ". Melding: " + nyTrans.Melding + ".";
-            loggFeil1.SkrivTilFil(new Exception(tmp));
-            //trans.Utkonto = utKonto;
-            //TEST TEST TEST
-            string Utkonto = nyTrans.Utkonto;
+            // Sjekk om dato er gyldig
+            DateTime transDato;
+            bool datoFeil = false;
+            if (!(trans.Tidspunkt == null || trans.Tidspunkt == ""))
+            {
+                // Dato er oppgitt av kunde, sjekk gyldighet av denne
+                if (!DateTime.TryParse(trans.Tidspunkt, out transDato))
+                {
+                    // Innskrevet dato er på et ugjennkjennelig format
+                    ViewBag.TidErrMsg = "Skriv dato på format: dd/mm/åååå eller la være blank";
+                    datoFeil = true;
+                }
+                else if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
+                {
+                    // Dato er før dagens dato
+                    ViewBag.TidErrMsg = "Dato må være dagens dato eller frem i tid";
+                    datoFeil = true;
+                }
+            }
 
-
-            var transDB = new TransaksjonBLL();
-            var kId = Convert.ToInt32(Session["KundeId"]);
-            bool insertOK = transDB.regBetaling(nyTrans, kId, Utkonto);
-
+            // Denne kodesnutten ble brukt for hvilke data som fantes i trans.
+            //var loggFeil1 = new LoggFeilDAL();
+            //string tmp = "KC->Innkonto: " + nyTrans.Innkonto + ". Utkonto: " + nyTrans.Utkonto + ". Beløp: " + nyTrans.Beløp + ". Melding: " + nyTrans.Melding + ".";
+            //loggFeil1.SkrivTilFil(new Exception(tmp));
+            
+            // Lag konto-nedtrekksliste
             var db = new KontoBLL();
             List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
             Transaksjon ny = new Transaksjon();
@@ -220,22 +197,30 @@ namespace Nettbank.Controllers
                 nedtrekk.Add(k.kontoId.ToString());
             }
 
+            // To modeller skal sendes til Viewet. Her brukes Tuple for å sende
+            // Transaksjon (Item1) og List<string> (Item2) til Viewet.
             var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);
 
             if (datoFeil)
             {
-                // Datofeil, returner med ViewBag.TidErrMsg
+                // Datofeil, returner med ViewBag.TidErrMsg og tupleReturn
                 return View(tupleReturn);
             }
 
+            // Forsøk å sette inn transaksjon i DB
+            var transDB = new TransaksjonBLL();
+            var kId = Convert.ToInt32(Session["KundeId"]);
+            bool insertOK = transDB.regBetaling(nyTrans, kId);
+
             if (insertOK)
             {
-                ViewBag.YesMsg = "Transaksjonen lagt til i transaksjonsregisteret.";
+                TempData["YesMsg"] = "Transaksjonen lagt til i transaksjonsregisteret.";
                 ViewBag.ErrMsg = null;
                 return RedirectToAction("visTransaksjoner", tupleReturn);
             }
             else
             {
+                TempData["YesMsg"] = null;
                 ViewBag.ErrMsg = "Transaksjonen mislyktes. Sjekk at opplysningene er korrekt eller prøv igjen senere";
                 ViewBag.YesMsg = null;
             }
@@ -282,6 +267,10 @@ namespace Nettbank.Controllers
                     return RedirectToAction("ListKonti", "Konto");
                 }
             }
+
+            // Hent eventuell melding  fra TempData
+
+            ViewBag.YesMsg = TempData["YesMsg"];
 
             var tDB = new TransaksjonBLL();
 

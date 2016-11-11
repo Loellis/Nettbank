@@ -67,6 +67,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\PexAssemblyInfo.cs" />
+    <Compile Include="TransaksjonBLLTest.cs" />
+    <Compile Include="TransaksjonBLLTest.slettTransaksjon.g.cs">
+      <DependentUpon>TransaksjonBLLTest.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">

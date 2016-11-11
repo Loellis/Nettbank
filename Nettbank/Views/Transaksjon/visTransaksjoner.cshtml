@@ -10,6 +10,11 @@
 </head>
 <body>
     <br /><br />
+    @if (ViewBag.YesMsg != null)
+    {
+    <p class="alert-success">@ViewBag.YesMsg</p>
+    }
+    <br />
     <h4>Ubekreftede betalinger</h4>
     <table class="table">
         <tr>

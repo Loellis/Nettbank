@@ -9,7 +9,7 @@ namespace DAL
 {
     public class TransaksjonDAL
     {
-        public bool regBetaling(Transaksjon trans, int id, string utKonto)
+        public bool regBetaling(Transaksjon trans, int id)
         {
             var db = new KundeContext();
             var kontoDB = new KontoDAL();
@@ -65,7 +65,7 @@ namespace DAL
                     {
                         var nyTrans = new transaksjon()
                         {
-                            utKontoId = Convert.ToInt64(utKonto),
+                            utKontoId = Convert.ToInt64(trans.Utkonto),
                             innKonto = Convert.ToInt64(trans.Innkonto),
                             beløp = Convert.ToDouble(trans.Beløp),
                             KID = Convert.ToInt64(trans.KID),
