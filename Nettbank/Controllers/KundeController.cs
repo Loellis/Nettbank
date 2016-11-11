@@ -121,12 +121,24 @@ namespace Nettbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrerBetaling(Transaksjon trans)
+        public ActionResult RegistrerBetaling([Bind(Prefix = "Item1")] Transaksjon trans)
         {
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
+
+            /*var db = new KontoBLL();
+            List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
+            Transaksjon ny = new Transaksjon();
+            var nedtrekk = new List<string>();
+            nedtrekk.Add("--- Velg Konto ---");
+            foreach (var k in konti)
+            {
+                nedtrekk.Add(k.kontoId.ToString());
+            }
+
+            var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);*/
 
             // Sjekk om dato er gyldig
             /*DateTime transDato;
@@ -137,32 +149,28 @@ namespace Nettbank.Controllers
                 {
                     // Innskrevet dato er på et ugjennkjennelig format
                     ViewBag.TidErrMsg = "Skriv dato på format: dd/mm/åååå eller la være blank";
-                    return View();
+                    return View(tupleReturn);
                 }
                 else if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
                 {
                     // Dato er før dagens dato
                     ViewBag.TidErrMsg = "Dato må være dagens dato eller frem i tid";
-                    return View();
+                    return View(tupleReturn);
                 }
-            }
+            }*/
             
-            ViewBag.TidErrMsg = "";*/
+            ViewBag.TidErrMsg = null;
             //trans.Utkonto = bruke name fra select?
             //TEST TEST TEST
             var loggFeil1 = new LoggFeilDAL();
             loggFeil1.SkrivTilFil(new Exception("KC->Innkonto: " + trans.Innkonto + ". Utkonto: " + trans.Utkonto + ". Beløp: " + trans.Beløp + ". Melding: " + trans.Melding + "."));
             //TEST TEST TEST
 
-
-            //
             var transDB = new TransaksjonBLL();
             var kId = Convert.ToInt32(Session["KundeId"]);
             bool insertOK = transDB.regBetaling(trans, kId);
 
             var db = new KontoBLL();
-
-
             List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
             Transaksjon ny = new Transaksjon();
             var nedtrekk = new List<string>();
@@ -173,6 +181,7 @@ namespace Nettbank.Controllers
             }
 
             var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);
+
 
             if (insertOK)
             {

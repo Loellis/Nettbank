@@ -36,21 +36,17 @@ namespace DAL
             //Sjekk kontogyldighet
             if (Convert.ToInt64(trans.Innkonto) < 1)
             {
-                loggFeil1.SkrivTilFil(new Exception("regBetaling feiler i test på kontogyldighet. Innkonto: " + trans.Innkonto + ". Utkonto: " + trans.Utkonto + ". Beløp: " + trans.Beløp));
+                //loggFeil1.SkrivTilFil(new Exception("regBetaling feiler i test på kontogyldighet. Innkonto: " + trans.Innkonto + ". Utkonto: " + trans.Utkonto + ". Beløp: " + trans.Beløp));
                 return false;
             }
             else if (Convert.ToInt64(trans.Innkonto) == Convert.ToInt64(trans.Utkonto))
             {
-                loggFeil1.SkrivTilFil(new Exception("regBetaling feiler i test på kontogyldighet else if. Innkonto: " + trans.Innkonto));
+                //loggFeil1.SkrivTilFil(new Exception("regBetaling feiler i test på kontogyldighet else if. Innkonto: " + trans.Innkonto));
                 // Samme konto
                 return false;
             }
 
-            //TEST TEST TEST
-            loggFeil1.SkrivTilFil(new Exception("regBetaling feiler etter test på konto"));
-            //TEST TEST TEST
-
-
+            
             List<Konto> kontoer = kontoDB.hentTilhørendeKonti(id);
             List<int> kontoID = new List<int>();
 
@@ -85,6 +81,11 @@ namespace DAL
                             return false;
                         }
                     }
+                    else
+                    {
+                        string tmp = "regBetaling feiler if test" + "Innkonto: " + trans.Innkonto + ".Utkonto: " + trans.Utkonto + ".Beløp: " + trans.Beløp + ".Melding: " + trans.Melding + ".";
+                        loggFeil1.SkrivTilFil(new Exception(tmp));
+                    }
                 }
                 catch (Exception feil)
                 {
@@ -94,6 +95,7 @@ namespace DAL
                     return false;
                 }
             }
+            loggFeil1.SkrivTilFil(new Exception("regBetaling feiler etter/i db try catch"));
             return false;
         }
 
