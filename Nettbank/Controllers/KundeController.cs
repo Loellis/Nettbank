@@ -1,5 +1,5 @@
 ﻿using BLL;
-using Nettbank.Models;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using DAL;
 
 namespace Nettbank.Controllers
 {
@@ -37,7 +38,7 @@ namespace Nettbank.Controllers
 
             var id = Convert.ToInt32(Session["KundeId"]);
 
-            var kontoDB = new DBKonto();
+            var kontoDB = new KontoBLL();
             bool insertOK = kontoDB.lagKonto(innKonto, id);
 
             if (insertOK)
@@ -55,7 +56,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            var kontoDB = new DBKonto();
+            var kontoDB = new KontoBLL();
             var kId = Convert.ToInt32(Session["KundeId"]);
             List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
             return View(kontiListe);
@@ -101,7 +102,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            var db = new DBKonto();
+            var db = new KontoBLL();
 
             
             List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
@@ -147,11 +148,11 @@ namespace Nettbank.Controllers
             }
             
             ViewBag.TidErrMsg = "";
-            var transDB = new DBTransaksjoner();
+            var transDB = new TransaksjonBLL();
             var kId = Convert.ToInt32(Session["KundeId"]);
             bool insertOK = transDB.regBetaling(trans, kId);
 
-            var db = new DBKonto();
+            var db = new KontoBLL();
 
 
             List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
@@ -190,7 +191,7 @@ namespace Nettbank.Controllers
                 // Sjekk at innlogget bruker har tilgang på denne siden
                 try
                 {
-                    var kontoDB = new DBKonto();
+                    var kontoDB = new KontoBLL();
                     List<Konto> kontoListe = kontoDB.hentTilhørendeKonti((int)Session["KundeId"]);
                     foreach (var konto in kontoListe)
                     {
@@ -216,7 +217,7 @@ namespace Nettbank.Controllers
                 }
             }
 
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
 
             if(id == 0)
             {
@@ -230,7 +231,7 @@ namespace Nettbank.Controllers
 
         public ActionResult godkjennBetaling(int id)
         {
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
             Transaksjon trans = tDB.hentTransaksjon(id);
             return View(trans);
         }
@@ -238,7 +239,7 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult godkjennBetaling(int id, Transaksjon godkjennTrans)
         {
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
             bool godkjent = tDB.sjekkTransaksjon(id);
             if (godkjent)
             {
@@ -249,7 +250,7 @@ namespace Nettbank.Controllers
 
         public ActionResult Slett(int id)
         {
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
             Transaksjon trans = tDB.hentTransaksjon(id);
             return View(trans);
         }
@@ -257,7 +258,7 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult Slett(int id, Transaksjon slettTrans)
         {
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
             bool slettOK = tDB.slettTransaksjon(id);
             if (slettOK)
             {
@@ -273,7 +274,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("visTransaksjoner");
             }
 
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
             Transaksjon trans = tDB.hentTransaksjon(id);
             return View(trans);
         }
@@ -281,7 +282,7 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult Endre(int id, Transaksjon endreTrans)
         {
-            var tDB = new DBTransaksjoner();
+            var tDB = new TransaksjonBLL();
 
             if (ModelState.IsValid)
             {
@@ -303,7 +304,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            var kontoDB = new DBKonto();
+            var kontoDB = new KontoBLL();
             var kId = Convert.ToInt32(Session["KundeId"]);
             List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
             return View(kontiListe);
@@ -366,7 +367,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("ListKunder");
             }
 
-            var kDB = new DBKunde();
+            var kDB = new KundeBLL();
             Kunde kunde = kDB.hentKunde(id);
             return View(kunde);
         }
@@ -374,7 +375,7 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult Slett(int id, Transaksjon slettTrans)
         {
-            var kDB = new DBKunde();
+            var kDB = new KundeBLL();
             bool slettOK = kDB.slettKunde(id);
             if (slettOK)
             {
@@ -391,7 +392,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("ListKunder");
             }
 
-            var kDB = new DBKunde();
+            var kDB = new KundeBLL();
             Kunde kunde = kDB.hentKunde(id);
             return View(kunde);
         }
@@ -399,7 +400,7 @@ namespace Nettbank.Controllers
         [HttpPost]
         public ActionResult Oppdater(int id, Kunde endreKunde)
         {
-            var kDB = new DBKunde();
+            var kDB = new KundeBLL();
 
             if (ModelState.IsValid)
             {
@@ -527,7 +528,7 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            var kundeDB = new DBKunde();
+            var kundeDB = new KundeBLL();
             List<Kunde> alleK = kundeDB.hentAlle();
             return View(alleK);
         }

@@ -24,4 +24,9 @@ Se forøvrig https://github.com/bilal-fazlani/tracker-enabled-dbcontext/wiki for
 ---
 Versjonskontroll: Vi har brukt Github og Github VS extension: https://github.com/Loellis/Nettbank/
 Autogenererte tester: Har brukt IntelliTest i VS Enterprise
+---
+Admin-login:
+Personnummer:00000000000
+Passord:admin
+BankID: 123456
 

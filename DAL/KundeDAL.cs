@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Nettbank.Models;
+using Model;
 using System.Diagnostics;
-using BLL;
 
-namespace Nettbank
+namespace DAL
 {
-    public class DBKunde
+    public class KundeDAL
     {
         public bool settInn(Kunde innKunde)
         {
@@ -44,7 +43,7 @@ namespace Nettbank
             }
             catch(Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
                 //Debug.Print("ID = " + nyKunde.id + "\nPERSONNR = " + nyKunde.Personnummer + "\nFORNAVN = " + nyKunde.Fornavn + "\nETTERNAVN = " + nyKunde.Etternavn + "\nADRESSE = " + nyKunde.Adresse + "\nPOSTNR = " + nyKunde.Postnr + "\nPOSTSTED = " + nyKunde.Poststed + "\nPASSORD = " + nyKunde.Passord.GetType());
                 return false;
@@ -91,7 +90,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
                 //Debug.WriteLine(feil.ToString());
                 return false;
@@ -115,7 +114,7 @@ namespace Nettbank
             return alleKunder;
         }
 
-        public static bool Kunde_i_DB(Kunde innKunde)
+        public bool Kunde_i_DB(Kunde innKunde)
         {
             //Innloggingstest for å finne om brukeren eksisterer 
             using (var db = new KundeContext())
@@ -133,7 +132,7 @@ namespace Nettbank
             }
         }
 
-        public static byte[] lagHash(string innPassord)
+        public byte[] lagHash(string innPassord)
         {
             //Lager et SHA256 hash av input passord for å sjekke mot hashet passord i DB
 
@@ -183,7 +182,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
 
                 return false;
@@ -225,8 +224,10 @@ namespace Nettbank
                 db.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception feil)
             {
+                var loggFeil = new LoggFeilDAL();
+                loggFeil.SkrivTilFil(feil);
                 return false;
             }
         }

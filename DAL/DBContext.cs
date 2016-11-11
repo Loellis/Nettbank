@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using TrackerEnabledDbContext;
 
-namespace Nettbank.Models
+namespace DAL
 {
     // [TrackChanges] er en tag som forteller TrackingEnabledDbContext-biblioteket
     // hvilke tabellers endringer som skal loggføres.

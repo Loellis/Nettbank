@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Nettbank.Models;
-using BLL;
+using Model;
 
-namespace Nettbank
+namespace DAL
 {
-    public class DBKonto
+    public class KontoDAL
     {
-
         public bool lagKonto(Konto innKonto, int id)
         {
             var nyKonto = new konto()
@@ -29,7 +27,7 @@ namespace Nettbank
             }
             catch(Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
 
                 return false;

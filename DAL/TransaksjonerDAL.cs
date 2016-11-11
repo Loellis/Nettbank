@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Nettbank.Models;
-using System.Web.Mvc;
-using BLL;
+using Model;
 
-namespace Nettbank
+
+namespace DAL
 {
-    public class DBTransaksjoner
+    public class TransaksjonDAL
     {
         public bool regBetaling(Transaksjon trans, int id)
         {
             var db = new KundeContext();
-            var kontoDB = new DBKonto();
+            var kontoDB = new KontoDAL();
 
             //Sjekk datogyldighet
             string transTid;
@@ -69,7 +68,7 @@ namespace Nettbank
                         }
                         catch (Exception feil)
                         {
-                            var loggFeil = new LoggFeil();
+                            var loggFeil = new LoggFeilDAL();
                             loggFeil.SkrivTilFil(feil);
 
                             return false;
@@ -78,7 +77,7 @@ namespace Nettbank
                 }
                 catch (Exception feil)
                 {
-                    var loggFeil = new LoggFeil();
+                    var loggFeil = new LoggFeilDAL();
                     loggFeil.SkrivTilFil(feil);
 
                     return false;
@@ -91,7 +90,7 @@ namespace Nettbank
         public List<Transaksjon> hentTilhørendeTransaksjon(int id)
         {
             var db = new KundeContext();
-            var KDB = new DBKonto();
+            var KDB = new KontoDAL();
 
 
             //List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
@@ -137,7 +136,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
             }
 
@@ -148,7 +147,7 @@ namespace Nettbank
         public List<Transaksjon> hentKundesTransaksjoner(int id)
         {
             var db = new KundeContext();
-            var KDB = new DBKonto();
+            var KDB = new KontoDAL();
 
 
             List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
@@ -182,7 +181,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
             }
 
@@ -255,7 +254,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
 
                 return false;
@@ -280,7 +279,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
 
                 return false;
@@ -315,7 +314,7 @@ namespace Nettbank
             }
             catch (Exception feil)
             {
-                var loggFeil = new LoggFeil();
+                var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
 
                 return false;

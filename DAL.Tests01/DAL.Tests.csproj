@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{05F5666B-C60E-4251-9DDD-BEAD0E7E7725}</ProjectGuid>
+    <ProjectGuid>{17BA3995-1650-4474-AC5D-F06C6B150968}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nettbank.Tests</RootNamespace>
-    <AssemblyName>Nettbank.Tests</AssemblyName>
+    <RootNamespace>DAL.Tests</RootNamespace>
+    <AssemblyName>DAL.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -39,40 +39,58 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Nettbank\bin\EntityFramework.dll</HintPath>
+      <HintPath>..\DAL\bin\Debug\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ExtendedReflection">
+    <Reference Include="Microsoft.ExtendedReflection, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>F:\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Pex.Framework">
       <HintPath>F:\Programs\VS2015\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Nettbank\bin\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Routing" />
     <Reference Include="TrackerEnabledDbContext, Version=3.6.1.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Nettbank\bin\TrackerEnabledDbContext.dll</HintPath>
+      <HintPath>..\DAL\bin\Debug\TrackerEnabledDbContext.dll</HintPath>
     </Reference>
     <Reference Include="TrackerEnabledDbContext.Common, Version=3.6.1.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Nettbank\bin\TrackerEnabledDbContext.Common.dll</HintPath>
+      <HintPath>..\DAL\bin\Debug\TrackerEnabledDbContext.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nettbank\Nettbank.csproj">
-      <Project>{CBBD74DF-2D56-4B5D-90CA-A0EB1A1AB1E5}</Project>
-      <Name>Nettbank</Name>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{4E716E89-8BB7-4A29-AD48-2BFDD012BCE5}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{0CE88D7F-F967-4BEA-B68F-2329444136B1}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KontoDALTest.cs" />
+    <Compile Include="KontoDALTest.lagKonto.g.cs">
+      <DependentUpon>KontoDALTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KundeContextTest.Constructor.g.cs">
+      <DependentUpon>KundeContextTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KundeContextTest.cs" />
+    <Compile Include="KundeDALTest.cs" />
+    <Compile Include="KundeDALTest.slettKunde.g.cs">
+      <DependentUpon>KundeDALTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoggFeilDALTest.cs" />
+    <Compile Include="LoggFeilDALTest.SkrivTilFil.g.cs">
+      <DependentUpon>LoggFeilDALTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\PexAssemblyInfo.cs" />
+    <Compile Include="TransaksjonDALTest.cs" />
+    <Compile Include="TransaksjonDALTest.slettTransaksjon.g.cs">
+      <DependentUpon>TransaksjonDALTest.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">

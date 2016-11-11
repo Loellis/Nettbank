@@ -61,7 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DBContext.cs" />
+    <Compile Include="KontoDAL.cs" />
+    <Compile Include="KundeDAL.cs" />
+    <Compile Include="TransaksjonerDAL.cs" />
     <Compile Include="LoggFeilDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
