@@ -39,7 +39,7 @@ namespace DAL
             // StreamWriter oppretter tekstfilen dersom den ikke allerede eksisterer.
             using (StreamWriter writer = new StreamWriter(loggFil, true))
             {
-                writer.WriteLine("Message :" + feil.Message + "<br/>" + Environment.NewLine + "StackTrace :" + feil.StackTrace + "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                writer.WriteLine("Message :" + feil.Message + "" + Environment.NewLine + "StackTrace :" + feil.StackTrace + "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
                 writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
             }
         }

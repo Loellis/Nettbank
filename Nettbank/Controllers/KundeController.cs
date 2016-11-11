@@ -129,7 +129,7 @@ namespace Nettbank.Controllers
             }
 
             // Sjekk om dato er gyldig
-            DateTime transDato;
+            /*DateTime transDato;
             if (!(trans.Tidspunkt == null || trans.Tidspunkt == ""))
             {
                 // Dato er oppgitt av kunde, sjekk gyldighet av denne
@@ -147,7 +147,15 @@ namespace Nettbank.Controllers
                 }
             }
             
-            ViewBag.TidErrMsg = "";
+            ViewBag.TidErrMsg = "";*/
+            //trans.Utkonto = bruke name fra select?
+            //TEST TEST TEST
+            var loggFeil1 = new LoggFeilDAL();
+            loggFeil1.SkrivTilFil(new Exception("KC->Innkonto: " + trans.Innkonto + ". Utkonto: " + trans.Utkonto + ". Beløp: " + trans.Beløp + ". Melding: " + trans.Melding + "."));
+            //TEST TEST TEST
+
+
+            //
             var transDB = new TransaksjonBLL();
             var kId = Convert.ToInt32(Session["KundeId"]);
             bool insertOK = transDB.regBetaling(trans, kId);
@@ -168,14 +176,17 @@ namespace Nettbank.Controllers
 
             if (insertOK)
             {
+                ViewBag.YesMsg = "Transaksjonen lagt til i transaksjonsregisteret.";
+                ViewBag.ErrMsg = null;
                 return RedirectToAction("visTransaksjoner", tupleReturn);
             }
             else
             {
                 ViewBag.ErrMsg = "Transaksjonen mislyktes. Sjekk at opplysningene er korrekt eller prøv igjen senere";
+                ViewBag.YesMsg = null;
             }
 
-            return View();
+            return View(tupleReturn);
         }
 
         public ActionResult visTransaksjoner([DefaultValue(0)] int id)

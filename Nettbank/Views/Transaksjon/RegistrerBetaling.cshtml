@@ -55,14 +55,18 @@
             {
                 <p class="alert-danger">@ViewBag.ErrMsg</p>
             }
+            else if (ViewBag.YesMsg != null)
+            {
+                <p class="alert-success">@ViewBag.YesMsg</p>
+            }
 
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Item1.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <!--@*@Html.EditorFor(model => model.Item1.Utkonto, new { htmlAttributes = new { @class = "form-control" } }) *@-->
-                    <select id="kontoListe" onchange="hentKontiAjax1()" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                        @foreach(var kontoID in Model.Item2)
+                    <select name="Utkonto" id="kontoListe" onchange="hentKontiAjax1()" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        @foreach (var kontoID in Model.Item2)
                         {
                             <option>@kontoID</option>
                         }
@@ -115,7 +119,8 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Registrer Betaling" onclick="sendUtkonto()" class="btn btn-success" />
+                    <input type="submit" value="Registrer Betaling" class="btn btn-success" />
+                    @*<input type="submit" value="Registrer Betaling" onclick="sendUtkonto()" class="btn btn-success" />*@
                     @Html.ActionLink("Vis transaksjonsoversikt", "visTransaksjoner", new { id = Session["KundeId"] }, new { @class = "btn btn-primary" })
                 </div>
             </div>
