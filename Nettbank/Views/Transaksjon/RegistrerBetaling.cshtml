@@ -28,24 +28,39 @@
             });
         }
 
-        function sendUtkonto()
+        @*function sendUtkonto()
         {
             $.ajax({
                 type: "POST",
                 url: "RegistrerBetaling",
-                data: { Utkonto: $("#kontoListe").val()
+                data: {
+                    Utkonto: $("#kontoListe").val(),
+                    Innkonto: '@(Model.Item1.Innkonto)',
+                    Beløp: '@(Model.Item1.Beløp)',
+                    KID: '@(Model.Item1.KID)',
+                    Melding: '@(Model.Item1.Melding)',
+                    Tidspunkt: '@(Model.Item1.Tidspunkt)'
                 }
             }).done();
-        }
+        }*@
         //function sendUtkonto() {
         //    $.ajax({
-        //        type: "POST",
+        //        type: "GET",
         //        url: "RegistrerBetaling",
         //        data: {
         //            Utkonto: $("#kontoListe").val()
         //        }
         //    }).done();
         //}
+        function sendUtkonto() {
+            $.ajax({
+                type: "POST",
+                url: "RegistrerBetaling",
+                data: {
+                    "Utkonto": $("#kontoListe").val(),
+                }
+            }).done();
+        }
     </script>
 </head>
 <body>
@@ -76,6 +91,7 @@
                     <div class="col-md-10">
                         <!--@*@Html.EditorFor(model => model.Item1.Utkonto, new { htmlAttributes = new { @class = "form-control" } }) *@-->
                         <select name="Utkonto" id="kontoListe" onchange="hentKontiAjax1()" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            @*name="Utkonto"*@
                             @foreach (var kontoID in Model.Item2)
                             {
                                 <option>@kontoID</option>

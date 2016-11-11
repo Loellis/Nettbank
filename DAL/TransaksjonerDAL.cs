@@ -9,7 +9,7 @@ namespace DAL
 {
     public class TransaksjonDAL
     {
-        public bool regBetaling(Transaksjon trans, int id)
+        public bool regBetaling(Transaksjon trans, int id, string utKonto)
         {
             var db = new KundeContext();
             var kontoDB = new KontoDAL();
@@ -34,15 +34,22 @@ namespace DAL
             //TEST TEST TEST
 
             //Sjekk kontogyldighet
-            if (Convert.ToInt64(trans.Innkonto) < 1)
+            try
             {
-                //loggFeil1.SkrivTilFil(new Exception("regBetaling feiler i test på kontogyldighet. Innkonto: " + trans.Innkonto + ". Utkonto: " + trans.Utkonto + ". Beløp: " + trans.Beløp));
-                return false;
+                if (Convert.ToInt64(trans.Innkonto) < 1)
+                {
+                    return false;
+                }
+                else if (Convert.ToInt64(trans.Innkonto) == Convert.ToInt64(trans.Utkonto))
+                {
+                    // Samme konto
+                    return false;
+                }
             }
-            else if (Convert.ToInt64(trans.Innkonto) == Convert.ToInt64(trans.Utkonto))
+            catch (Exception feil)
             {
-                //loggFeil1.SkrivTilFil(new Exception("regBetaling feiler i test på kontogyldighet else if. Innkonto: " + trans.Innkonto));
-                // Samme konto
+                var loggFeil = new LoggFeilDAL();
+                loggFeil.SkrivTilFil(feil);
                 return false;
             }
 
@@ -58,7 +65,7 @@ namespace DAL
                     {
                         var nyTrans = new transaksjon()
                         {
-                            utKontoId = Convert.ToInt64(trans.Utkonto),
+                            utKontoId = Convert.ToInt64(utKonto),
                             innKonto = Convert.ToInt64(trans.Innkonto),
                             beløp = Convert.ToDouble(trans.Beløp),
                             KID = Convert.ToInt64(trans.KID),
@@ -80,11 +87,6 @@ namespace DAL
 
                             return false;
                         }
-                    }
-                    else
-                    {
-                        string tmp = "regBetaling feiler if test" + "Innkonto: " + trans.Innkonto + ".Utkonto: " + trans.Utkonto + ".Beløp: " + trans.Beløp + ".Melding: " + trans.Melding + ".";
-                        loggFeil1.SkrivTilFil(new Exception(tmp));
                     }
                 }
                 catch (Exception feil)

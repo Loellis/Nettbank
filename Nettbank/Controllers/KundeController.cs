@@ -121,54 +121,94 @@ namespace Nettbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrerBetaling([Bind(Prefix = "Item1")] Transaksjon trans)
+        public ActionResult RegistrerBetaling([Bind(Prefix = "Item1")] Transaksjon trans, string utKonto)
         {
+            //[Bind(Prefix = "Item1")] Transaksjon trans 
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
 
-            /*var db = new KontoBLL();
-            List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
-            Transaksjon ny = new Transaksjon();
-            var nedtrekk = new List<string>();
-            nedtrekk.Add("--- Velg Konto ---");
-            foreach (var k in konti)
+            /*try
             {
-                nedtrekk.Add(k.kontoId.ToString());
+                trans.Utkonto = utKonto;
             }
-
-            var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);*/
-
+            catch (Exception feil)
+            {
+                trans.Utkonto = utKonto;
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+            }
+            try
+            {
+                string tmp2 = "KC->Innkonto: " + trans.Innkonto + ". Utkonto: " + utKonto + ". Beløp: " + trans.Beløp + ". Melding: " + trans.Melding + ".";
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+            }*/
             // Sjekk om dato er gyldig
-            /*DateTime transDato;
-            if (!(trans.Tidspunkt == null || trans.Tidspunkt == ""))
+            DateTime transDato;
+            bool datoFeil = false;
+            //if (!(trans.Tidspunkt == null) || !(trans.Tidspunkt == ""))
+            if (trans == null)
+            {
+                var lF = new LoggFeilDAL();
+                lF.SkrivTilFil(new Exception("trans er null, hvorfor er trans null?"));
+            }
+            /*if (trans.Tidspunkt != null)
             {
                 // Dato er oppgitt av kunde, sjekk gyldighet av denne
                 if (!DateTime.TryParse(trans.Tidspunkt, out transDato))
                 {
                     // Innskrevet dato er på et ugjennkjennelig format
                     ViewBag.TidErrMsg = "Skriv dato på format: dd/mm/åååå eller la være blank";
-                    return View(tupleReturn);
+                    datoFeil = true;
                 }
                 else if (DateTime.Compare(transDato.Date, DateTime.Now.Date) < 0)
                 {
                     // Dato er før dagens dato
                     ViewBag.TidErrMsg = "Dato må være dagens dato eller frem i tid";
-                    return View(tupleReturn);
+                    datoFeil = true;
                 }
             }*/
-            
-            ViewBag.TidErrMsg = null;
+
             //trans.Utkonto = bruke name fra select?
             //TEST TEST TEST
+            /*try
+            {
+                trans.Utkonto = utKonto;
+            }*/
+            //trans.Utkonto = utKonto;
+            var nyTrans = new Transaksjon();
+            try
+            {
+                nyTrans.Utkonto = utKonto;
+                nyTrans.Innkonto = trans.Innkonto;
+                nyTrans.Beløp = trans.Beløp;
+                nyTrans.KID = trans.KID;
+                nyTrans.Melding = trans.Melding;
+                nyTrans.Tidspunkt = trans.Tidspunkt;
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+            }
+
             var loggFeil1 = new LoggFeilDAL();
-            loggFeil1.SkrivTilFil(new Exception("KC->Innkonto: " + trans.Innkonto + ". Utkonto: " + trans.Utkonto + ". Beløp: " + trans.Beløp + ". Melding: " + trans.Melding + "."));
+            //string tmp = "Utkonto: " + utKonto;
+            string tmp = "KC->Innkonto: " + nyTrans.Innkonto + ". Utkonto: " + nyTrans.Utkonto + ". Beløp: " + nyTrans.Beløp + ". Melding: " + nyTrans.Melding + ".";
+            loggFeil1.SkrivTilFil(new Exception(tmp));
+            //trans.Utkonto = utKonto;
             //TEST TEST TEST
+            string Utkonto = nyTrans.Utkonto;
+
 
             var transDB = new TransaksjonBLL();
             var kId = Convert.ToInt32(Session["KundeId"]);
-            bool insertOK = transDB.regBetaling(trans, kId);
+            bool insertOK = transDB.regBetaling(nyTrans, kId, Utkonto);
 
             var db = new KontoBLL();
             List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
@@ -182,6 +222,11 @@ namespace Nettbank.Controllers
 
             var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);
 
+            if (datoFeil)
+            {
+                // Datofeil, returner med ViewBag.TidErrMsg
+                return View(tupleReturn);
+            }
 
             if (insertOK)
             {
@@ -194,6 +239,7 @@ namespace Nettbank.Controllers
                 ViewBag.ErrMsg = "Transaksjonen mislyktes. Sjekk at opplysningene er korrekt eller prøv igjen senere";
                 ViewBag.YesMsg = null;
             }
+            ViewBag.TidErrMsg = null;
 
             return View(tupleReturn);
         }
