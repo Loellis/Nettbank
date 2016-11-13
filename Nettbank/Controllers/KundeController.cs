@@ -378,6 +378,8 @@ namespace Nettbank.Controllers
     {
         public ActionResult Hjem()
         {
+            AdminOpprett();
+
             if (Session["LoggetInn"] == null || (bool)Session["BankID"] == false)
             {
                 Session["LoggetInn"] = false;
@@ -653,8 +655,67 @@ namespace Nettbank.Controllers
 
                 return View();
             }
+        }
+        
+        //Metode som skal automatisk opprette Admin om den ikke allerede finnes
+        public ActionResult AdminOpprett()
+        {
+            try
+            {
+                var DB = new KundeContext();
+
+                var adminSjekk = DB.Kunder.FirstOrDefault(p => p.Personnummer == "00000000000");
+
+                if(adminSjekk != null)
+                {
+                    return View();
+                }
+                else
+                {
+                    SlettDB();
+                    using (var db = new KundeContext())
+                    {
+                        var Admin = new dbKunde();
+                        Admin.Personnummer = "00000000000";
+                        Admin.Fornavn = "Admin";
+                        Admin.Etternavn = "admin";
+                        Admin.Adresse = "Local";
+                        Admin.Postnr = "0000";
+                        Admin.Passord = lagHash("admin");
+
+                        string innPostnr = "0000";
+
+                        var funnetPostSted = db.Poststeder.FirstOrDefault(p => p.Postnr == innPostnr);
+
+                        if (funnetPostSted == null || funnetPostSted.Poststed == "")
+                        {
+                            var nyttPoststed = new PostSted();
+                            nyttPoststed.Postnr = innPostnr;
+                            nyttPoststed.Poststed = "Admin";
+                            db.Poststeder.Add(nyttPoststed);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            Admin.Poststed = funnetPostSted;
+                        }
+                        db.Kunder.Add(Admin);
+                        db.SaveChanges();
+                    }
+
+                    return View();
+                }
+            }
+            catch (Exception feil)
+            {
+                var loggFeil = new LoggFeil();
+                loggFeil.SkrivTilFil(feil);
+
+                return RedirectToAction("Index");
+            }
         } 
 
+        /*
         // Metode som lager to brukere med to kontoer hver
         public ActionResult TestOpprett()
         {
@@ -872,7 +933,7 @@ namespace Nettbank.Controllers
 
                 return RedirectToAction("Index");
             }
-        }
+        } */
 
         public ActionResult SlettDB()
         {
