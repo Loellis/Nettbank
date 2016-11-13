@@ -36,15 +36,20 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
+            //Finner kundens ID
             var id = Convert.ToInt32(Session["KundeId"]);
 
+            //Aksesserer databasen
             var kontoDB = new KontoBLL();
+            //Sjekker om konto kan lages med oppgitte verdier i viewet + kundens ID
             bool insertOK = kontoDB.lagKonto(innKonto, id);
 
+            //Hvis opprettelsen ble godkjent sendes man så til kontooversikt
             if (insertOK)
             {
                 return RedirectToAction("ListKonti");
             }
+            //Hvis ikke vil man få opp igjen samme vindu (opprettKonto-viewet)
             return View();
         }
 
@@ -56,9 +61,13 @@ namespace Nettbank.Controllers
                 return RedirectToAction("/Index", "Kunde");
             }
 
+            //Aksesserer databasen
             var kontoDB = new KontoBLL();
+            //Finner kundens ID
             var kId = Convert.ToInt32(Session["KundeId"]);
+            //Henter alle kontoer som tilhører kundens ID
             List<Konto> kontiListe = kontoDB.hentTilhørendeKonti(kId);
+
             return View(kontiListe);
         }
 
@@ -104,10 +113,10 @@ namespace Nettbank.Controllers
 
             var db = new KontoBLL();
 
-            
             List<Konto> konti = db.hentTilhørendeKonti(Convert.ToInt32(Session["KundeId"]));
             Transaksjon ny = new Transaksjon();
             var nedtrekk = new List<string>();
+
             nedtrekk.Add("--- Velg Konto ---");
             foreach(var k in konti)
             {
@@ -115,21 +124,17 @@ namespace Nettbank.Controllers
             }
 
             var tupleReturn = new Tuple<Transaksjon, List<string>>(ny, nedtrekk);
+            //Returnerer en tuple til viewet slik at man kan anvende seg av Javascript og bruke transaksjonsmodellen samtidig
             return View(tupleReturn);
-            
-            
         }
 
         [HttpPost]
         public ActionResult RegistrerBetaling([Bind(Prefix = "Item1")] Transaksjon trans, string utKonto)
         {
-            //[Bind(Prefix = "Item1")] Transaksjon trans 
             if ((Session["LoggetInn"] == null) || (Session["KundeId"] == null))
             {
                 return RedirectToAction("/Index", "Kunde");
             }
-
-            
             
             if (trans == null)
             {
@@ -137,7 +142,6 @@ namespace Nettbank.Controllers
                 lF.SkrivTilFil(new Exception("trans er null, hvorfor er modellen null?"));
             }
             
-
             //trans.Utkonto = bruke name fra select?
             //TEST TEST TEST
             /*try

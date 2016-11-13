@@ -9,6 +9,8 @@ namespace DAL
 {
     public class KundeDAL
     {
+
+        //Lager en ny kunde
         public bool settInn(Kunde innKunde)
         {
             var nyKunde = new dbKunde()
@@ -97,6 +99,7 @@ namespace DAL
             }
         }
 
+        //Returnerer en liste med alle Kunde-objekter registrert i databasen
         public List<Kunde> hentAlle()
         {
             var db = new KundeContext();
@@ -143,6 +146,7 @@ namespace DAL
             return utData;
         }
 
+        //Returnerer kunde med gitt brukerid som parameter
         public Kunde hentKunde(int id)
         {
             var db = new KundeContext();
@@ -169,6 +173,7 @@ namespace DAL
             }
         }
 
+        //Metode for å slette en kunde
         public bool slettKunde(int kID)
         {
             var db = new KundeContext();
@@ -189,6 +194,7 @@ namespace DAL
             }
         }
 
+        //Metode for å endre en kunde
         public bool endreKunde(int id, Kunde innKunde)
         {
             var db = new KundeContext();

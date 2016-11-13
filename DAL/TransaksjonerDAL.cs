@@ -9,6 +9,8 @@ namespace DAL
 {
     public class TransaksjonDAL
     {
+
+        //Metode for å registrere en betaling i databasen
         public bool regBetaling(Transaksjon trans, int id)
         {
             var db = new KundeContext();
@@ -107,46 +109,28 @@ namespace DAL
             var db = new KundeContext();
             var KDB = new KontoDAL();
 
-
-            //List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
-
             List<transaksjon> alleTransListe = db.Transaksjoner.ToList();
             List<Transaksjon> transListe = new List<Transaksjon>();
-            /*Konto konto = new Konto();
-            bool kontoFins = false;
-            foreach (var k in TilhørendeKonti)
-            {
-                if (k.kontoId == (long)id)
-                {
-                    konto = k;
-                    kontoFins = true;
-                    break;
-                }
-            }*/
             
             try
             {
                 foreach (var t in alleTransListe)
                 {
-                    /*if (kontoFins)
-                    {*/
-                        //if (konto.kontoId == t.utKontoId)
-                        if (id == t.utKontoId)
+                    if (id == t.utKontoId)
+                    {
+                        var nyTrans = new Transaksjon()
                         {
-                            var nyTrans = new Transaksjon()
-                            {
-                                TransaksjonsID = t.transId,
-                                Utkonto = t.utKontoId.ToString(),
-                                Innkonto = t.innKonto.ToString(),
-                                Beløp = t.beløp.ToString(),
-                                KID = t.KID.ToString(),
-                                Melding = t.melding,
-                                Tidspunkt = t.transaksjonsTidspunkt,
-                                Bekreftet = t.erGodkjent.ToString()
-                            };
-                            transListe.Add(nyTrans);
-                        }
-                    //}
+                            TransaksjonsID = t.transId,
+                            Utkonto = t.utKontoId.ToString(),
+                            Innkonto = t.innKonto.ToString(),
+                            Beløp = t.beløp.ToString(),
+                            KID = t.KID.ToString(),
+                            Melding = t.melding,
+                            Tidspunkt = t.transaksjonsTidspunkt,
+                            Bekreftet = t.erGodkjent.ToString()
+                        };
+                        transListe.Add(nyTrans);
+                    }
                 }
             }
             catch (Exception feil)
@@ -154,7 +138,6 @@ namespace DAL
                 var loggFeil = new LoggFeilDAL();
                 loggFeil.SkrivTilFil(feil);
             }
-
             return transListe;
         }
 
@@ -163,7 +146,6 @@ namespace DAL
         {
             var db = new KundeContext();
             var KDB = new KontoDAL();
-
 
             List<Konto> TilhørendeKonti = KDB.hentTilhørendeKonti(id);
 
@@ -229,6 +211,7 @@ namespace DAL
             return transListe;
         }
 
+        //Finner en bestemt transaksjon med gitt parameter-id
         public Transaksjon hentTransaksjon(int id)
         {
             var db = new KundeContext();
@@ -256,6 +239,7 @@ namespace DAL
             }
         }
 
+        //Sletter en transaksjon
         public bool slettTransaksjon(int tID)
         {
             var db = new KundeContext();
@@ -276,6 +260,7 @@ namespace DAL
             }
         }
 
+        //Endrer en transaksjon
         public bool endreTrans(int id, Transaksjon innTrans)
         {
             var db = new KundeContext();
@@ -301,6 +286,9 @@ namespace DAL
             }
         }
 
+        //Metode for å se om en transaksjon er gyldig med tanke på beløp
+        //Hvis det er dekning på kontoen, vil beløpet trekkes fra og overføres til
+        //innkontoen. Deretter vil transaksjonen settes som godkjent og den vil ikke kunne endres eller slettes
         public bool sjekkTransaksjon(int id)
         {
             var db = new KundeContext();

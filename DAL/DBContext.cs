@@ -42,9 +42,9 @@ namespace DAL
     public class konto
     {
         [Key]
-        public long kontoID { get; set; }
-        public string kontoNavn { get; set; }
-        public double saldo { get; set; }
+        public long kontoID { get; set; }               //Ønsket å starte autoinkrementeringen på 1000 00 00000, men dette viste seg
+        public string kontoNavn { get; set; }           //vanskligere enn forventet, med mindre man går inn databasemodulen til VS 
+        public double saldo { get; set; }               //og endrer databasen etter den er opprettet. 
         public int kontoEier { get; set; }
     }
 
