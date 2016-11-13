@@ -154,3 +154,9 @@ Date :11.11.2016 22.56.24
 
 -----------------------------------------------------------------------------
 
+Message :Objektreferanse er ikke satt til en objektforekomst.
+StackTrace :   ved DAL.TransaksjonDAL.sjekkTransaksjon(Int32 id) i C:\Users\Martin\Desktop\WebAppProsjekt\Nettbank-master\DAL\TransaksjonerDAL.cs:linje 317
+Date :12.11.2016 15:43:09
+
+-----------------------------------------------------------------------------
+

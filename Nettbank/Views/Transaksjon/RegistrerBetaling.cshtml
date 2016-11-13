@@ -1,4 +1,5 @@
 ﻿@model Tuple<Model.Transaksjon, List<string>>
+
 @{
     ViewBag.Title = "Registrer Betaling";
 }
@@ -70,6 +71,7 @@
 
 
         <div class="form-horizontal">
+            <br /><br />
             <h4>Registrer betaling</h4>
             <hr />
             <fieldset>
@@ -89,17 +91,16 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Item1.Utkonto, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <!--@*@Html.EditorFor(model => model.Item1.Utkonto, new { htmlAttributes = new { @class = "form-control" } }) *@-->
                         <select name="Utkonto" id="kontoListe" onchange="hentKontiAjax1()" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            @*name="Utkonto"*@
                             @foreach (var kontoID in Model.Item2)
                             {
                                 <option>@kontoID</option>
                             }
                         </select>
                         @Html.ValidationMessageFor(model => model.Item1.Utkonto, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-10" id="visSaldo">
+                        <p id="visSaldo"></p> <!--
+                        <div class="col-md-10" id="visSaldo">
+                        </div>-->
                     </div>
                 </div>
                 <div class="form-group">
