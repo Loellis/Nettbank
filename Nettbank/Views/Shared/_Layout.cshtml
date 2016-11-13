@@ -16,16 +16,18 @@
 <body style="background-color: #f2e9da;">
     <div class="navbar-default navbar-fixed-top" id="navbar-container" style="background-color: #493829; border-color:#816c5d">
         <div class="container" id="navbar-menu" >
+  
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               @Html.ActionLink("Hjem", "Hjem", "Kunde", new { tom = "" }, new { @class = "navbar-brand" })     
+                <img src="~/Images/ku.png" style="background-size: 160px 160px; height: 100px; width: 100px; float:left;" />
+                @Html.ActionLink("Hjem", "Hjem", "Kunde", new { tom = "" }, new { @class = "navbar-brand", @style = "margin-top: 25px;"})     
             </div>
             <div class="navbar-collapse collapse" >
-                <ul class="nav navbar-nav" id="navbar-menu">
+                <ul class="nav navbar-nav" id="navbar-menu" style="margin-top: 25px;">
                     @if (Convert.ToInt32(Session["KundeId"]) == 1)
                     {
                         <li>@Html.ActionLink("Kundeliste", "ListKunder", "Kunde")</li>
@@ -51,7 +53,7 @@
     </div>
     <br />
     <div class="container body-content">
-        <br />
+        <br /><br /><br /><br />
         @RenderBody()
         <div id="bottom-divider">
             <hr />
