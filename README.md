@@ -1,2 +1,2 @@
 # Nettbank
-Online banking system made for ITPE3200
+Online banking system made in .NET for ITPE3200
